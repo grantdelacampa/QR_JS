@@ -2,7 +2,10 @@
 import './App.css';
 import { useState } from 'react';
 import { decideMode } from './Functions/DataAnalysis';
-import { getSmallestQRVersion,getModeIndicator, getBitLength } from './Functions/DataEncoding';
+import { getSmallestQRVersion } from './Functions/DataEncoding';
+import { processInput } from './Functions/InputBinaryProcessing';
+import { padBits } from './Functions/HelperFunctions'
+import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
 
 function App() {
   const [text, setText] = useState("");
@@ -24,124 +27,34 @@ function App() {
     const capacityArray = getSmallestQRVersion(inputSize, mode, errorCorrection);
 
     // Step 4 Get the modeIndicator binary
-    const modeIndicator = getModeIndicator(mode);
+    const modeIndicator = ModeIndicator[mode];
 
     // Step 5 Get the bitLength
-    const bitLength = getBitLength(mode, capacityArray[0])
+    const bitLength = ModeBitLength[mode] + (Math.floor(capacityArray[0] / 10) * 2);
 
     // Step 6 Get length in binary
     const binaryInputLength = inputSize.toString(2);
 
-    // TODO:
-    // pad binaryInputLength to match the bitLength value 
+    // Step 7 pad binaryInputLength to match the bitLength value 
     // ex bitLength 9 and binaryInputLength is 1011 pad 00000
     const paddedInputLength = padBits(bitLength - binaryInputLength.length, binaryInputLength)
     
-    const processedInput = processInput(mode, text);
-    setOutput(processedInput);
+    // Step 8 get the input as binary
+    const encodedData = processInput(mode, text);
+
+    // Step 9 get the Error correction info
+    const errCorrectionInfo = ErrorCorrectionCodeWordsBlock[capacityArray[0] + "-" + errorCorrection];
+
+    // Step 10 get the Required number of bits for the QR code
+    const totalBits = errCorrectionInfo[0] * 8;
+
+    // Step 11 get the current binary 
+    const currentBinary = modeIndicator + binaryInputLength + encodedData;
+
+    // todo use the currentBinary to calculate padding
+    setOutput(currentBinary);
   }
 
-  /* ==========================================================================================
-      Data Input Processing
-  =========================================================================================== */
-
-  function processInput(mode, input){
-      switch(mode){
-        case "numeric":
-          return processNumeric(input);
-        case "alphanumeric":
-          return processAlphaNumeric(input);
-        case "byte":
-          return "TODO";
-        case "kanji":
-          return "TODO";
-      }
-  }
-
-  /**
-   * processNumeric
-   *  process Numeric input and return a binary format for QR Generation
-   * @param {String} inputValue 
-   * @returns 
-   */
-  function processNumeric(inputValue){
-    const groups = splitIntoGroups(inputValue, 3);
-    let binary = "";
-    groups.forEach(element => {
-      let groupBinary = Number(element).toString(2);
-      binary = binary + groupBinary;
-    });
-    return binary;
-  }
-
-  /**
-   * processAlphaNumeric
-   *  process AlphaNumeric input and return a binary format for QR Generation
-   * @param {String} inputValue 
-   * @returns 
-   */
-  function processAlphaNumeric(inputValue){
-    const groups = splitIntoGroups(inputValue, 2);
-    let binary = "";
-    groups.forEach(element => {
-      if(element.length === 2){
-        binary = binary + ((getNumericValue(element[0]) * 45) + getNumericValue(element[1])).toString(2);
-      } else {
-        const toPad = getNumericValue(element[0]).toString(2);
-        binary = binary + padBits(6 - toPad.length, toPad);
-      }
-    })
-    return binary;
-  }
-
-  // TODO: Fix this code in the other chars section.
-  function getNumericValue(char) {
-    // Check if the input is a letter
-    if (/[a-zA-Z]/.test(char)) {
-      // Convert the letter to uppercase and subtract 64 to get its position in the alphabet
-      return (char.toUpperCase().charCodeAt(0) - 64) + 9;
-    } else if (/\d/.test(char)) {
-      // If the input is a digit, convert it to a number and return it
-      return parseInt(char, 10);
-      // TODO: Fix for other chars!
-    } else if (/\s/.test(char)) {
-      // If the input is not alphanumeric, return NaN
-      const data = {
-        " ": "36",
-        "$": "37",
-        "%": "38",
-        "*": "39",
-        "+": "40",
-        "-": "41",
-        ".": "42",
-        "/": "43",
-        ":": "44"
-      }
-      console.log(data[char]);
-      return data[char];
-    }
-  }
-  
-
-  /**
-   * splitIntoGroups
-   *  Helper function to split a string (STR) into groups of (size)
-   */
-  function splitIntoGroups(str, size) {
-    const regex = new RegExp(`.{1,${size}}`, "g");
-    return str.match(regex);
-  }
-
-  /**
-   *  padBits
-   *  Helper function to pad bits on a binary represented by a string.
-   * @param {Integer} padding 
-   * @param {String} target 
-   * @returns 
-   */
-  function padBits(padding, target){
-    return "0".repeat(padding) + target;
-  }
 
   const handleClick = (e) => {
     e.preventDefault();
