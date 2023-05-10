@@ -58,16 +58,28 @@ export function processInput(mode, input){
         return binary;
       }
 
-      // TODO: Handle conversion to ISO
+      /**
+       * Takes a Byte mode input and translates it to a utf-8 array and then translates the elements to 8 bit binary values
+       * @param {String} inputValue 
+       * @returns String
+       */
       function processByte(inputValue){
-        const hexArray = [];
-        const tokenized = inputValue.split();
-        tokenized.forEach(element => {
-          console.log(element.toString(2));
-          hexArray.push(element.toString(2));
-        })
-        console.log(hexArray);
-        return hexArray;
+        // Instantiate text encoder
+        const textEncoder = new TextEncoder();
+        const utf8 = new Uint8Array(inputValue.length);
+
+        const encodedResults = textEncoder.encodeInto(inputValue, utf8);
+        console.log(
+          `Bytes read: ${encodedResults.read}` +
+          ` | Bytes written: ${encodedResults.written}` +
+          ` | Encoded result: ${utf8}`);
+
+          let binary = "";
+          utf8.forEach(element => {
+            let thisBinary = element.toString(2);
+            binary = binary +  padBits(8 - thisBinary.length,thisBinary);
+          })
+          return binary;
       }
 
       

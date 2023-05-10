@@ -1,7 +1,6 @@
-import {IS_ALPHANUMERIC, IS_NUMERIC} from "../Constants";  
+import {IS_ALPHANUMERIC, IS_NUMERIC} from "../Constants/Constants";  
 
   /**
-   * decideMode
    *    Determine the encoding mode for the QRCode based on the input value
    *    todo: Fix SHIFT JIS
    * @param {String} input 
@@ -26,7 +25,6 @@ import {IS_ALPHANUMERIC, IS_NUMERIC} from "../Constants";
   }
 
   /**
- * isISO88591 Function
  *  Parse through a string to determine if all characters fall in the ISO encoding
  * @param {String} str 
  * @returns 

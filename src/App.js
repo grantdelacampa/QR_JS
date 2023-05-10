@@ -2,9 +2,10 @@
 import './App.css';
 import { useState } from 'react';
 import { decideMode } from './Functions/DataAnalysis';
-import { getSmallestQRVersion,getModeIndicator, getBitLength } from './Functions/DataEncoding';
+import { getSmallestQRVersion } from './Functions/DataEncoding';
 import { processInput } from './Functions/InputBinaryProcessing';
 import { padBits } from './Functions/HelperFunctions'
+import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
 
 function App() {
   const [text, setText] = useState("");
@@ -26,10 +27,10 @@ function App() {
     const capacityArray = getSmallestQRVersion(inputSize, mode, errorCorrection);
 
     // Step 4 Get the modeIndicator binary
-    const modeIndicator = getModeIndicator(mode);
+    const modeIndicator = ModeIndicator[mode];
 
     // Step 5 Get the bitLength
-    const bitLength = getBitLength(mode, capacityArray[0])
+    const bitLength = ModeBitLength[mode] + (Math.floor(capacityArray[0] / 10) * 2);
 
     // Step 6 Get length in binary
     const binaryInputLength = inputSize.toString(2);
@@ -38,8 +39,20 @@ function App() {
     // ex bitLength 9 and binaryInputLength is 1011 pad 00000
     const paddedInputLength = padBits(bitLength - binaryInputLength.length, binaryInputLength)
     
-    const processedInput = processInput(mode, text);
-    setOutput(processedInput);
+    // Step 8 get the input as binary
+    const encodedData = processInput(mode, text);
+
+    // Step 9 get the Error correction info
+    const errCorrectionInfo = ErrorCorrectionCodeWordsBlock[capacityArray[0] + "-" + errorCorrection];
+
+    // Step 10 get the Required number of bits for the QR code
+    const totalBits = errCorrectionInfo[0] * 8;
+
+    // Step 11 get the current binary 
+    const currentBinary = modeIndicator + binaryInputLength + encodedData;
+
+    // todo use the currentBinary to calculate padding
+    setOutput(currentBinary);
   }
 
 
