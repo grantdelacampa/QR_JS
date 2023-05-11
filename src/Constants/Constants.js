@@ -1,6 +1,7 @@
 export const IS_NUMERIC = /^\d+$/;
 export const IS_ALPHANUMERIC = /^[0-9A-Z $%*+\-./:]*$/;
 export const ModeIndicator = {"numeric": "0001", "alphanumeric":"0010", "byte":"0100", "kanji":"0111"};
+export const PAD_BYTES = ["11101100", "00010001"];
 export const ModeCapacities = {
     "numeric": {
       "L": [41, 77, 127, 187, 255, 322, 370, 461, 552, 652, 772, 883, 1022, 1101, 1250, 1408, 1548, 1725, 1903, 2061, 2232, 2409, 2620, 2812, 3057, 3283, 3517, 3669, 3909, 4158, 4417, 4686, 4965, 5253, 5529, 5836, 6153, 6479, 6743, 7089],
