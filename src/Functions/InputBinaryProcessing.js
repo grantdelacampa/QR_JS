@@ -17,6 +17,8 @@ export function processInput(mode, input){
         return processByte(input);
       case "kanji":
         return "TODO";
+      default:
+        return "ERROR";
     }
 }
 
@@ -49,7 +51,8 @@ export function processInput(mode, input){
         let binary = "";
         groups.forEach(element => {
           if(element.length === 2){
-            binary = binary + ((getNumericValue(element[0]) * 45) + getNumericValue(element[1])).toString(2);
+            const toPad = ((getNumericValue(element[0]) * 45) + getNumericValue(element[1])).toString(2);
+            binary = binary + padBits(11 - toPad.length, toPad);
           } else {
             const toPad = getNumericValue(element[0]).toString(2);
             binary = binary + padBits(6 - toPad.length, toPad);

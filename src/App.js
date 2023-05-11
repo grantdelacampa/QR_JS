@@ -2,7 +2,7 @@
 import './App.css';
 import { useState } from 'react';
 import { decideMode } from './Functions/DataAnalysis';
-import { getSmallestQRVersion } from './Functions/DataEncoding';
+import { getSmallestQRVersion, fitTotalBits } from './Functions/DataEncoding';
 import { processInput } from './Functions/InputBinaryProcessing';
 import { padBits } from './Functions/HelperFunctions'
 import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
@@ -12,9 +12,8 @@ function App() {
   const [output, setOutput] = useState("");
 
   
-  // For now set error correction at 7%
   // todo: set this dynamically
-  const errorCorrection = "L"
+  const errorCorrection = "Q"
 
   function generate(){
     // Step 1 Decide the mode based on input
@@ -33,7 +32,7 @@ function App() {
     const bitLength = ModeBitLength[mode] + (Math.floor(capacityArray[0] / 10) * 2);
 
     // Step 6 Get length in binary
-    const binaryInputLength = inputSize.toString(2);
+    const binaryInputLength = inputSize.toString(2); 
 
     // Step 7 pad binaryInputLength to match the bitLength value 
     // ex bitLength 9 and binaryInputLength is 1011 pad 00000
@@ -49,10 +48,12 @@ function App() {
     const totalBits = errCorrectionInfo[0] * 8;
 
     // Step 11 get the current binary 
-    const currentBinary = modeIndicator + binaryInputLength + encodedData;
+    const currentBinary = modeIndicator + paddedInputLength + encodedData;
 
+    // Step 12 pad the binary to reach the lenght of total bits
+    const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
     // todo use the currentBinary to calculate padding
-    setOutput(currentBinary);
+    setOutput(finalPaddedInput);
   }
 
 
@@ -63,7 +64,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>{output}</p>
+        <p style={{ wordBreak: 'break-all' }}>{output}</p>
         <input type="text" value={text} onInput={e => setText(e.target.value)}/>
         <button type='button' onClick={handleClick}>Generate</button>
       </header>

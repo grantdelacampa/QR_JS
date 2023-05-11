@@ -19,3 +19,7 @@
   export function padBits(padding, target){
     return "0".repeat(padding) + target;
   }
+
+  export function padBitsEnd(padding, target){
+    return target + "0".repeat(padding);
+  }
