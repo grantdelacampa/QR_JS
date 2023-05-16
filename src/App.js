@@ -6,6 +6,7 @@ import { getSmallestQRVersion, fitTotalBits } from './Functions/DataEncoding';
 import { processInput } from './Functions/InputBinaryProcessing';
 import { padBits } from './Functions/HelperFunctions'
 import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
+import {GeneratorPolynomial} from './Classes/GeneratorPolynomial';
 
 function App() {
   const [text, setText] = useState("");
@@ -53,7 +54,18 @@ function App() {
     // Step 12 pad the binary to reach the lenght of total bits
     const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
     // todo use the currentBinary to calculate padding
-    setOutput(finalPaddedInput);
+    const firstPoly = new GeneratorPolynomial([0,0], [1,0]);
+    const secondPoly = new GeneratorPolynomial([0,1], [1,0]);
+    const result = firstPoly.multiply(secondPoly);
+    setOutput(result.toString());
+  }
+
+  
+  function galosFieldCalculation(firstDegree, secondDegree){
+    const totalDegree = firstDegree + secondDegree;
+    if(totalDegree >= 256){
+      return totalDegree % 255;
+    }
   }
 
 
