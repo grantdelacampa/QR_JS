@@ -53,20 +53,13 @@ function App() {
 
     // Step 12 pad the binary to reach the lenght of total bits
     const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
-    // todo use the currentBinary to calculate padding
+    // todo use the currentBinary to calculate padding [alpha][beta]
     const firstPoly = new GeneratorPolynomial([0,0], [1,0]);
     const secondPoly = new GeneratorPolynomial([0,1], [1,0]);
     const result = firstPoly.multiply(secondPoly);
     setOutput(result.toString());
   }
 
-  
-  function galosFieldCalculation(firstDegree, secondDegree){
-    const totalDegree = firstDegree + secondDegree;
-    if(totalDegree >= 256){
-      return totalDegree % 255;
-    }
-  }
 
 
   const handleClick = (e) => {
