@@ -54,10 +54,13 @@ function App() {
     // Step 12 pad the binary to reach the lenght of total bits
     const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
     // todo use the currentBinary to calculate padding [alpha][beta]
+    // todo: fix the alpha for larger generations
     const firstPoly = new GeneratorPolynomial([0,0], [1,0]);
-    const secondPoly = new GeneratorPolynomial([0,1], [1,0]);
-    const result = firstPoly.multiply(secondPoly);
-    setOutput(result.toString());
+
+    for(let i = 1; i <= errCorrectionInfo[errCorrectionInfo.length-1]; i++){
+      firstPoly.multiply(new GeneratorPolynomial([0,i], [1,0]));
+    }
+    setOutput(firstPoly.toString());
   }
 
 
