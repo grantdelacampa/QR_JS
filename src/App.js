@@ -6,6 +6,7 @@ import { getSmallestQRVersion, fitTotalBits } from './Functions/DataEncoding';
 import { processInput } from './Functions/InputBinaryProcessing';
 import { padBits } from './Functions/HelperFunctions'
 import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
+import {GeneratorPolynomial} from './Classes/GeneratorPolynomial';
 
 function App() {
   const [text, setText] = useState("");
@@ -52,9 +53,16 @@ function App() {
 
     // Step 12 pad the binary to reach the lenght of total bits
     const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
-    // todo use the currentBinary to calculate padding
-    setOutput(finalPaddedInput);
+    // todo use the currentBinary to calculate padding [alpha][beta]
+    // todo: fix the alpha for larger generations
+    const firstPoly = new GeneratorPolynomial([0,0], [1,0]);
+
+    for(let i = 1; i <= errCorrectionInfo[errCorrectionInfo.length-1]; i++){
+      firstPoly.multiply(new GeneratorPolynomial([0,i], [1,0]));
+    }
+    setOutput(firstPoly.toString());
   }
+
 
 
   const handleClick = (e) => {
