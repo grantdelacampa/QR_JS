@@ -14,12 +14,6 @@ export class GeneratorPolynomial {
     multiply(polynomial) {
         const alphaMultiplier = polynomial.getAlphaCoef();
         const stdMultiplier = polynomial.getStdCoef();
-        console.log("THIS INFO: ");
-        console.log(this.alphaCoef);
-        console.log(this.stdCoef);
-        console.log("THAT INFO: ");
-        console.log(alphaMultiplier);
-        console.log(stdMultiplier);
         let finalAlpha = [];
         let finalStd = [];
         for (let i = 0; i < this.alphaCoef.length; i++) {
@@ -27,16 +21,15 @@ export class GeneratorPolynomial {
                 // If the added is larger than 255 then % 255 it
                 let addedAlpha = this.alphaCoef[i] + alphaMultiplier[j];
                 finalAlpha.push(addedAlpha > 255 ? this.galosExponetReduction(addedAlpha) : addedAlpha);
-            }
-        }
-        for (let i = 0; i < this.stdCoef.length; i++) {
-            for (let j = 0; j < stdMultiplier.length; j++) {
                 finalStd.push(this.stdCoef[i] + stdMultiplier[j]);
             }
         }
-        console.log("Final Multiple values")
-        console.log(finalAlpha);
-        console.log(finalStd);
+        // Lifted the finalStd push to the above loop
+        // for (let i = 0; i < this.stdCoef.length; i++) {
+        //     for (let j = 0; j < stdMultiplier.length; j++) {
+        //         finalStd.push(this.stdCoef[i] + stdMultiplier[j]);
+        //     }
+        // }
         return this.simplify(finalAlpha, finalStd);
 
     }
