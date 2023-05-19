@@ -28,6 +28,7 @@ export const ModeCapacities = {
     "H": []
   },
 }
+export const alpanumericTable=[0,1,2,3,4,5,6,7,8,9,"A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"," ","$","%","*","+","-",".","/",":"];
 export const ModeBitLength = { "numeric": 10, "alphanumeric": 9, "byte": 8, "kanji": 8 };
 export const ErrorCorrectionCodeWordsBlock = {
   "1-L": [19, 7, 1, 19, 19],
@@ -36,7 +37,7 @@ export const ErrorCorrectionCodeWordsBlock = {
   "1-H": [9, 17, 1, 9, 9],
 
   "2-L": [34, 10, 1, 34, 34],
-  "2-M": [28, 16, 1, 28,, 28],
+  "2-M": [28, 16, 1, 28, 28],
   "2-Q": [22, 22, 1, 22, 22],
   "2-H": [16, 28, 1, 16, 16],
 
