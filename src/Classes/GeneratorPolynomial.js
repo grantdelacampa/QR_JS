@@ -1,8 +1,18 @@
 import { alphaToInt, intToAlpha } from "../Constants/Constants";
 
+/**
+ * A class to represent polynomials for QR code generation
+ */
 export class GeneratorPolynomial {
 
-    // a^a+x^b
+    alphaCoef = [];
+    stdCoef = [];
+
+    /**
+     * Constructs an array in the format a^a[0]+x^b[0]+...a^[n]b^[n]
+     * @param {*} a 
+     * @param {*} b 
+     */
     constructor(a, b) {
         // a
         this.alphaCoef = a;
@@ -10,7 +20,11 @@ export class GeneratorPolynomial {
         this.stdCoef = b;
     }
 
-    // (a^a+x^b) * (a^a+x^b)
+    /**
+     * Performs the following: (a^a+x^b) * (a^a+x^b) and saves the result to polynomial 1
+     * @param {GeneratorPolynomial} polynomial 
+     * @returns 
+     */
     multiply(polynomial) {
         const alphaMultiplier = polynomial.getAlphaCoef();
         const stdMultiplier = polynomial.getStdCoef();
@@ -24,14 +38,25 @@ export class GeneratorPolynomial {
                 finalStd.push(this.stdCoef[i] + stdMultiplier[j]);
             }
         }
-        // Lifted the finalStd push to the above loop
-        // for (let i = 0; i < this.stdCoef.length; i++) {
-        //     for (let j = 0; j < stdMultiplier.length; j++) {
-        //         finalStd.push(this.stdCoef[i] + stdMultiplier[j]);
-        //     }
-        // }
         return this.simplify(finalAlpha, finalStd);
 
+    }
+
+    xorPolynomial(polynomial){
+            // Iterate through the alphaCoefs
+            const newAlpha = [];
+            const newStd = this.stdCoef;
+            this.alphaCoef.forEach((element, index) => {
+                //newAlpha.push(alphaToInt[element] ^ alphaToInt[polynomial.getAlphaCoef()[index]]);
+                //const result = alphaToInt[element] ^ alphaToInt[polynomial.getAlphaCoef()[index]];
+                let firstNum = parseInt(alphaToInt[element]);
+                let secondNum = parseInt(alphaToInt[polynomial.getAlphaCoef()[index]]);
+                const xorTest = firstNum ^ secondNum;
+                newAlpha.push(intToAlpha[xorTest]);
+            });
+            newAlpha.shift();
+            newStd.shift();
+            return new GeneratorPolynomial(newAlpha, newStd);
     }
 
     simplify(alphaCoef, stdCoef) {
@@ -75,10 +100,23 @@ export class GeneratorPolynomial {
     }
 
 
+    /**
+     * Takes the given value and performs the following
+     * (e % 256) + Math.floor(e / 256)
+     * @param {Integer} exponent 
+     * @returns Integer
+     */
     galosExponetReduction(exponent) {
         return (exponent % 256) + Math.floor(exponent / 256);
     }
 
+    /**
+     * Performs the following operation n = a1 ^ a2
+     * then looks up its int value for a^n from the intToAlpha lookup table
+     * @param {Integer} alpha1 
+     * @param {Integer} alpha2 
+     * @returns Integer
+     */
     addAlphaToAlpha(alpha1, alpha2) {
         const dec1 = alphaToInt[alpha1];
         const dec2 = alphaToInt[alpha2];
@@ -86,22 +124,43 @@ export class GeneratorPolynomial {
         return intToAlpha[xored];
     }
 
+
+    /**
+     * get the array of Alpha Coef
+     * @returns Array
+     */
     getAlphaCoef() {
         return this.alphaCoef;
     }
 
+    /**
+     * Override the current Alpha array
+     * @param {Array} newAlphaCoefs 
+     */
     setAlphaCoef(newAlphaCoefs){
         this.alphaCoef = newAlphaCoefs;
     }
 
+    /**
+     * get the array of StdCoef
+     * @returns Array
+     */
     getStdCoef() {
         return this.stdCoef;
     }
 
+    /**
+     * Overrride the current Std array
+     * @param {Array} newStdCoef 
+     */
     setStdCoef(newStdCoef){
         this.stdCoef = newStdCoef;
     }
 
+    /**
+     * Return a string representation of this polynomial
+     * @returns String
+     */
     toString() {
         let output = "";
         let size = this.alphaCoef.length;
