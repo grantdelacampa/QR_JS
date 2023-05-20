@@ -5,6 +5,9 @@ import { alphaToInt, intToAlpha } from "../Constants/Constants";
  */
 export class GeneratorPolynomial {
 
+    alphaCoef = [];
+    stdCoef = [];
+
     /**
      * Constructs an array in the format a^a[0]+x^b[0]+...a^[n]b^[n]
      * @param {*} a 
@@ -37,6 +40,23 @@ export class GeneratorPolynomial {
         }
         return this.simplify(finalAlpha, finalStd);
 
+    }
+
+    xorPolynomial(polynomial){
+            // Iterate through the alphaCoefs
+            const newAlpha = [];
+            const newStd = this.stdCoef;
+            this.alphaCoef.forEach((element, index) => {
+                //newAlpha.push(alphaToInt[element] ^ alphaToInt[polynomial.getAlphaCoef()[index]]);
+                //const result = alphaToInt[element] ^ alphaToInt[polynomial.getAlphaCoef()[index]];
+                let firstNum = parseInt(alphaToInt[element]);
+                let secondNum = parseInt(alphaToInt[polynomial.getAlphaCoef()[index]]);
+                const xorTest = firstNum ^ secondNum;
+                newAlpha.push(intToAlpha[xorTest]);
+            });
+            newAlpha.shift();
+            newStd.shift();
+            return new GeneratorPolynomial(newAlpha, newStd);
     }
 
     simplify(alphaCoef, stdCoef) {

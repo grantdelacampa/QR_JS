@@ -58,7 +58,6 @@ export function processInput(mode, input){
             const toPad = alpanumericTable.indexOf(element[0]).toString(2);
             binary = binary + padBits(6 - toPad.length, toPad);
           }
-          console.log(binary);
         })
         return binary;
       }
