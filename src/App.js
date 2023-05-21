@@ -56,11 +56,13 @@ function App() {
     const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
     // todo use the currentBinary to calculate padding [alpha][beta]
     // todo: fix the alpha for larger generations
-    const generatorPolynomial = new GeneratorPolynomial([0,0], [1,0]);
+    const genisisPolynomial = new GeneratorPolynomial([0,0], [1,0]);
 
+    let generatorPolynomial;
     // Multiply the generatorPolynomial by x^i+a^1
-    for(let i = 1; i < errCorrectionInfo[1]; i++){
-      generatorPolynomial.multiply(new GeneratorPolynomial([0,i], [1,0]));
+    for(let i = 1; i < errCorrectionInfo[1]; i++){ 
+      (i === 1) ? (generatorPolynomial = genisisPolynomial.multiply(new GeneratorPolynomial([0,i], [1,0]))) : 
+      (generatorPolynomial = generatorPolynomial.multiply(new GeneratorPolynomial([0,i], [1,0])));
     }
 
     // Generate a message polynomial
@@ -68,18 +70,45 @@ function App() {
     const messagePolynomial = parseBinaryStreamToPolynomial(finalPaddedInput, errCorrectionInfo[1]);
 
     // Get the difference of the leads and multiply it in to pad the generator polynomial
-    generatorPolynomial.multiply(new GeneratorPolynomial([0],[messagePolynomial.getStdCoef()[0] - generatorPolynomial.getStdCoef()[0]]));   
+    generatorPolynomial = generatorPolynomial.multiply(new GeneratorPolynomial([0],[messagePolynomial.getStdCoef()[0] - generatorPolynomial.getStdCoef()[0]]));   
+
+    let xorResult = new GeneratorPolynomial([],[]);
+    let multiplyResult = new GeneratorPolynomial([],[]);
+    
+    // TODO: Fix math not being quite right 
+    for(let i = 0; i< 15; i ++){
+      if(i === 0){
+        console.log("Step " + i + "a");
+        // Step 1a α5x25 + α1x24 + α72x23 + α51x22 + α66x21 + α123x20 + α75x19 + α69x18 + α99x17 + α37x16 + α50x15
+        multiplyResult = generatorPolynomial.multiply(new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]],[0]));
+        console.log(multiplyResult.toString());
+        console.log("Step " + i + "b");
+        // Step 1b 89x24 + 110x23 + 114x22 + 176x21 + 183x20 + 211x19 + 98x18 + 197x17 + 10x16 + 233x15 + 17x14 + 236x13 + 17x12 + 236x11 + 17x10
+        xorResult = messagePolynomial.xorPolynomial(multiplyResult);
+        console.log(xorResult.toString());
+      } else {
+        generatorPolynomial.decrimentStdArry();
+        console.log("Step " + i + "a");
+        // step na
+        multiplyResult = generatorPolynomial.multiply(new GeneratorPolynomial([xorResult.getAlphaCoef()[0]],[0]));
+        console.log(multiplyResult.toString());
+        // Step nb
+        console.log("Step " + i + "b");
+        xorResult = xorResult.xorPolynomial(multiplyResult);
+        console.log(xorResult.toString());
+      }
+    }
 
     
     // 1a Multiply Generator Polynomial by lead term of the message
     //α5x25 + α1x24 + α72x23 + α51x22 + α66x21 + α123x20 + α75x19 + α69x18 + α99x17 + α37x16 + α50x15
-    generatorPolynomial.multiply(new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]],[0]));
+    // generatorPolynomial.multiply(new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]],[0]));
     // 1b XOR the result with the message polynomial
     //89x24 + 110x23 + 114x22 + 176x21 + 183x20 + 211x19 + 98x18 + 197x17 + 10x16 + 233x15 + 17x14 + 236x13 + 17x12 + 236x11 + 17x10
-    
+    // messagePolynomial.xorPolynomial(generatorPolynomial);
     // 2a multiply the generator polynomial by the lead term of the XOR result from 1b
     //α210x24 + α206x23 + α22x22 + α1x21 + α16x20 + α73x19 + α25x18 + α19x17 + α49x16 + α242x15 + α0x14
-    
+    //generatorPolynomial.multiply(new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]],[0]));=
     // 2b XOr the result with the result from step1
     //61x23 + 152x22 + 178x21 + 251x20 + 25x19 + 97x18 + 159x17 + 134x16 + 89x15 + 16x14 + 236x13 + 17x12 + 236x11 + 17x10
 
@@ -92,7 +121,7 @@ function App() {
     // 4a multiply Generator by the lead of the XOR result
     // 4b XOR the result with the result from step 3b
 
-    setOutput(generatorPolynomial.toString());
+    setOutput(xorResult.toString());
   }
   
 

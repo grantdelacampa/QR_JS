@@ -43,19 +43,34 @@ export class GeneratorPolynomial {
     }
 
     xorPolynomial(polynomial){
-            // Iterate through the alphaCoefs
+            // Check which is longer alpha or std
             const newAlpha = [];
-            const newStd = this.stdCoef;
-            this.alphaCoef.forEach((element, index) => {
-                //newAlpha.push(alphaToInt[element] ^ alphaToInt[polynomial.getAlphaCoef()[index]]);
-                //const result = alphaToInt[element] ^ alphaToInt[polynomial.getAlphaCoef()[index]];
+            let newStd = [];
+            let iteratorAlpha = this.alphaCoef.slice(0);
+            let multiplierAlpha = polynomial.getAlphaCoef().slice(0);
+            const difference = polynomial.getAlphaCoef().length - this.alphaCoef.length;
+            if(difference > 0){
+                newStd = polynomial.getStdCoef();
+                for(let i = 0; i < difference; i++){
+                    iteratorAlpha.push(0);
+                }
+            } else {
+                newStd = this.stdCoef;
+                for(let i = 0; i < Math.abs(difference); i++){
+                    multiplierAlpha.push(0);
+                }
+            }
+            // Iterate on this alphaCoef
+            iteratorAlpha.forEach((element, index) => {
                 let firstNum = parseInt(alphaToInt[element]);
-                let secondNum = parseInt(alphaToInt[polynomial.getAlphaCoef()[index]]);
+                let secondNum = parseInt(alphaToInt[multiplierAlpha[index]]);
                 const xorTest = firstNum ^ secondNum;
                 newAlpha.push(intToAlpha[xorTest]);
             });
             newAlpha.shift();
             newStd.shift();
+            // this.setAlphaCoef(newAlpha);
+            // this.setStdCoef(newStd);
             return new GeneratorPolynomial(newAlpha, newStd);
     }
 
@@ -95,8 +110,15 @@ export class GeneratorPolynomial {
 
         });
 
-        this.setAlphaCoef(newAlpha);
-        this.setStdCoef(newStdCoef);
+        // this.setAlphaCoef(newAlpha);
+        // this.setStdCoef(newStdCoef);
+        return new GeneratorPolynomial(newAlpha, newStdCoef);
+    }
+
+    decrimentStdArry(){
+        this.stdCoef.forEach((element, index)  =>{
+            this.stdCoef[index] = element - 1;
+        })
     }
 
 
