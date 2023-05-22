@@ -52,18 +52,24 @@ export class GeneratorPolynomial {
             if(difference > 0){
                 newStd = polynomial.getStdCoef();
                 for(let i = 0; i < difference; i++){
-                    iteratorAlpha.push(0);
+                    iteratorAlpha.push(-1);
                 }
             } else {
                 newStd = this.stdCoef;
                 for(let i = 0; i < Math.abs(difference); i++){
-                    multiplierAlpha.push(0);
+                    multiplierAlpha.push(-1);
                 }
             }
             // Iterate on this alphaCoef
             iteratorAlpha.forEach((element, index) => {
                 let firstNum = parseInt(alphaToInt[element]);
                 let secondNum = parseInt(alphaToInt[multiplierAlpha[index]]);
+                if(!firstNum ){
+                    firstNum = 0;
+                }
+                if(!secondNum){
+                    secondNum = 0;
+                }
                 const xorTest = firstNum ^ secondNum;
                 newAlpha.push(intToAlpha[xorTest]);
             });
@@ -193,5 +199,18 @@ export class GeneratorPolynomial {
             }
         }
         return output;
+    }
+
+    toDecString(){
+        let output = "";
+        let size = this.alphaCoef.length;
+        for (let i = 0; i < size; i++) {
+            output = output + alphaToInt[this.alphaCoef[i]] + "x^" + this.stdCoef[i];
+            if (size - 1 !== i) {
+                output = output + " + ";
+            }
+        }
+        return output;
+
     }
 }
