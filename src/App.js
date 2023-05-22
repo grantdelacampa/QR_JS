@@ -5,7 +5,7 @@ import { decideMode } from './Functions/DataAnalysis';
 import { getSmallestQRVersion, fitTotalBits } from './Functions/DataEncoding';
 import { processInput } from './Functions/InputBinaryProcessing';
 import { padBits, splitIntoGroups } from './Functions/HelperFunctions'
-import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
+import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock, alphaToInt } from './Constants/Constants';
 import {GeneratorPolynomial} from './Classes/GeneratorPolynomial';
 import { intToAlpha } from './Constants/Constants';
 
@@ -56,11 +56,13 @@ function App() {
     const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
     // todo use the currentBinary to calculate padding [alpha][beta]
     // todo: fix the alpha for larger generations
-    const generatorPolynomial = new GeneratorPolynomial([0,0], [1,0]);
+    const genisisPolynomial = new GeneratorPolynomial([0,0], [1,0]);
 
+    let generatorPolynomial;
     // Multiply the generatorPolynomial by x^i+a^1
-    for(let i = 1; i < errCorrectionInfo[1]; i++){
-      generatorPolynomial.multiply(new GeneratorPolynomial([0,i], [1,0]));
+    for(let i = 1; i < errCorrectionInfo[1]; i++){ 
+      (i === 1) ? (generatorPolynomial = genisisPolynomial.multiply(new GeneratorPolynomial([0,i], [1,0]))) : 
+      (generatorPolynomial = generatorPolynomial.multiply(new GeneratorPolynomial([0,i], [1,0])));
     }
 
     // Generate a message polynomial
@@ -68,31 +70,27 @@ function App() {
     const messagePolynomial = parseBinaryStreamToPolynomial(finalPaddedInput, errCorrectionInfo[1]);
 
     // Get the difference of the leads and multiply it in to pad the generator polynomial
-    generatorPolynomial.multiply(new GeneratorPolynomial([0],[messagePolynomial.getStdCoef()[0] - generatorPolynomial.getStdCoef()[0]]));   
+    generatorPolynomial = generatorPolynomial.multiply(new GeneratorPolynomial([0],[messagePolynomial.getStdCoef()[0] - generatorPolynomial.getStdCoef()[0]]));   
 
-    
-    // 1a Multiply Generator Polynomial by lead term of the message
-    //α5x25 + α1x24 + α72x23 + α51x22 + α66x21 + α123x20 + α75x19 + α69x18 + α99x17 + α37x16 + α50x15
-    generatorPolynomial.multiply(new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]],[0]));
-    // 1b XOR the result with the message polynomial
-    //89x24 + 110x23 + 114x22 + 176x21 + 183x20 + 211x19 + 98x18 + 197x17 + 10x16 + 233x15 + 17x14 + 236x13 + 17x12 + 236x11 + 17x10
-    
-    // 2a multiply the generator polynomial by the lead term of the XOR result from 1b
-    //α210x24 + α206x23 + α22x22 + α1x21 + α16x20 + α73x19 + α25x18 + α19x17 + α49x16 + α242x15 + α0x14
-    
-    // 2b XOr the result with the result from step1
-    //61x23 + 152x22 + 178x21 + 251x20 + 25x19 + 97x18 + 159x17 + 134x16 + 89x15 + 16x14 + 236x13 + 17x12 + 236x11 + 17x10
+    let xorResult = new GeneratorPolynomial([],[]);
+    let multiplyResult = new GeneratorPolynomial([],[]);
 
-    // 3a multiply the generator polynomial by the lead term of the XOR result from 2b
-    //α228x23 + α224x22 + α40x21 + α19x20 + α34x19 + α91x18 + α43x17 + α37x16 + α67x15 + α5x14 + α18x13
-    
-    // 3b XOR the result with the result from 2b
-    //138x22 + 216x21 + 161x20 + 87x19 + 194x18 + 232x17 + 204x16 + 155x15 + 48x14 + 193x13 + 17x12 + 236x11 + 17x10
-
-    // 4a multiply Generator by the lead of the XOR result
-    // 4b XOR the result with the result from step 3b
-
-    setOutput(generatorPolynomial.toString());
+    // Perform the Polynomial logn division
+    for(let i = 0; i< 16; i ++){
+      if(i === 0){
+        // Step 1a α5x25 + α1x24 + α72x23 + α51x22 + α66x21 + α123x20 + α75x19 + α69x18 + α99x17 + α37x16 + α50x15
+        multiplyResult = generatorPolynomial.multiply(new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]],[0]));
+        // Step 1b 89x24 + 110x23 + 114x22 + 176x21 + 183x20 + 211x19 + 98x18 + 197x17 + 10x16 + 233x15 + 17x14 + 236x13 + 17x12 + 236x11 + 17x10
+        xorResult = messagePolynomial.xorPolynomial(multiplyResult);
+      } else {
+        generatorPolynomial.decrimentStdArry();
+        // step na
+        multiplyResult = generatorPolynomial.multiply(new GeneratorPolynomial([xorResult.getAlphaCoef()[0]],[0]));
+        // Step nb
+        xorResult = xorResult.xorPolynomial(multiplyResult);
+      }
+    }
+    setOutput(xorResult.toDecString());
   }
   
 
