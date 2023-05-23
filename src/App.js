@@ -7,6 +7,7 @@ import { processInput } from './Functions/InputBinaryProcessing';
 import { padBits } from './Functions/HelperFunctions'
 import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
 import { ErrorCorrectionCoding } from './Functions/ErrorCorrectionCoding';
+import { groupCodewords } from './Functions/GroupProcessing';
 
 function App() {
   const [text, setText] = useState("");
@@ -42,8 +43,9 @@ function App() {
     // Step 8 get the input as binary
     const encodedData = processInput(mode, text);
 
-    // Step 9 get the Error correction info
+    // Step 9 get the Error correction info [total#words, EC/block, #BlocksG1, #wordsG1Block, #blocksG2, #wordsG2Block]
     const errCorrectionInfo = ErrorCorrectionCodeWordsBlock[capacityArray[0] + "-" + errorCorrection];
+    console.log(capacityArray[0] + "-" + errorCorrection);
 
     // Step 10 get the Required number of bits for the QR code
     const totalBits = errCorrectionInfo[0] * 8;
@@ -51,10 +53,15 @@ function App() {
     // Step 11 get the current binary 
     const currentBinary = modeIndicator + paddedInputLength + encodedData;
 
-    // Step 12 pad the binary to reach the lenght of total bits
+    // Step 12 pad the binary to reach the length of total bits
     const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
+
+    //======================================== In Progress ===========================================
+
     // Step 13 get the codewords
     const codewords = ErrorCorrectionCoding(finalPaddedInput, errCorrectionInfo);
+
+    const dataCodeWordGroups = groupCodewords(finalPaddedInput, errCorrectionInfo);
     setOutput(codewords);
   }
 
