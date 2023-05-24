@@ -1,7 +1,7 @@
-import { GeneratorPolynomial } from "../Classes/GeneratorPolynomial";
-import { intToAlpha } from "../Constants/Constants";
-import { splitIntoGroups } from "./HelperFunctions";
-import { alphaToInt } from "../Constants/Constants";
+import { GeneratorPolynomial } from "../../Objects/GeneratorPolynomial";
+import { intToAlpha } from "../../Constants/Constants";
+import { splitIntoGroups } from "../../Helpers/HelperFunctions";
+import { alphaToInt } from "../../Constants/Constants";
 export function ErrorCorrectionCoding(finalPaddedInput, errCorrectionInfo){
     // this is the standard first polynomial used to generate the generator Polynomial
     const genisisPolynomial = new GeneratorPolynomial([0,0], [1,0]);

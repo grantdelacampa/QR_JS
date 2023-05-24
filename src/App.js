@@ -1,13 +1,13 @@
 /* eslint-disabled */
 import './App.css';
 import { useState } from 'react';
-import { decideMode } from './Functions/DataAnalysis';
-import { getSmallestQRVersion, fitTotalBits } from './Functions/DataEncoding';
-import { processInput } from './Functions/InputBinaryProcessing';
-import { padBits } from './Functions/HelperFunctions'
+import { decideMode } from './Functions/DataAnalysis/DataAnalysis';
+import { getSmallestQRVersion, fitTotalBits } from './Functions/DataEncoding/DataEncoding';
+import { processInput } from './Functions/InputBinaryProcessing/InputBinaryProcessing';
+import { padBits } from './Helpers/HelperFunctions'
 import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
-import { ErrorCorrectionCoding } from './Functions/ErrorCorrectionCoding';
-import { groupCodewords } from './Functions/GroupProcessing';
+import { ErrorCorrectionCoding } from './Functions/ErrorCorrectionCoding/ErrorCorrectionCoding';
+import { groupCodewords } from './Functions/GroupProcessing/GroupProcessing';
 
 function App() {
   const [text, setText] = useState("");

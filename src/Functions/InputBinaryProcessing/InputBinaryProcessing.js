@@ -1,5 +1,5 @@
-import { alpanumericTable } from '../Constants/Constants';
-import {padBits, splitIntoGroups} from './HelperFunctions';
+import { alpanumericTable } from '../../Constants/Constants';
+import {padBits, splitIntoGroups} from '../../Helpers/HelperFunctions';
 
 /**
  * processInput
@@ -34,7 +34,16 @@ export function processInput(mode, input){
     const groups = splitIntoGroups(inputValue, 3);
     let binary = "";
     groups.forEach(element => {
-      let groupBinary = Number(element).toString(2);
+      let thisNum = Number(element);
+      let groupBinary = thisNum.toString(2);
+      // Three cases less than 10, less than 100, over 100
+      if(thisNum < 10){
+        groupBinary = padBits(4-groupBinary.length, groupBinary);
+      } else if ( thisNum < 100){
+        groupBinary = padBits(7-groupBinary.length, groupBinary);
+      } else {
+        groupBinary = padBits(10-groupBinary.length,groupBinary);
+      }
       binary = binary + groupBinary;
     });
     return binary;
@@ -48,6 +57,7 @@ export function processInput(mode, input){
    * @returns String
    */
     function processAlphaNumeric(inputValue){
+      if(!inputValue) return "";
         const groups = splitIntoGroups(inputValue, 2);
         let binary = "";
         groups.forEach(element => {
