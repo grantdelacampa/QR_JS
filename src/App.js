@@ -8,6 +8,7 @@ import { padBits } from './Helpers/HelperFunctions'
 import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
 import { ErrorCorrectionCoding } from './Functions/ErrorCorrectionCoding/ErrorCorrectionCoding';
 import { groupCodewords } from './Functions/GroupProcessing/GroupProcessing';
+import { StructureFinalMessage } from './Functions/StructureFinalMessage/StructureFinalMessage';
 
 function App() {
   const [text, setText] = useState("");
@@ -54,15 +55,18 @@ function App() {
     const currentBinary = modeIndicator + paddedInputLength + encodedData;
 
     // Step 12 pad the binary to reach the length of total bits
-    const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
+    const codededInput = fitTotalBits(totalBits, currentBinary);
 
-    //======================================== In Progress ===========================================
+    // Step 13 format the dataCodeWords into groups
+    const dataCodeWordGroups = groupCodewords(codededInput, errCorrectionInfo);
 
-    // Step 13 get the codewords
-    const codewords = ErrorCorrectionCoding(finalPaddedInput, errCorrectionInfo);
+    // Step 14 Generate the final message
+    const finalMessage = StructureFinalMessage(dataCodeWordGroups, errCorrectionInfo);
+    
+    // // Step 13 get the codewords
+    //const codewords = ErrorCorrectionCoding(codededInput, errCorrectionInfo);
 
-    const dataCodeWordGroups = groupCodewords(finalPaddedInput, errCorrectionInfo);
-    setOutput(codewords);
+    setOutput(finalMessage);
   }
 
 

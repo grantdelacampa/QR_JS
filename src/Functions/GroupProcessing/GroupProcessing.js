@@ -25,4 +25,5 @@ export function groupCodewords(processedCodeWords, errCorrectionInfo){
         totalCount += wordsPerblock;
       }
     });
+    return codewordGroups;
 }
