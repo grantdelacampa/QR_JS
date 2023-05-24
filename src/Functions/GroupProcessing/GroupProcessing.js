@@ -1,7 +1,7 @@
-import { splitIntoGroups } from "./HelperFunctions";
-import {Groups} from "../Classes/Groups";
+import { splitIntoGroups } from "../../Helpers/HelperFunctions";
+import {Groups} from "../../Objects/Groups";
 export function groupCodewords(processedCodeWords, errCorrectionInfo){
-    // break the codewords an array of 8 bit binary strings
+    // break the codewords into an array of 8 bit binary strings
     const splitCodeWords = splitIntoGroups(processedCodeWords, 8);
     // Create the list to hold the groups w/first group there will always be at least one
     const codewordGroups = [new Groups()];

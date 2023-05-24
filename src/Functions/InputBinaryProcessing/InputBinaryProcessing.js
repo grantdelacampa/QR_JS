@@ -1,5 +1,5 @@
-import { alpanumericTable } from '../Constants/Constants';
-import {padBits, splitIntoGroups} from './HelperFunctions';
+import { alpanumericTable } from '../../Constants/Constants';
+import {padBits, splitIntoGroups} from '../../Helpers/HelperFunctions';
 
 /**
  * processInput
@@ -57,6 +57,7 @@ export function processInput(mode, input){
    * @returns String
    */
     function processAlphaNumeric(inputValue){
+      if(!inputValue) return "";
         const groups = splitIntoGroups(inputValue, 2);
         let binary = "";
         groups.forEach(element => {

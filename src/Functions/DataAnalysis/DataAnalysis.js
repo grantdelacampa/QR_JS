@@ -1,4 +1,4 @@
-import {IS_ALPHANUMERIC, IS_NUMERIC} from "../Constants/Constants";  
+import {IS_ALPHANUMERIC, IS_NUMERIC} from "../../Constants/Constants";  
 
   /**
    *    Determine the encoding mode for the QRCode based on the input value
