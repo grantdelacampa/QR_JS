@@ -1,6 +1,5 @@
 import { GeneratorPolynomial } from "../../Objects/GeneratorPolynomial";
 import { intToAlpha } from "../../Constants/Constants";
-import { splitIntoGroups } from "../../Helpers/HelperFunctions";
 import { alphaToInt } from "../../Constants/Constants";
 
 /**
@@ -16,15 +15,12 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
   let generatorPolynomial = calculateGeneratorPolynomial(genisisPolynomial, errCodeCnt);
   // Generate the MessengerPolynomial
   const messagePolynomial = parseArrayToPolynomial(blockInput, errCodeCnt);
-  console.log("Message Polynomial: " + messagePolynomial.toDecString());
   // Get the difference of the leads and multiply it in to pad the generator polynomial
   generatorPolynomial = generatorPolynomial.multiply(new GeneratorPolynomial([0], [messagePolynomial.getStdCoef()[0] - generatorPolynomial.getStdCoef()[0]]));
-  console.log("Generator Polynomial: " + generatorPolynomial.toDecString());
-
-  // TOOD: Look into this failing
+  // Perform the long division steps
   const codeWordPolynomial = performLongDivision(generatorPolynomial, messagePolynomial, errCodeCnt);
   const codeWords = [];
-  codeWordPolynomial.getAlphaCoef().forEach((element) => { codeWords.push(alphaToInt[element]) });
+  codeWordPolynomial.getAlphaCoef().forEach((element) => { codeWords.push(alphaToInt[element].toString(2)) });
   return codeWords;
 }
 
@@ -74,10 +70,13 @@ function parseArrayToPolynomial(binaryBlock, crctnCodeCnt) {
 function performLongDivision(generatorPolynomial, messagePolynomial, codeWordCount) {
   let xorResult = new GeneratorPolynomial([], []);
   let multiplyResult = new GeneratorPolynomial([], []);
+  const stepsNeeded = messagePolynomial.getAlphaCoef().length;
   // Perform the Polynomial long division
-  for (let i = 0; i < codeWordCount; i++) {
+  for (let i = 0; i < stepsNeeded; i++) {
     if (i === 0) {
+      // Step 1a
       multiplyResult = generatorPolynomial.multiply(new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]], [0]));
+      // Step 2a
       xorResult = messagePolynomial.xorPolynomial(multiplyResult);
     } else {
       generatorPolynomial.decrimentStdArry();
@@ -88,48 +87,4 @@ function performLongDivision(generatorPolynomial, messagePolynomial, codeWordCou
     }
   }
   return xorResult;
-}
-
-/*================================================================================
-  Depricated Code
-================================================================================*/
-
-/**
-* Generate ErrorCorrectionCodes
-* @param {*} finalPaddedInput 
-* @param {*} errCorrectionInfo 
-* @returns 
-* @depricated
-*/
-export function ErrorCorrectionCoding(finalPaddedInput, errCorrectionInfo) {
-  // this is the standard first polynomial used to generate the generator Polynomial
-  const genisisPolynomial = new GeneratorPolynomial([0, 0], [1, 0]);
-  // Generate the Generator Polynomial
-  let generatorPolynomial = calculateGeneratorPolynomial(genisisPolynomial, errCorrectionInfo);
-  // Generate a message polynomial
-  const messagePolynomial = parseBinaryStreamToPolynomial(finalPaddedInput, errCorrectionInfo[1]);
-  // Get the difference of the leads and multiply it in to pad the generator polynomial
-  generatorPolynomial = generatorPolynomial.multiply(new GeneratorPolynomial([0], [messagePolynomial.getStdCoef()[0] - generatorPolynomial.getStdCoef()[0]]));
-  const codeWordPolynomial = performLongDivision(generatorPolynomial, messagePolynomial, errCorrectionInfo[0]);
-  const codeWords = [];
-  codeWordPolynomial.getAlphaCoef().forEach((element) => { codeWords.push(alphaToInt[element]) });
-  return codeWords;
-}
-
-/**
- * Parse a binary string with length of 8^n into a GeneratorPolynomial
- * @param {String} binaryBlock 
- * @returns GeneratorPolynomial
- * @deprecated
- */
-function parseBinaryStreamToPolynomial(bStream, crctnCodeCnt) {
-  // 1st Convert binary numbers into decimal
-  const converted = splitIntoGroups(bStream, 8).map((bNum) => { return parseInt(bNum, 2) });
-  // 2nd the message polynomal will be converted[0]x^converted.length-1
-  // 2nd multiply the message polynomial by x^n where n is crctnCodeCnt
-  // Convert the lead terms to alpha notation 
-  const alphaArray = [];
-  const stdArray = [];
-  converted.forEach((digit, index) => { alphaArray.push(intToAlpha[digit]); stdArray.push((converted.length - index) + crctnCodeCnt - 1) })
-  return new GeneratorPolynomial(alphaArray, stdArray);
 }
