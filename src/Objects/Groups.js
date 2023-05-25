@@ -13,13 +13,6 @@ export class Groups {
         return this.#blocks[index];
     }
 
-    flattenBlocks(){
-        console.log(this.#blocks);
-        let flattenedArray = [];
-        this.#blocks.forEach((block) => flattenedArray = [...flattenedArray, ...block]);
-        return flattenedArray;
-    }
-
     toString(){
         let output = "";
         this.#blocks.forEach((block, index) => {output = output + "Block " + index + ": " + block.toString()})
