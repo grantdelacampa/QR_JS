@@ -4,6 +4,7 @@ export function groupCodewords(processedCodeWords, errCorrectionInfo){
     // break the codewords into an array of 8 bit binary strings
     const splitCodeWords = splitIntoGroups(processedCodeWords, 8);
     // Create the list to hold the groups w/first group there will always be at least one
+
     const codewordGroups = [new Groups()];
 
     // Determine if there is another group
@@ -25,4 +26,5 @@ export function groupCodewords(processedCodeWords, errCorrectionInfo){
         totalCount += wordsPerblock;
       }
     });
+    return codewordGroups;
 }

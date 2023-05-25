@@ -5,9 +5,9 @@ import { decideMode } from './Functions/DataAnalysis/DataAnalysis';
 import { getSmallestQRVersion, fitTotalBits } from './Functions/DataEncoding/DataEncoding';
 import { processInput } from './Functions/InputBinaryProcessing/InputBinaryProcessing';
 import { padBits } from './Helpers/HelperFunctions'
-import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock } from './Constants/Constants';
-import { ErrorCorrectionCoding } from './Functions/ErrorCorrectionCoding/ErrorCorrectionCoding';
+import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock, remainderBitsByVersion } from './Constants/Constants';
 import { groupCodewords } from './Functions/GroupProcessing/GroupProcessing';
+import { StructureFinalMessage } from './Functions/StructureFinalMessage/StructureFinalMessage';
 
 function App() {
   const [text, setText] = useState("");
@@ -45,7 +45,6 @@ function App() {
 
     // Step 9 get the Error correction info [total#words, EC/block, #BlocksG1, #wordsG1Block, #blocksG2, #wordsG2Block]
     const errCorrectionInfo = ErrorCorrectionCodeWordsBlock[capacityArray[0] + "-" + errorCorrection];
-    console.log(capacityArray[0] + "-" + errorCorrection);
 
     // Step 10 get the Required number of bits for the QR code
     const totalBits = errCorrectionInfo[0] * 8;
@@ -54,15 +53,15 @@ function App() {
     const currentBinary = modeIndicator + paddedInputLength + encodedData;
 
     // Step 12 pad the binary to reach the length of total bits
-    const finalPaddedInput = fitTotalBits(totalBits, currentBinary);
+    const codededInput = fitTotalBits(totalBits, currentBinary);
 
-    //======================================== In Progress ===========================================
+    // Step 13 format the dataCodeWords into groups
+    const dataCodeWordGroups = groupCodewords(codededInput, errCorrectionInfo);
 
-    // Step 13 get the codewords
-    const codewords = ErrorCorrectionCoding(finalPaddedInput, errCorrectionInfo);
-
-    const dataCodeWordGroups = groupCodewords(finalPaddedInput, errCorrectionInfo);
-    setOutput(codewords);
+    // Step 14 Generate the final message
+    const finalMessage = StructureFinalMessage(dataCodeWordGroups, errCorrectionInfo, remainderBitsByVersion[capacityArray[0]]);
+    
+    setOutput(finalMessage);
   }
 
 

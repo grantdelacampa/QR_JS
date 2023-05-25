@@ -34,6 +34,7 @@ export const alpanumericTable=[0,1,2,3,4,5,6,7,8,9,"A","B","C","D","E","F","G","
 // Data table for ModeBitLength based on the mode type
 export const ModeBitLength = { "numeric": 10, "alphanumeric": 9, "byte": 8, "kanji": 8 };
 // Data table for errorCorrectionCodeWords
+// total #codewords, #EC/Block, #BlockInG1, #CW/BlockInG1, #BlockInG2, #CW/BlockInG2
 export const ErrorCorrectionCodeWordsBlock = {
   "1-L": [19, 7, 1, 19, 19],
   "1-M": [16, 10, 1, 16, 16],
@@ -258,3 +259,5 @@ export const alphaToInt = [1, 2, 4, 8, 16, 32, 64, 128, 29, 58, 116, 232, 205, 1
     205, 144, 135, 151, 178, 220, 252, 190, 97, 242, 86, 211, 171, 20, 42, 93, 158, 132, 60, 57, 83, 71, 109, 65, 162, 31, 45, 67, 216,
     183, 123, 164, 118, 196, 23, 73, 236, 127, 12, 111, 246, 108, 161, 59, 82, 41, 157, 85, 170, 251, 96, 134, 177, 187, 204, 62, 90, 203,
     89, 95, 176, 156, 169, 160, 81, 11, 245, 22, 235, 122, 117, 44, 215, 79, 174, 213, 233, 230, 231, 173, 232, 116, 214, 244, 234, 168, 80, 88, 175]
+
+    export const remainderBitsByVersion = [0,7,7,7,7,7,0,0,0,0,0,0,0,3,3,3,3,3,3,3,4,4,4,4,4,4,4,3,3,3,3,3,3,3,0,0,0,0,0,0];
