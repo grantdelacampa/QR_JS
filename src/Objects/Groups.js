@@ -1,22 +1,21 @@
 export class Groups {
-    #blocks = [];
+  #blocks = [];
 
-    get blocks(){
-        return this.#blocks;
-    }
+  get blocks () {
+    return this.#blocks;
+  }
 
-    addBlock(block){
-        this.#blocks.push(block);
-    }
+  addBlock (block) {
+    this.#blocks.push(block);
+  }
 
-    getBlockAtIndex(index){
-        return this.#blocks[index];
-    }
+  getBlockAtIndex (index) {
+    return this.#blocks[index];
+  }
 
-    toString(){
-        let output = "";
-        this.#blocks.forEach((block, index) => {output = output + "Block " + index + ": " + block.toString()})
-        return output;
-    }
-
+  toString () {
+    let output = '';
+    this.#blocks.forEach((block, index) => { output = output + 'Block ' + index + ': ' + block.toString(); });
+    return output;
+  }
 }
