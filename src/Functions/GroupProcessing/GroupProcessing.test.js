@@ -1,6 +1,5 @@
-
 describe('GroupProcessing', () => {
-    test('Empty input', ()=>{
-        
-    })
-})
+  test('Empty input', () => {
+
+  });
+});
