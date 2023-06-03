@@ -22,3 +22,11 @@ export function padBits (padding, target) {
 export function padBitsEnd (padding, target) {
   return target + '0'.repeat(padding);
 }
+
+export function getQRSize (version) {
+  return (((version - 1) * 4) + 21);
+}
+
+export function getCorner (version) {
+  return (((version - 1) * 4) + 21) - 7;
+}

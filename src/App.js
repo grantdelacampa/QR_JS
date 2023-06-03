@@ -1,12 +1,14 @@
+/* eslint-disable */
 import './App.css';
 import React, { useRef, useState } from 'react';
 import { decideMode } from './Functions/DataAnalysis/DataAnalysis';
 import { getSmallestQRVersion, fitTotalBits } from './Functions/DataEncoding/DataEncoding';
 import { processInput } from './Functions/InputBinaryProcessing/InputBinaryProcessing';
-import { padBits } from './Helpers/HelperFunctions';
+import { padBits, getCorner } from './Helpers/HelperFunctions';
 import { ModeIndicator, ModeBitLength, ErrorCorrectionCodeWordsBlock, remainderBitsByVersion } from './Constants/Constants';
 import { groupCodewords } from './Functions/GroupProcessing/GroupProcessing';
 import { StructureFinalMessage } from './Functions/StructureFinalMessage/StructureFinalMessage';
+import { drawOnCanvas } from './Functions/QRModulePlacement/DrawFunctionPatterns';
 
 function App () {
   const [text, setText] = useState('');
@@ -15,6 +17,7 @@ function App () {
 
   // todo: set this dynamically
   const errorCorrection = 'M';
+  const size = 200;
 
   function generate () {
     // Step 1 Decide the mode based on input
@@ -60,31 +63,22 @@ function App () {
     // Step 14 Generate the final message
     const finalMessage = StructureFinalMessage(dataCodeWordGroups, errCorrectionInfo, remainderBitsByVersion[capacityArray[0]]);
 
+    drawOnCanvas(canvas, capacityArray[0], size);
     setOutput(finalMessage);
   }
 
-  // https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes
-  const drawOnCanvas = () => {
-    const ctx = canvas.current.getContext('2d');
-    ctx.fillStyle = '#FD0';
-    ctx.fillRect(0, 0, 10, 10);
-    ctx.fillStyle = '#6C0';
-    ctx.fillRect(10, 0, 10, 10);
-    ctx.fillStyle = '#09F';
-    ctx.fillRect(20, 0, 10, 10);
-  };
+  
 
   const handleClick = (e) => {
     e.preventDefault();
     generate(text);
-    drawOnCanvas();
   };
   return (
     <div className="App">
       <header className="App-header">
-        <canvas height="100" width="100" ref={canvas}></canvas>
+        <canvas height={size} width={size} ref={canvas}></canvas>
         <p style={{ wordBreak: 'break-all' }}>{output}</p>
-        <input type="text" value={text} onInput={e => setText(e.target.value)}/>
+        <input type="text" value={text} onInput={e => setText(e.target.value)} />
         <button type='button' onClick={handleClick}>Generate</button>
       </header>
     </div>
