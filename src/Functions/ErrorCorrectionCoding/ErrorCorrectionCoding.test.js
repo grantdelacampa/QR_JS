@@ -1,7 +1,5 @@
 // TODO
 
 describe('ErrorCorrectionCoding', () => {
-  test('Empty input', () => {
-
-  });
+  test('Empty input', () => {});
 });

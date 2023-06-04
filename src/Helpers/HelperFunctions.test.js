@@ -1,11 +1,22 @@
 import { padBits, padBitsEnd, splitIntoGroups } from './HelperFunctions';
 
 test('SplitIntoGroups even', () => {
-  expect(splitIntoGroups('1111000011110000', 4)).toEqual(['1111', '0000', '1111', '0000']);
+  expect(splitIntoGroups('1111000011110000', 4)).toEqual([
+    '1111',
+    '0000',
+    '1111',
+    '0000'
+  ]);
 });
 
 test('SplitIntoGroups odd', () => {
-  expect(splitIntoGroups('11110000111100001', 4)).toEqual(['1111', '0000', '1111', '0000', '1']);
+  expect(splitIntoGroups('11110000111100001', 4)).toEqual([
+    '1111',
+    '0000',
+    '1111',
+    '0000',
+    '1'
+  ]);
 });
 
 test('SplitIntoGroups zero case', () => {

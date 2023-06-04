@@ -1,5 +1,3 @@
 describe('StructureFinalMessage', () => {
-  test('Empty input', () => {
-
-  });
+  test('Empty input', () => {});
 });

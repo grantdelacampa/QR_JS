@@ -8,7 +8,11 @@ import { padBitsEnd } from '../../Helpers/HelperFunctions';
  * @param {String} errorCorrection
  * @returns
  */
-export function getSmallestQRVersion (inputSize = 0, mode = 'byte', errorCorrection = 'L') {
+export function getSmallestQRVersion(
+  inputSize = 0,
+  mode = 'byte',
+  errorCorrection = 'L'
+) {
   const capacityArray = ModeCapacities[mode][errorCorrection];
   for (let i = 0; i <= 40; i++) {
     if (capacityArray[i] >= inputSize) {
@@ -17,7 +21,7 @@ export function getSmallestQRVersion (inputSize = 0, mode = 'byte', errorCorrect
   }
 }
 
-export function fitTotalBits (totalBits = 0, currentBinary = '') {
+export function fitTotalBits(totalBits = 0, currentBinary = '') {
   const currentDif = totalBits - currentBinary.length;
   // If the required number of bits is met do nothing
   if (currentDif === 0) {
@@ -29,7 +33,10 @@ export function fitTotalBits (totalBits = 0, currentBinary = '') {
     // First pad 4
     const inputWTerminator = padBitsEnd(4, currentBinary);
     // Pad the bits to make this a multiple of 8
-    const inputAsMultiple = padBitsEnd(8 - (inputWTerminator.length % 8), inputWTerminator);
+    const inputAsMultiple = padBitsEnd(
+      8 - (inputWTerminator.length % 8),
+      inputWTerminator
+    );
     // If we have the length return otherwise start the pad Byte sequence
     if (inputAsMultiple.length === totalBits) {
       return inputAsMultiple;

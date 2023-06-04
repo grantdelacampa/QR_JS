@@ -8,11 +8,11 @@ export class GeneratorPolynomial {
   stdCoef = [];
 
   /**
-     * Constructs an array in the format a^a[0]+x^b[0]+...a^[n]b^[n]
-     * @param {*} a
-     * @param {*} b
-     */
-  constructor (a, b) {
+   * Constructs an array in the format a^a[0]+x^b[0]+...a^[n]b^[n]
+   * @param {*} a
+   * @param {*} b
+   */
+  constructor(a, b) {
     // a
     this.alphaCoef = a;
     // x
@@ -20,11 +20,11 @@ export class GeneratorPolynomial {
   }
 
   /**
-     * Performs the following: (a^a+x^b) * (a^a+x^b) and saves the result to polynomial 1
-     * @param {GeneratorPolynomial} polynomial
-     * @returns
-     */
-  multiply (polynomial) {
+   * Performs the following: (a^a+x^b) * (a^a+x^b) and saves the result to polynomial 1
+   * @param {GeneratorPolynomial} polynomial
+   * @returns
+   */
+  multiply(polynomial) {
     const alphaMultiplier = polynomial.getAlphaCoef();
     const stdMultiplier = polynomial.getStdCoef();
     const finalAlpha = [];
@@ -33,14 +33,16 @@ export class GeneratorPolynomial {
       for (let j = 0; j < alphaMultiplier.length; j++) {
         // If the added is larger than 255 then % 255 it
         const addedAlpha = this.alphaCoef[i] + alphaMultiplier[j];
-        finalAlpha.push(addedAlpha > 255 ? this.galosExponetReduction(addedAlpha) : addedAlpha);
+        finalAlpha.push(
+          addedAlpha > 255 ? this.galosExponetReduction(addedAlpha) : addedAlpha
+        );
         finalStd.push(this.stdCoef[i] + stdMultiplier[j]);
       }
     }
     return this.simplify(finalAlpha, finalStd);
   }
 
-  xorPolynomial (polynomial) {
+  xorPolynomial(polynomial) {
     // Check which is longer alpha or std
     const newAlpha = [];
     let newStd = [];
@@ -78,7 +80,7 @@ export class GeneratorPolynomial {
     return new GeneratorPolynomial(newAlpha, newStd);
   }
 
-  simplify (alphaCoef, stdCoef) {
+  simplify(alphaCoef, stdCoef) {
     const newAlpha = [];
     const newStdCoef = [];
     // [{element0 : index},...{elementN : index}]
@@ -88,7 +90,9 @@ export class GeneratorPolynomial {
       let existingIndex = -2;
       // If the element is not 0 we need the index
       if (element !== 0) {
-        existingIndex = vistied.findIndex((obj) => { return Object.hasOwn(obj, element); });
+        existingIndex = vistied.findIndex((obj) => {
+          return Object.hasOwn(obj, element);
+        });
       }
       // If existingIndex < 0 then element is 0 or newly visited so add it either way
       if (existingIndex < 0) {
@@ -108,7 +112,10 @@ export class GeneratorPolynomial {
         const stdCoefIndex = indexArray[0];
         // NOTE: We dont care about adding the stds because x^2 + x^2 = x^2]
         // Add the Alphas using the correct value based on the QR
-        newAlpha[newStdIndex] = this.addAlphaToAlpha(alphaCoef[stdCoefIndex], alphaCoef[index]);
+        newAlpha[newStdIndex] = this.addAlphaToAlpha(
+          alphaCoef[stdCoefIndex],
+          alphaCoef[index]
+        );
       }
     });
 
@@ -117,30 +124,30 @@ export class GeneratorPolynomial {
     return new GeneratorPolynomial(newAlpha, newStdCoef);
   }
 
-  decrimentStdArry () {
+  decrimentStdArry() {
     this.stdCoef.forEach((element, index) => {
       this.stdCoef[index] = element - 1;
     });
   }
 
   /**
-     * Takes the given value and performs the following
-     * (e % 256) + Math.floor(e / 256)
-     * @param {Integer} exponent
-     * @returns Integer
-     */
-  galosExponetReduction (exponent) {
+   * Takes the given value and performs the following
+   * (e % 256) + Math.floor(e / 256)
+   * @param {Integer} exponent
+   * @returns Integer
+   */
+  galosExponetReduction(exponent) {
     return (exponent % 256) + Math.floor(exponent / 256);
   }
 
   /**
-     * Performs the following operation n = a1 ^ a2
-     * then looks up its int value for a^n from the intToAlpha lookup table
-     * @param {Integer} alpha1
-     * @param {Integer} alpha2
-     * @returns Integer
-     */
-  addAlphaToAlpha (alpha1, alpha2) {
+   * Performs the following operation n = a1 ^ a2
+   * then looks up its int value for a^n from the intToAlpha lookup table
+   * @param {Integer} alpha1
+   * @param {Integer} alpha2
+   * @returns Integer
+   */
+  addAlphaToAlpha(alpha1, alpha2) {
     const dec1 = alphaToInt[alpha1];
     const dec2 = alphaToInt[alpha2];
     const xored = dec1 ^ dec2;
@@ -148,42 +155,42 @@ export class GeneratorPolynomial {
   }
 
   /**
-     * get the array of Alpha Coef
-     * @returns Array
-     */
-  getAlphaCoef () {
+   * get the array of Alpha Coef
+   * @returns Array
+   */
+  getAlphaCoef() {
     return this.alphaCoef;
   }
 
   /**
-     * Override the current Alpha array
-     * @param {Array} newAlphaCoefs
-     */
-  setAlphaCoef (newAlphaCoefs) {
+   * Override the current Alpha array
+   * @param {Array} newAlphaCoefs
+   */
+  setAlphaCoef(newAlphaCoefs) {
     this.alphaCoef = newAlphaCoefs;
   }
 
   /**
-     * get the array of StdCoef
-     * @returns Array
-     */
-  getStdCoef () {
+   * get the array of StdCoef
+   * @returns Array
+   */
+  getStdCoef() {
     return this.stdCoef;
   }
 
   /**
-     * Overrride the current Std array
-     * @param {Array} newStdCoef
-     */
-  setStdCoef (newStdCoef) {
+   * Overrride the current Std array
+   * @param {Array} newStdCoef
+   */
+  setStdCoef(newStdCoef) {
     this.stdCoef = newStdCoef;
   }
 
   /**
-     * Return a string representation of this polynomial
-     * @returns String
-     */
-  toString () {
+   * Return a string representation of this polynomial
+   * @returns String
+   */
+  toString() {
     let output = '';
     const size = this.alphaCoef.length;
     for (let i = 0; i < size; i++) {
@@ -195,7 +202,7 @@ export class GeneratorPolynomial {
     return output;
   }
 
-  toDecString () {
+  toDecString() {
     let output = '';
     const size = this.alphaCoef.length;
     for (let i = 0; i < size; i++) {
