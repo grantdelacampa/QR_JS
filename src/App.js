@@ -7,7 +7,7 @@ import {
   fitTotalBits
 } from './Functions/DataEncoding/DataEncoding';
 import { processInput } from './Functions/InputBinaryProcessing/InputBinaryProcessing';
-import { padBits, getCorner } from './Helpers/HelperFunctions';
+import { padBits, getCorner, getQRSize } from './Helpers/HelperFunctions';
 import {
   ModeIndicator,
   ModeBitLength,
@@ -16,8 +16,8 @@ import {
 } from './Constants/Constants';
 import { groupCodewords } from './Functions/GroupProcessing/GroupProcessing';
 import { StructureFinalMessage } from './Functions/StructureFinalMessage/StructureFinalMessage';
-import { drawOnCanvas } from './Functions/QRModulePlacement/DrawFunctionPatterns';
-
+import { BitMatrix } from './Objects/BitMatrix';
+import { FinderPatter } from './Functions/MatrixPopulation/FinderPattern';
 function App() {
   const [text, setText] = useState('');
   const [output, setOutput] = useState('');
@@ -84,7 +84,12 @@ function App() {
       remainderBitsByVersion[capacityArray[0]]
     );
 
-    drawOnCanvas(canvas, capacityArray[0], size);
+    const qrSize = getQRSize(capacityArray[0]);
+    // Step 15 create the bitArrayToHold the matrix
+    const bitMatrix = new BitMatrix(qrSize);
+    // <====================== DRAW Finder Pattern Array!
+    FinderPatter(bitMatrix, qrSize);
+
     setOutput(finalMessage);
   }
 
@@ -105,19 +110,48 @@ function App() {
         <button type="button" onClick={handleClick}>
           Generate
         </button>
-        <button type="button" onClick={() => {
-          setText("HELLO WORLD");
-        }}>HELLO WORLD</button>
-        <button type="button" onClick={() => {
-          setText("HELLO WORLDHELLO WORLDHELLO WORLD");
-        }}>Version 2</button>
-        <button type='button' onClick={() => {
-          setText('HELLO SSSS WORLDHELLO WORLD HELLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDLLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLD');
-        }}>Version 8</button>
-        <button type='button' onClick={() => {
-          setText('HELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDHELLO WORLD HELLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDLLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLD');
-        }}>GENERATES ERROR!</button>
-        <button type="button" onClick={() => { window.location.reload(); }}>
+        <button
+          type="button"
+          onClick={() => {
+            setText('HELLO WORLD');
+          }}
+        >
+          HELLO WORLD
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setText('HELLO WORLDHELLO WORLDHELLO WORLD');
+          }}
+        >
+          Version 2
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setText(
+              'HELLO SSSS WORLDHELLO WORLD HELLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDLLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLD'
+            );
+          }}
+        >
+          Version 8
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setText(
+              'HELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDHELLO WORLD HELLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDLLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLD'
+            );
+          }}
+        >
+          GENERATES ERROR!
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            window.location.reload();
+          }}
+        >
           Clear
         </button>
       </header>

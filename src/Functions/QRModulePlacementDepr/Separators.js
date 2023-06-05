@@ -1,9 +1,19 @@
-/* eslint-disable */
+/**
+ *
+ * @param {*} ctx
+ * @deprecated
+ */
 const drawSeperator = (ctx) => {
   ctx.fillStyle = '#FFF';
   ctx.fillRect(0, 0, 8, 8);
 };
 
+/**
+ *
+ * @param {*} ctx
+ * @param {*} qrSize
+ * @deprecated
+ */
 export const drawSeperators = (ctx, qrSize) => {
   ctx.save();
   ctx.translate(0, 0);

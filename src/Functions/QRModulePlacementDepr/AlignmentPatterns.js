@@ -41,6 +41,13 @@ export const alignmnetPatternLocations = [
   [6, 30, 58, 86, 114, 142, 170]
 ];
 
+/**
+ *
+ * @param {*} ctx
+ * @param {*} version
+ * @param {*} qrSize
+ * @deprecated
+ */
 export const drawAlignmnetPatterns = (ctx, version, qrSize) => {
   const alignmentPattern = alignmnetPatternLocations[version];
   const qrOffset = qrSize - 9;
@@ -65,6 +72,7 @@ export const drawAlignmnetPatterns = (ctx, version, qrSize) => {
  * @param {Int} x
  * @param {Int} y
  * @returns
+ * @deprecated
  */
 const inSeparatorBounds = (x, y, qrOffset) => {
   return (
@@ -77,6 +85,7 @@ const inSeparatorBounds = (x, y, qrOffset) => {
  * @param {canvas.context} ctx
  * @param {Int} x
  * @param {Int} y
+ * @deprecated
  */
 const drawAlignmentPattern = (ctx, x, y) => {
   ctx.save();

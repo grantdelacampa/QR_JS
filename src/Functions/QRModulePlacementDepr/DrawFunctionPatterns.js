@@ -8,6 +8,7 @@ import { drawAlignmnetPatterns } from './AlignmentPatterns';
  * @param {*} canvas
  * @param {*} version
  * @param {*} size
+ * @deprecated
  * @see https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Drawing_shapes
  */
 export const drawOnCanvas = (canvas, version, size) => {

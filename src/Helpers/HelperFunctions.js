@@ -16,8 +16,6 @@ export function splitIntoGroups(str, size) {
  * @returns
  */
 export function padBits(padding, target) {
-  console.log(padding);
-  console.log(target);
   return '0'.repeat(padding) + target;
 }
 

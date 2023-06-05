@@ -3,6 +3,7 @@
 /**
  * Draws a finder pattern starting at 0,0
  * @param {Context} ctx
+ * @deprecated
  */
 const drawFinderPatter = (ctx) => {
   ctx.fillStyle = '#000';
@@ -18,6 +19,7 @@ const drawFinderPatter = (ctx) => {
  * This is constant for all QR sizes.
  * @param {context} ctx
  * @param {Integer} qrSize
+ * @deprecated
  */
 export const drawFinderPatterns = (ctx, qrSize) => {
   ctx.save();
