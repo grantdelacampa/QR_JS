@@ -20,6 +20,7 @@ import { BitMatrix } from './Objects/BitMatrix';
 import { FinderPatter } from './Functions/MatrixPopulation/FinderPattern';
 import { SeperatorPattern } from './Functions/MatrixPopulation/SeperatorPattern';
 import { AlignmentPattern } from './Functions/MatrixPopulation/AlignmentPattern';
+import { TimingPatterns } from './Functions/MatrixPopulation/TimingPatterns';
 function App() {
   const [text, setText] = useState('');
   const [output, setOutput] = useState('');
@@ -93,6 +94,7 @@ function App() {
     FinderPatter(bitMatrix, qrSize);
     SeperatorPattern(bitMatrix);
     AlignmentPattern(bitMatrix, capacityArray[0]);
+    TimingPatterns(bitMatrix);
 
     setOutput(finalMessage);
   }
