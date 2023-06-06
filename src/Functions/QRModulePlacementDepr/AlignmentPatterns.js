@@ -1,4 +1,4 @@
-export const alignmnetPatternLocations = [
+const alignmnetPatternLocations = [
   [],
   [],
   [6, 18],

@@ -1,5 +1,5 @@
 /**
- * Populate the FinderPattern in the given bit matrix
+ * Populate the FinderPattern in the given bit matrix also populate the separators
  * @param {BitMatrix} bitMatrix
  */
 export function FinderPatter(bitMatrix) {
@@ -10,8 +10,9 @@ export function FinderPatter(bitMatrix) {
   ];
   // For each finder pattern we need to draw a 7 * 7 square starting at cord
   finderPatternArray.forEach((cord) => {
-    const row = cord[0];
-    const col = cord[1];
+    const col = cord[0];
+    const row = cord[1];
+
     for (let r = 0; r < 7; r++) {
       for (let c = 0; c < 7; c++) {
         if (
@@ -23,11 +24,11 @@ export function FinderPatter(bitMatrix) {
         ) {
           // Set the 1 bits, and reserve this bit
           bitMatrix.setBit(row + r, col + c, true, true);
-          console.log('1: ' + (row + r) + ', ' + (col + c));
+          // console.log('1: ' + (row + r) + ', ' + (col + c));
         } else {
           // set the 0 bits, and reserve this bit
           bitMatrix.setBit(row, col, false, true);
-          console.log('0: ' + (row + r) + ', ' + (col + c));
+          // console.log('0: ' + (row + r) + ', ' + (col + c));
         }
       }
     }

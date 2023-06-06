@@ -18,6 +18,8 @@ import { groupCodewords } from './Functions/GroupProcessing/GroupProcessing';
 import { StructureFinalMessage } from './Functions/StructureFinalMessage/StructureFinalMessage';
 import { BitMatrix } from './Objects/BitMatrix';
 import { FinderPatter } from './Functions/MatrixPopulation/FinderPattern';
+import { SeperatorPattern } from './Functions/MatrixPopulation/SeperatorPattern';
+import { AlignmentPattern } from './Functions/MatrixPopulation/AlignmentPattern';
 function App() {
   const [text, setText] = useState('');
   const [output, setOutput] = useState('');
@@ -89,6 +91,8 @@ function App() {
     const bitMatrix = new BitMatrix(qrSize);
     // <====================== DRAW Finder Pattern Array!
     FinderPatter(bitMatrix, qrSize);
+    SeperatorPattern(bitMatrix);
+    AlignmentPattern(bitMatrix, capacityArray[0]);
 
     setOutput(finalMessage);
   }
