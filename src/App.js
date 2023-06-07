@@ -22,6 +22,7 @@ import { SeperatorPattern } from './Functions/MatrixPopulation/SeperatorPattern'
 import { AlignmentPattern } from './Functions/MatrixPopulation/AlignmentPattern';
 import { TimingPatterns } from './Functions/MatrixPopulation/TimingPatterns';
 import { ReserveFormatArea } from './Functions/MatrixPopulation/DarkModule&ReservedAreas';
+import { VersionInfoArea } from './Functions/MatrixPopulation/VersionInfoArea';
 function App() {
   const [text, setText] = useState('');
   const [output, setOutput] = useState('');
@@ -97,6 +98,7 @@ function App() {
     AlignmentPattern(bitMatrix, capacityArray[0]);
     TimingPatterns(bitMatrix);
     ReserveFormatArea(bitMatrix, capacityArray[0]);
+    VersionInfoArea(bitMatrix, capacityArray[0]);
 
     setOutput(finalMessage);
   }
@@ -138,21 +140,21 @@ function App() {
           type="button"
           onClick={() => {
             setText(
-              'HELLO SSSS WORLDHELLO WORLD HELLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDLLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLD'
+              'HELLO SSSS WORLD HELLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDLLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLD'
             );
           }}
         >
-          Version 8
+          Version 7
         </button>
         <button
           type="button"
           onClick={() => {
             setText(
-              'HELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDHELLO WORLD HELLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDLLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLD'
+              'HELLO SSSS WORLDHELLO WORLD HELLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLDLLO HELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDHELLO WORLDWORLDHELLO WORLD'
             );
           }}
         >
-          GENERATES ERROR!
+          Version 8
         </button>
         <button
           type="button"
