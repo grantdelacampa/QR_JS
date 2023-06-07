@@ -21,6 +21,7 @@ import { FinderPatter } from './Functions/MatrixPopulation/FinderPattern';
 import { SeperatorPattern } from './Functions/MatrixPopulation/SeperatorPattern';
 import { AlignmentPattern } from './Functions/MatrixPopulation/AlignmentPattern';
 import { TimingPatterns } from './Functions/MatrixPopulation/TimingPatterns';
+import { ReserveFormatArea } from './Functions/MatrixPopulation/DarkModule&ReservedAreas';
 function App() {
   const [text, setText] = useState('');
   const [output, setOutput] = useState('');
@@ -95,6 +96,7 @@ function App() {
     SeperatorPattern(bitMatrix);
     AlignmentPattern(bitMatrix, capacityArray[0]);
     TimingPatterns(bitMatrix);
+    ReserveFormatArea(bitMatrix, capacityArray[0]);
 
     setOutput(finalMessage);
   }
