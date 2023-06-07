@@ -1,7 +1,7 @@
 /**
  * Draw the version info area blocks if the version is larger than 7
- * @param {BitMatrix} bitMatrix 
- * @param {Number} version 
+ * @param {BitMatrix} bitMatrix
+ * @param {Number} version
  */
 export const VersionInfoArea = (bitMatrix, version) => {
   if (version > 6) {

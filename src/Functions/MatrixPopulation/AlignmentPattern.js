@@ -43,8 +43,8 @@ const alignmnetPatternLocations = [
 
 /**
  * Draw alignment pattern
- * @param {BitMatrix} bitMatrix 
- * @param {Number} version 
+ * @param {BitMatrix} bitMatrix
+ * @param {Number} version
  */
 export function AlignmentPattern(bitMatrix, version) {
   const cordArray = [];

@@ -2,8 +2,8 @@ import { getDarkModule } from '../../Helpers/HelperFunctions';
 
 /**
  * Draw the reserve format area
- * @param {BitMatrix} bitMatrix 
- * @param {Number} version 
+ * @param {BitMatrix} bitMatrix
+ * @param {Number} version
  */
 export const ReserveFormatArea = (bitMatrix, version) => {
   // Draw bottom left
