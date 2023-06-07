@@ -16,16 +16,6 @@ export function SeperatorPattern(bitMatrix) {
       for (let c = 0; c < 8; c++) {
         switch (index) {
           case 0: {
-            /*
-                                        -------0
-                                        -------0
-                                        -------0
-                                        -------0
-                                        -------0
-                                        -------0
-                                        -------0
-                                        00000000
-                                    */
             if ((c === 7 && r !== 7) || r === 7) {
               bitMatrix.setBit(row + r, col + c, false, true);
               // console.log('1: ' + (row + r) + ', ' + (col + c));
@@ -33,16 +23,6 @@ export function SeperatorPattern(bitMatrix) {
             break;
           }
           case 1: {
-            /*
-                                            00000000
-                                            -------0
-                                            -------0
-                                            -------0
-                                            -------0
-                                            -------0
-                                            -------0
-                                            -------0
-                                        */
             if ((c === 7 && r !== 0) || r === 0) {
               bitMatrix.setBit(row + r, col + c, false, true);
               // console.log('2: ' + (row + r) + ', ' + (col + c));
@@ -50,16 +30,6 @@ export function SeperatorPattern(bitMatrix) {
             break;
           }
           case 2: {
-            /*
-                                        0-------
-                                        0-------
-                                        0-------
-                                        0-------
-                                        0-------
-                                        0-------
-                                        0-------
-                                        00000000
-                                    */
             if ((c === 0 && r !== 7) || r === 7) {
               bitMatrix.setBit(row + r, col + c, false, true);
               // console.log('3: ' + (row + r) + ', ' + (col + c));

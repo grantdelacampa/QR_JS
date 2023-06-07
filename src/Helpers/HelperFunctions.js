@@ -39,3 +39,7 @@ export const getScaleFactor = (qrSize, canvasSize) => {
   }
   return diff;
 };
+
+export function getDarkModule(version) {
+  return [4 * version + 9, 8];
+}
