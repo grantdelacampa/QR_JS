@@ -1,16 +1,10 @@
 import { getDarkModule } from '../../Helpers/HelperFunctions';
-/*
-    Top Left
-    --------R
-    --------R
-    --------R
-    --------R
-    --------R
-    --------R
-    --------R
-    --------R
-    RRRRRRRRR
-*/
+
+/**
+ * Draw the reserve format area
+ * @param {BitMatrix} bitMatrix
+ * @param {Number} version
+ */
 export const ReserveFormatArea = (bitMatrix, version) => {
   // Draw bottom left
   // Get the start point [row, col]
@@ -21,6 +15,7 @@ export const ReserveFormatArea = (bitMatrix, version) => {
   bitMatrix.setBit(row, col, true, true);
   // Traverse down the col
   for (let i = row; i < bitMatrix.size; i++) {
+    // skip the dark module bit
     if (i !== row) {
       bitMatrix.setBit(i, col, true, true);
       // console.log('Bottom Left: ' + i + ', ' + col);
@@ -33,7 +28,6 @@ export const ReserveFormatArea = (bitMatrix, version) => {
   for (let j = basePoint; j >= 0; j--) {
     if (j === basePoint) {
       bitMatrix.setBit(basePoint, basePoint, true, true);
-      console.log('Start: ' + basePoint + ', ' + basePoint);
       // Skip the timing pattern
     } else if (j !== 6) {
       bitMatrix.setBit(basePoint, j, true, true);

@@ -40,6 +40,12 @@ const alignmnetPatternLocations = [
   [6, 26, 54, 82, 110, 138, 166],
   [6, 30, 58, 86, 114, 142, 170]
 ];
+
+/**
+ * Draw alignment pattern
+ * @param {BitMatrix} bitMatrix
+ * @param {Number} version
+ */
 export function AlignmentPattern(bitMatrix, version) {
   const cordArray = [];
   // map the patternlocations to their coresponding cordinate pairs
@@ -67,13 +73,6 @@ export function AlignmentPattern(bitMatrix, version) {
     const col = cord[1];
     for (let r = -2; r < 3; r++) {
       for (let c = -2; c < 3; c++) {
-        /*
-          11111
-          10001
-          10101
-          10001
-          11111
-        */
         if (
           r === -2 ||
           r === 2 ||
