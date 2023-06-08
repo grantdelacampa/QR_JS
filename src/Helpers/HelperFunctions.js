@@ -1,7 +1,7 @@
 /**
  * Split a string into groups of size and return it as an array.
  * @param {String} str
- * @param {String} size
+ * @param {Number} size
  * @returns
  */
 export function splitIntoGroups(str, size) {

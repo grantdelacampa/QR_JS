@@ -23,6 +23,7 @@ import { AlignmentPattern } from './Functions/MatrixPopulation/AlignmentPattern'
 import { TimingPatterns } from './Functions/MatrixPopulation/TimingPatterns';
 import { ReserveFormatArea } from './Functions/MatrixPopulation/DarkModule&ReservedAreas';
 import { VersionInfoArea } from './Functions/MatrixPopulation/VersionInfoArea';
+import { DataPattern } from './Functions/MatrixPopulation/DataPattern';
 function App() {
   const [text, setText] = useState('');
   const [output, setOutput] = useState('');
@@ -99,7 +100,7 @@ function App() {
     TimingPatterns(bitMatrix);
     ReserveFormatArea(bitMatrix, capacityArray[0]);
     VersionInfoArea(bitMatrix, capacityArray[0]);
-
+    DataPattern(bitMatrix, finalMessage);
     setOutput(finalMessage);
   }
 
