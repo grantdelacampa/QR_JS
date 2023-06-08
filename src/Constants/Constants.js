@@ -385,8 +385,8 @@ export const intToAlpha = [
 ];
 
 export const remainderBitsByVersion = [
-  0, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4, 4,
-  4, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0
+  0, 0, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
+  4, 4, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0
 ];
 
 export const alignmnetPatternLocations = [
