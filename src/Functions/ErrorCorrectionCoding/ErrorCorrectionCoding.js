@@ -1,6 +1,6 @@
 import { GeneratorPolynomial } from '../../Objects/GeneratorPolynomial';
 import { intToAlpha, alphaToInt } from '../../Constants/Constants';
-
+import { padBits } from '../../Helpers/HelperFunctions';
 /**
  * Generate a block of errCodecnt number of error codes using the seed array blockInput.
  * @param {[]} blockInput
@@ -32,7 +32,8 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
   );
   const codeWords = [];
   codeWordPolynomial.getAlphaCoef().forEach((element) => {
-    codeWords.push(alphaToInt[element].toString(2));
+    const newBinary = alphaToInt[element].toString(2);
+    codeWords.push(padBits(8 - newBinary.length, newBinary));
   });
   return codeWords;
 }
