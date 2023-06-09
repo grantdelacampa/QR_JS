@@ -15,16 +15,18 @@ export const DataPattern = (bitMatrix, data) => {
     if (dir) {
       for (let r = bitMatrix.size - 1; r > -1; r--) {
         if (!bitMatrix.isReserved(r, c)) {
-          // pop the first bit off the array
+          // pop the first bit off the array this has to be here otherwise we will loose bits
           const bit = bitArray.shift();
+          bitMatrix.setBit(r, c, bit === '1');
           // console.log("Writting bit: " + bit + " at ["+ r + ", " + c + "]");
         }
         if (!bitMatrix.isReserved(r, c - 1)) {
           const bit = bitArray.shift();
+          bitMatrix.setBit(r, c - 1, bit === '1');
           // console.log("Writting bit: " + bit + " at ["+ r + ", " + (c-1) + "]");
         }
       }
-      // flip the directiom
+      // flip the direction
       dir = false;
       // Account for the extra col check
       c--;
@@ -33,10 +35,12 @@ export const DataPattern = (bitMatrix, data) => {
       for (let r = 0; r < bitMatrix.size; r++) {
         if (!bitMatrix.isReserved(r, c)) {
           const bit = bitArray.shift();
+          bitMatrix.setBit(r, c, bit === '1');
           // console.log("Writting bit: " + bit + " at ["+ r + ", " + c + "]");
         }
         if (!bitMatrix.isReserved(r, c - 1)) {
           const bit = bitArray.shift();
+          bitMatrix.setBit(r, c - 1, bit === '1');
           // console.log("Writting bit: " + bit + " at ["+ r + ", " + (c-1) + "]");
         }
       }
