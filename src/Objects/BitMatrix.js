@@ -70,4 +70,15 @@ export class BitMatrix {
   isReserved(r, c) {
     return this.reservedBit[r * this.size + c];
   }
+
+  toString() {
+    let string = '';
+    for (let c = 0; c < this.size; c++) {
+      for (let r = 0; r < this.size; r++) {
+        string = string + (this.getBit(c, r) ? '\u{25A0}' : '\u{25A1}');
+      }
+      string = string + '\n';
+    }
+    return string;
+  }
 }

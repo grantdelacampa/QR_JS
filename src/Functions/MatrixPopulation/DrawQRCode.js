@@ -57,12 +57,18 @@ const evaluateMasks = (bitMatrix) => {
       });
     }
   }
+  // maskedMatricies.forEach((matrix, index) => {
+  //   console.log("Masked matrix #" + index);
+  //   console.log(matrix.toString());
+  // })
   const score1 = evaluateRule1(maskedMatricies[0]);
   const score2 = evaluateRule2(maskedMatricies[0]);
   const score3 = evaluateRule3(maskedMatricies[0]);
+  const score4 = evaluateRule4(maskedMatricies[0]);
   console.log(score1);
   console.log(score2);
   console.log(score3);
+  console.log(score4);
 };
 
 /**
@@ -217,5 +223,27 @@ const evaluateRule3 = (bitMatrix) => {
  * @returns
  */
 const evaluateRule4 = (bitMatrix) => {
-  return;
+  let blkCnt = 0;
+  // 1) Count total number of cells
+  const totalCells = bitMatrix.size * bitMatrix.size;
+  for (let i = 0; i < bitMatrix.size; i++) {
+    for (let j = 0; j < bitMatrix.size; j++) {
+      // 2 count dark modules
+      if(bitMatrix.getBit(i,j)) {blkCnt++;};
+    }
+  }
+  // 3 calculate percent of dark modules
+  const percent = (blkCnt / totalCells) * 100;
+  // 4. Determine the prev and next multiple of 5 for this percent
+  const floor = percent - (percent % 5);
+  const ceiling = percent + (5 - (percent % 5));
+  // 5 subtract 50 from each && 6 divide by 5
+  const proccessedFloor = Math.abs(floor - 50) / 5;
+  const processedCeiling = Math.abs(ceiling - 50) / 5;
+  // 7 take the smallest and * by 10
+  if(proccessedFloor < processedCeiling){
+    return proccessedFloor * 10;
+  } else {
+    return processedCeiling * 10;
+  }
 };
