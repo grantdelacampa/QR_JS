@@ -10,11 +10,13 @@ import { VersionInfoArea } from './VersionInfoArea';
 import { DataPattern } from './DataPattern';
 import { DataMasking } from './DataMasking';
 import { DrawFormatInfo } from './DrawFormatInfo';
+import { VersionInfo } from './VersionInfo';
 
 /**
  * Driver for drawing the QR code to the bitMatrix
  * @param {Number} version
  * @param {String} codeData
+ * @param {String} errCrtnLvl
  */
 export const DrawQRCode = (version, codeData, errCrtnLvl) => {
   const qrSize = getQRSize(version);
@@ -28,5 +30,6 @@ export const DrawQRCode = (version, codeData, errCrtnLvl) => {
   DataPattern(bitMatrix, codeData);
   const dataMaskResult = DataMasking(bitMatrix);
   DrawFormatInfo(dataMaskResult, errCrtnLvl);
+  VersionInfo(bitMatrix, version);
   return dataMaskResult[1];
 };

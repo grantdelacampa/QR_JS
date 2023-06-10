@@ -1,3 +1,13 @@
+/**
+ * These Constants used as part of the QR Code generation process.
+ * The use of theses constants is in many cases to reduce the redunancy of calculations
+ * that would always return a result from a constant set.
+ *
+ * @link   URL
+ * @file   This files defines the constants used in QR code generation.
+ * @author Grant De La Campa.
+ * @since  x.x.x
+ */
 export const IS_NUMERIC = /^\d+$/;
 export const IS_ALPHANUMERIC = /^[0-9A-Z $%*+\-./:]*$/;
 export const ModeIndicator = {
@@ -432,6 +442,13 @@ export const alignmnetPatternLocations = [
   [6, 30, 58, 86, 114, 142, 170]
 ];
 
+/**
+ * The format string is always 15 bits long. To create the string, you first create a
+ * five bit string that encodes the error correction level and the mask pattern in use
+ * in this QR code. Then you use those five bits to generate ten error correction bits.
+ * The resulting fifteen bits are XORed with the mask pattern 101010000010010. This
+ * process is explained in detail below.
+ */
 export const FormatInfoStrings = {
   L0: '111011111000100',
   L1: '111001011110011',
@@ -470,6 +487,13 @@ export const FormatInfoStrings = {
   H7: '000100000111011'
 };
 
+/**
+ * The QR Code specification says to use the (18, 6) Golay code for the
+ * version information string. As such, the version information string is
+ * an 18 bit string that consists of a six bit binary string that encodes the
+ * QR version, followed by a string of 12 error correction bits. The entire string
+ * is 18 bits long
+ */
 export const VersionInfoStrings = [
   '',
   '',
