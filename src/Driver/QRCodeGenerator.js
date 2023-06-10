@@ -55,6 +55,6 @@ export const QRCodeGenerator = (text, errorCorrection) => {
     remainderBitsByVersion[capacityArray[0]]
   );
   // Step 15 Draw the code
-  DrawQRCode(capacityArray[0], finalMessage);
+  DrawQRCode(capacityArray[0], finalMessage, errorCorrection);
   return finalMessage;
 };
