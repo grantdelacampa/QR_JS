@@ -1,3 +1,13 @@
+/**
+ * These Constants used as part of the QR Code generation process.
+ * The use of theses constants is in many cases to reduce the redunancy of calculations
+ * that would always return a result from a constant set.
+ *
+ * @link   URL
+ * @file   This files defines the constants used in QR code generation.
+ * @author Grant De La Campa.
+ * @since  x.x.x
+ */
 export const IS_NUMERIC = /^\d+$/;
 export const IS_ALPHANUMERIC = /^[0-9A-Z $%*+\-./:]*$/;
 export const ModeIndicator = {
@@ -87,51 +97,9 @@ export const ModeCapacities = {
 };
 // Data table to convert alphanumeric chars to their correct values alphanumericTable.indexOf(char);
 export const alpanumericTable = [
-  0,
-  1,
-  2,
-  3,
-  4,
-  5,
-  6,
-  7,
-  8,
-  9,
-  'A',
-  'B',
-  'C',
-  'D',
-  'E',
-  'F',
-  'G',
-  'H',
-  'I',
-  'J',
-  'K',
-  'L',
-  'M',
-  'N',
-  'O',
-  'P',
-  'Q',
-  'R',
-  'S',
-  'T',
-  'U',
-  'V',
-  'W',
-  'X',
-  'Y',
-  'Z',
-  ' ',
-  '$',
-  '%',
-  '*',
-  '+',
-  '-',
-  '.',
-  '/',
-  ':'
+  0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H',
+  'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+  'W', 'X', 'Y', 'Z', ' ', '$', '%', '*', '+', '-', '.', '/', ':'
 ];
 // Data table for ModeBitLength based on the mode type
 export const ModeBitLength = {
@@ -430,4 +398,100 @@ export const alignmnetPatternLocations = [
   [6, 32, 58, 84, 110, 136, 162],
   [6, 26, 54, 82, 110, 138, 166],
   [6, 30, 58, 86, 114, 142, 170]
+];
+
+/**
+ * The format string is always 15 bits long. To create the string, you first create a
+ * five bit string that encodes the error correction level and the mask pattern in use
+ * in this QR code. Then you use those five bits to generate ten error correction bits.
+ * The resulting fifteen bits are XORed with the mask pattern 101010000010010. This
+ * process is explained in detail below.
+ */
+export const FormatInfoStrings = {
+  L0: '111011111000100',
+  L1: '111001011110011',
+  L2: '111110110101010',
+  L3: '111100010011101',
+  L4: '110011000101111',
+  L5: '110001100011000',
+  L6: '110110001000001',
+  L7: '110100101110110',
+
+  M0: '101010000010010',
+  M1: '101000100100101',
+  M2: '101000100100101',
+  M3: '101101101001011',
+  M4: '100010111111001',
+  M5: '100000011001110',
+  M6: '100111110010111',
+  M7: '100101010100000',
+
+  Q0: '100101010100000',
+  Q1: '011000001101000',
+  Q2: '011111100110001',
+  Q3: '011101000000110',
+  Q4: '010010010110100',
+  Q5: '010000110000011',
+  Q6: '010111011011010',
+  Q7: '010101111101101',
+
+  H0: '001011010001001',
+  H1: '001001110111110',
+  H2: '001110011100111',
+  H3: '001100111010000',
+  H4: '000011101100010',
+  H5: '000001001010101',
+  H6: '000110100001100',
+  H7: '000100000111011'
+};
+
+/**
+ * The QR Code specification says to use the (18, 6) Golay code for the
+ * version information string. As such, the version information string is
+ * an 18 bit string that consists of a six bit binary string that encodes the
+ * QR version, followed by a string of 12 error correction bits. The entire string
+ * is 18 bits long
+ */
+export const VersionInfoStrings = [
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '',
+  '000111110010010100',
+  '001000010110111100',
+  '001001101010011001',
+  '001010010011010011',
+  '001011101111110110',
+  '001100011101100010',
+  '001101100001000111',
+  '001110011000001101',
+  '001111100100101000',
+  '010000101101111000',
+  '010001010001011101',
+  '010010101000010111',
+  '010011010100110010',
+  '010100100110100110',
+  '010101011010000011',
+  '010110100011001001',
+  '010111011111101100',
+  '011000111011000100',
+  '011001000111100001',
+  '011010111110101011',
+  '011011000010001110',
+  '011100110000011010',
+  '011101001100111111',
+  '011110110101110101',
+  '011111001001010000',
+  '100000100111010101',
+  '100001011011110000',
+  '100010100010111010',
+  '100011011110011111',
+  '100100101100001011',
+  '100101010000101110',
+  '100110101001100100',
+  '100111010101000001',
+  '101000110001101001'
 ];

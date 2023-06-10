@@ -9,13 +9,16 @@ import { ReserveFormatArea } from './DarkModule&ReservedAreas';
 import { VersionInfoArea } from './VersionInfoArea';
 import { DataPattern } from './DataPattern';
 import { DataMasking } from './DataMasking';
+import { DrawFormatInfo } from './DrawFormatInfo';
+import { VersionInfo } from './VersionInfo';
 
 /**
  * Driver for drawing the QR code to the bitMatrix
  * @param {Number} version
  * @param {String} codeData
+ * @param {String} errCrtnLvl
  */
-export const DrawQRCode = (version, codeData) => {
+export const DrawQRCode = (version, codeData, errCrtnLvl) => {
   const qrSize = getQRSize(version);
   const bitMatrix = new BitMatrix(qrSize);
   FinderPatter(bitMatrix, qrSize);
@@ -25,5 +28,8 @@ export const DrawQRCode = (version, codeData) => {
   ReserveFormatArea(bitMatrix, version);
   VersionInfoArea(bitMatrix, version);
   DataPattern(bitMatrix, codeData);
-  return DataMasking(bitMatrix);
+  const dataMaskResult = DataMasking(bitMatrix);
+  DrawFormatInfo(dataMaskResult, errCrtnLvl);
+  VersionInfo(bitMatrix, version);
+  return dataMaskResult[1];
 };

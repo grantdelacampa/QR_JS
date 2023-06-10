@@ -19,7 +19,7 @@ export const DataMasking = (bitMatrix) => {
     }
   });
   // return the matrix with the smallest score
-  return maskedMatricies[smallest];
+  return [smallest, maskedMatricies[smallest]];
 };
 
 /**
