@@ -62,7 +62,7 @@ function calculateGeneratorPolynomial(genisisPolynomial, errCodeCnt) {
 /**
  * Maps an array into a Polynomial
  * [y1, y2, y3] => y1x^3 + y2x^2 + y3x^1
- * @param {[]} binaryBlock
+ * @param {Array} binaryBlock
  * @returns GeneratorPolynomial
  */
 function parseArrayToPolynomial(binaryBlock, crctnCodeCnt) {
@@ -87,13 +87,11 @@ function parseArrayToPolynomial(binaryBlock, crctnCodeCnt) {
  * Perform Polynomial long division with Galos Field taken into account
  * @param {GeneratorPolynomial} generatorPolynomial
  * @param {GeneratorPolynomial} messagePolynomial
- * @param {Integer} codeWordCount
  * @returns GeneratorPolynomial
  */
 function performLongDivision(
   generatorPolynomial,
-  messagePolynomial,
-  codeWordCount
+  messagePolynomial
 ) {
   let xorResult = new GeneratorPolynomial([], []);
   let multiplyResult = new GeneratorPolynomial([], []);
