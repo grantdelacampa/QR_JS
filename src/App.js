@@ -13,7 +13,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <QR size={298}/>
+        <QR size={298} />
         <input
           type="text"
           value={text}
