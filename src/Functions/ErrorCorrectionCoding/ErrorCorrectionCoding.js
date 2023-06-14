@@ -32,7 +32,9 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
   );
   const codeWords = [];
   codeWordPolynomial.getAlphaCoef().forEach((element) => {
-    const newBinary = alphaToInt[element].toString(2);
+    // Temp patch for issue with alpha poly
+    const alpha = element === '1' ? 0 : element;
+    const newBinary = alphaToInt[alpha].toString(2);
     codeWords.push(padBits(8 - newBinary.length, newBinary));
   });
   return codeWords;
@@ -89,10 +91,7 @@ function parseArrayToPolynomial(binaryBlock, crctnCodeCnt) {
  * @param {GeneratorPolynomial} messagePolynomial
  * @returns GeneratorPolynomial
  */
-function performLongDivision(
-  generatorPolynomial,
-  messagePolynomial
-) {
+function performLongDivision(generatorPolynomial, messagePolynomial) {
   let xorResult = new GeneratorPolynomial([], []);
   let multiplyResult = new GeneratorPolynomial([], []);
   const stepsNeeded = messagePolynomial.getAlphaCoef().length;
@@ -103,16 +102,20 @@ function performLongDivision(
       multiplyResult = generatorPolynomial.multiply(
         new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]], [0])
       );
+      // console.log("Step 1A: " + multiplyResult.toString());
       // Step 2a
       xorResult = messagePolynomial.xorPolynomial(multiplyResult);
+      // console.log("Step 1b: " + xorResult.toDecString());
     } else {
       generatorPolynomial.decrimentStdArry();
       // step na
       multiplyResult = generatorPolynomial.multiply(
         new GeneratorPolynomial([xorResult.getAlphaCoef()[0]], [0])
       );
+      // console.log("Step " + (i+1) + "a: " + multiplyResult.toString());
       // Step nb
       xorResult = xorResult.xorPolynomial(multiplyResult);
+      // console.log("Step " + (i+1) + "b: " + xorResult.toDecString());
     }
   }
   return xorResult;
