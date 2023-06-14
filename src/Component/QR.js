@@ -6,7 +6,7 @@ import { QRCodeGenerator } from '../Driver/QRCodeGenerator';
 export const QR = ({
   id = 'QR',
   size = 100,
-  data = 'HELLO WORLD',
+  data = 'thonky.com',
   errorCorrection = 'Q'
 }) => {
   const canvasRef = useRef();
