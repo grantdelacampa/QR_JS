@@ -404,6 +404,7 @@ export const alignmnetPatternLocations = [
   [],
   [6, 18],
   [6, 22],
+  [6, 26],
   [6, 30],
   [6, 34],
   [6, 22, 38],
