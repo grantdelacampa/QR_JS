@@ -7,8 +7,9 @@ import { VersionInfoStrings } from '../../Constants/Constants';
  * @param {Number} version
  * @returns
  */
-export const VersionInfo = (bitMatrix, version) => {
-  const size = bitMatrix.size;
+export const VersionInfo = (dataMaskResult, version) => {
+  const maskedBitMatrix = dataMaskResult[1];
+  const size = maskedBitMatrix.size;
   if (version < 7) {
     return;
   }
@@ -23,11 +24,9 @@ export const VersionInfo = (bitMatrix, version) => {
   for (let c = 0; c < 6; c++) {
     for (let r = 0; r < 3; r++) {
       const bit = versionInfoString[index] === '1';
-      // console.log(versionInfoString[index] + '[' + (size - 11 + r) + ',' + c + ']');
-      bitMatrix.setBit(size - 11 + r, c, bit, false);
-      // console.log(versionInfoString[index] + '[' + c + ',' + (size - 11 + r) + ']');
+      maskedBitMatrix.setBit(size - 11 + r, c, bit, false);
       // Mirror the bits
-      bitMatrix.setBit(c, size - 11 + r, bit, false);
+      maskedBitMatrix.setBit(c, size - 11 + r, bit, false);
       index++;
     }
   }
