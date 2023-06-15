@@ -30,6 +30,6 @@ export const DrawQRCode = (version, codeData, errCrtnLvl) => {
   DataPattern(bitMatrix, codeData);
   const dataMaskResult = DataMasking(bitMatrix);
   DrawFormatInfo(dataMaskResult, errCrtnLvl);
-  VersionInfo(bitMatrix, version);
+  VersionInfo(dataMaskResult, version);
   return dataMaskResult[1];
 };
