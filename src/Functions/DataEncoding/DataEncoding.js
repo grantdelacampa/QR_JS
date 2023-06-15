@@ -33,8 +33,13 @@ export function fitTotalBits(totalBits = 0, currentBinary = '') {
     // First pad 4
     const inputWTerminator = padBitsEnd(4, currentBinary);
     // Pad the bits to make this a multiple of 8
+    let remainder = inputWTerminator.length % 8;
+    // In this case remainder is 0 so it is divisible by 8
+    if (remainder === 0) {
+      remainder = 8;
+    };
     const inputAsMultiple = padBitsEnd(
-      8 - (inputWTerminator.length % 8),
+      8 - remainder,
       inputWTerminator
     );
     // If we have the length return otherwise start the pad Byte sequence
