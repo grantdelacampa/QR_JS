@@ -17,22 +17,22 @@ export const ReserveFormatArea = (bitMatrix, version) => {
   for (let i = row; i < bitMatrix.size; i++) {
     // skip the dark module bit
     if (i !== row) {
-      bitMatrix.setBit(i, col, true, true);
+      bitMatrix.setBit(i, col, false, true);
       // console.log('Bottom Left: ' + i + ', ' + col);
     }
-    bitMatrix.setBit(col, i, true, true);
+    bitMatrix.setBit(col, i, false, true);
     // console.log('Top Right: ' + col + ', ' + i);
   }
 
   const basePoint = 8;
   for (let j = basePoint; j >= 0; j--) {
     if (j === basePoint) {
-      bitMatrix.setBit(basePoint, basePoint, true, true);
+      bitMatrix.setBit(basePoint, basePoint, false, true);
       // Skip the timing pattern
     } else if (j !== 6) {
-      bitMatrix.setBit(basePoint, j, true, true);
+      bitMatrix.setBit(basePoint, j, false, true);
       // console.log('One: ' + basePoint + ', ' + j);
-      bitMatrix.setBit(j, basePoint, true, true);
+      bitMatrix.setBit(j, basePoint, false, true);
       // console.log('Two: ' + j + ', ' + basePoint);
     }
   }
