@@ -8,9 +8,7 @@ import { alignmnetPatternLocations } from '../../Constants/Constants';
 export function AlignmentPattern(bitMatrix, version) {
   const cordArray = [];
   // map the patternlocations to their coresponding cordinate pairs
-  console.log(version);
   const alignmentPattern = alignmnetPatternLocations[version];
-  console.log(alignmentPattern);
   for (let i = 0; i < alignmentPattern.length; i++) {
     for (let j = 0; j < alignmentPattern.length; j++) {
       const col = alignmentPattern[i];
@@ -28,7 +26,6 @@ export function AlignmentPattern(bitMatrix, version) {
       }
     }
   }
-  console.log(cordArray);
   // Iterate on the found cords and 'draw' them into the matrix
   cordArray.forEach((cord) => {
     const row = cord[0];
