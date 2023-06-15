@@ -1,19 +1,21 @@
 /* eslint-disable */
 import './App.css';
-import React, { useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { QR } from './Component/QR';
 
 function App() {
   const [text, setText] = useState('');
-  const canvasDiv = useRef();
+  const [show, setShow] = useState(false);
 
   const handleClick = (e) => {
     e.preventDefault();
+    setShow(false);
+    setShow(true);
   };
   return (
     <div className="App">
       <header className="App-header">
-        <QR size={298} />
+        {show && <QR size={298} data={text} />}
         <input
           type="text"
           value={text}
