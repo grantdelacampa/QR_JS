@@ -1,0 +1,46 @@
+export class Polynomial {
+  #coefs = [];
+  #degrees = [];
+
+  /**
+   * Constructs an array in the format a[0]+x^b[0]+...a[n]x^b[n]
+   * @param {*} a
+   * @param {*} b
+   */
+  constructor(coefs, degrees) {
+    this.#coefs = coefs;
+    this.#degrees = degrees;
+  }
+
+  /**
+   * get the array of coefs
+   * @returns Array
+   */
+  get coefs() {
+    return this.#coefs;
+  }
+
+  /**
+   * get the array of degrees
+   * @returns Array
+   */
+  get degrees() {
+    return this.#degrees;
+  }
+
+  /**
+   * Return a string representation of this polynomial
+   * @returns String
+   */
+  toString() {
+    let output = '';
+    const size = this.#degrees.length;
+    for (let i = 0; i < size; i++) {
+      output = output + this.#coefs[i] + 'x^' + this.#degrees[i];
+      if (size - 1 !== i) {
+        output = output + ' + ';
+      }
+    }
+    return output;
+  }
+}
