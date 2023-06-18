@@ -20,12 +20,24 @@ export class Polynomial {
     return this.#coefs;
   }
 
+  coefAt(index) {
+    return this.#coefs[index];
+  }
+
   /**
    * get the array of degrees
    * @returns Array
    */
   get degrees() {
     return this.#degrees;
+  }
+
+  degreeAt(index) {
+    return this.#degrees[index];
+  }
+
+  get size() {
+    return this.degrees.length;
   }
 
   /**

@@ -14,6 +14,8 @@ import { processInput } from '../Functions/InputBinaryProcessing/InputBinaryProc
 import { groupCodewords } from '../Functions/GroupProcessing/GroupProcessing';
 import { StructureFinalMessage } from '../Functions/StructureFinalMessage/StructureFinalMessage';
 import { DrawQRCode } from '../Functions/MatrixPopulation/DrawQRCode';
+import { Polynomial } from '../Objects/Polynomial';
+import { multiply } from '../Helpers/PolynomialOperations';
 
 export const QRCodeGenerator = (text, errorCorrection) => {
   // Step 1 Decide the mode based on input
@@ -48,6 +50,12 @@ export const QRCodeGenerator = (text, errorCorrection) => {
   const codededInput = fitTotalBits(totalBits, currentBinary);
   // Step 13 format the dataCodeWords into groups
   const dataCodeWordGroups = groupCodewords(codededInput, errCorrectionInfo);
+  const poly = new Polynomial([1, 1], [2, 1]);
+  console.log(poly.toString());
+  const poly2 = new Polynomial([3, 3], [4, 3]);
+  console.log(poly2.toString());
+  const resultPoly = multiply(poly, poly2);
+  console.log(resultPoly.toString());
   // Step 14 Generate the final message
   const finalMessage = StructureFinalMessage(
     dataCodeWordGroups,
