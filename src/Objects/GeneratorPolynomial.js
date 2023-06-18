@@ -86,7 +86,7 @@ export class GeneratorPolynomial {
     // [{element0 : index},...{elementN : index}]
     const vistied = [];
     stdCoef.forEach((element, index) => {
-      // Set the existingIndex to an imposible number so we know if element is 0
+      // Set the existingIndex to an impossible number so we know if element is 0
       let existingIndex = -2;
       // If the element is not 0 we need the index
       if (element !== 0) {
