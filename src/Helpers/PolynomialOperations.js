@@ -2,9 +2,9 @@ import { Polynomial } from '../Objects/Polynomial';
 import { intToAlpha, alphaToInt } from '../Constants/Constants';
 
 /**
- * Multiply two polynomials accounting for galos field reduction when the coef as an alpha value is greater than 255. 
- * @param {Polynomial} multiplicand 
- * @param {Polynomial} multiplier 
+ * Multiply two polynomials accounting for galos field reduction when the coef as an alpha value is greater than 255.
+ * @param {Polynomial} multiplicand
+ * @param {Polynomial} multiplier
  * @returns Polynomial
  */
 export const multiply = (multiplicand, multiplier) => {
@@ -55,6 +55,39 @@ export const multiply = (multiplicand, multiplier) => {
     }
   }
   return new Polynomial(finalCoefs, finalDegrees);
+};
+
+/**
+ * xor two polynimials with like leading terms
+ * @param {Polynomial} expressionOne
+ * @param {Polynomial} expressionTwo
+ * @returns
+ */
+export const xorPolynomial = (expressionOne, expressionTwo) => {
+  const newCoef = [];
+  const newDegrees = [];
+  // Find the largest expression
+  const largest =
+    expressionOne.size >= expressionTwo.size
+      ? expressionOne.size
+      : expressionTwo.size;
+  // Get the leading coef
+  const leadingCoef = expressionOne.degreeAt(0);
+  // Iterate the length of the largest expression
+  for (let i = 0; i < largest; i++) {
+    // if undefined set it to 0
+    const coef1 = expressionOne.coefAt(i) || 0;
+    const coef2 = expressionTwo.coefAt(i) || 0;
+    // push the new values to their respective arrays
+    newCoef.push(coef1 ^ coef2);
+    newDegrees.push(leadingCoef - i);
+  }
+  // if the leading coef is 0 remove it and the respective degreee
+  if (newCoef[0] === 0) {
+    newCoef.shift();
+    newDegrees.shift();
+  }
+  return new Polynomial(newCoef, newDegrees);
 };
 
 /**
