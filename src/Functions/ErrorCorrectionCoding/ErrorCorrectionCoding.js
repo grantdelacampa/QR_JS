@@ -1,6 +1,7 @@
-import { GeneratorPolynomial } from '../../Objects/GeneratorPolynomial';
-import { intToAlpha, alphaToInt } from '../../Constants/Constants';
+import { alphaToInt } from '../../Constants/Constants';
 import { padBits } from '../../Helpers/HelperFunctions';
+import { Polynomial } from '../../Objects/Polynomial';
+import { multiply, xorPolynomial } from '../../Helpers/PolynomialOperations';
 /**
  * Generate a block of errCodecnt number of error codes using the seed array blockInput.
  * @param {[]} blockInput
@@ -9,7 +10,7 @@ import { padBits } from '../../Helpers/HelperFunctions';
  */
 export function GenerateErrorCode(blockInput, errCodeCnt) {
   // this is the standard first polynomial used to generate the generator Polynomial
-  const genisisPolynomial = new GeneratorPolynomial([0, 0], [1, 0]);
+  const genisisPolynomial = new Polynomial([1, 1], [1, 0]);
   // Generate the Generator Polynomial
   let generatorPolynomial = calculateGeneratorPolynomial(
     genisisPolynomial,
@@ -18,12 +19,7 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
   // Generate the MessengerPolynomial
   const messagePolynomial = parseArrayToPolynomial(blockInput, errCodeCnt);
   // Get the difference of the leads and multiply it in to pad the generator polynomial
-  generatorPolynomial = generatorPolynomial.multiply(
-    new GeneratorPolynomial(
-      [0],
-      [messagePolynomial.getStdCoef()[0] - generatorPolynomial.getStdCoef()[0]]
-    )
-  );
+  generatorPolynomial = multiply(generatorPolynomial, new Polynomial([1], [messagePolynomial.coefAt(0) - generatorPolynomial.coefAt(0)]));
   // Perform the long division steps
   const codeWordPolynomial = performLongDivision(
     generatorPolynomial,
@@ -31,10 +27,8 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
     errCodeCnt
   );
   const codeWords = [];
-  codeWordPolynomial.getAlphaCoef().forEach((element) => {
-    // Temp patch for issue with alpha poly
-    const alpha = element === '1' ? 0 : element;
-    const newBinary = alphaToInt[alpha].toString(2);
+  codeWordPolynomial.coefs.forEach((element) => {
+    const newBinary = element.toString(2);
     codeWords.push(padBits(8 - newBinary.length, newBinary));
   });
   return codeWords;
@@ -42,20 +36,22 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
 
 /**
  * Generate a Generator Polynomial of length errCodecnt. Seeded by genisisPolynomials.
- * @param {GeneratorPolynomial} genisisPolynomial
+ * @param {Polynomial} genisisPolynomial
  * @param {Integer} errCodeCnt
- * @returns
+ * @returns Polynomial
  */
 function calculateGeneratorPolynomial(genisisPolynomial, errCodeCnt) {
   let generatorPolynomial;
   // Multiply the generatorPolynomial by x^i+a^1
   for (let i = 1; i < errCodeCnt; i++) {
     i === 1
-      ? (generatorPolynomial = genisisPolynomial.multiply(
-          new GeneratorPolynomial([0, i], [1, 0])
+      ? (generatorPolynomial = multiply(
+          genisisPolynomial,
+          new Polynomial([0, alphaToInt[i]], [1, 0])
         ))
-      : (generatorPolynomial = generatorPolynomial.multiply(
-          new GeneratorPolynomial([0, i], [1, 0])
+      : (generatorPolynomial = multiply(
+          generatorPolynomial,
+          new Polynomial([0, alphaToInt[i]], [1, 0])
         ));
   }
   return generatorPolynomial;
@@ -75,47 +71,48 @@ function parseArrayToPolynomial(binaryBlock, crctnCodeCnt) {
   // 2nd the message polynomal will be converted[0]x^converted.length-1
   // 2nd multiply the message polynomial by x^n where n is crctnCodeCnt
   // Convert the lead terms to alpha notation
-  const alphaArray = [];
-  const stdArray = [];
-  // Create an alphaArray of the binaryBlock values (as int), create a std array of X^n...X^n-(binaryBlock.length)
+  const coefArray = [];
+  const degArray = [];
+  // Create an coefArray of the binaryBlock values (as int), create a std array of X^n...X^n-(binaryBlock.length)
   converted.forEach((digit, index) => {
-    alphaArray.push(intToAlpha[digit]);
-    stdArray.push(converted.length - index + crctnCodeCnt - 1);
+    coefArray.push(digit);
+    degArray.push(converted.length - index + crctnCodeCnt - 1);
   });
-  return new GeneratorPolynomial(alphaArray, stdArray);
+  return new Polynomial(coefArray, degArray);
 }
 
 /**
  * Perform Polynomial long division with Galos Field taken into account
- * @param {GeneratorPolynomial} generatorPolynomial
- * @param {GeneratorPolynomial} messagePolynomial
+ * @param {Polynomial} generatorPolynomial
+ * @param {Polynomial} messagePolynomial
  * @returns GeneratorPolynomial
  */
 function performLongDivision(generatorPolynomial, messagePolynomial) {
-  let xorResult = new GeneratorPolynomial([], []);
-  let multiplyResult = new GeneratorPolynomial([], []);
-  const stepsNeeded = messagePolynomial.getAlphaCoef().length;
+  let xorResult = new Polynomial([], []);
+  let multiplyResult = new Polynomial([], []);
+  const stepsNeeded = messagePolynomial.size;
   // Perform the Polynomial long division
   for (let i = 0; i < stepsNeeded; i++) {
     if (i === 0) {
       // Step 1a
-      multiplyResult = generatorPolynomial.multiply(
-        new GeneratorPolynomial([messagePolynomial.getAlphaCoef()[0]], [0])
+      multiplyResult = multiply(generatorPolynomial,
+        new Polynomial([messagePolynomial.coefAt(0)], [0])
       );
-      // console.log("Step 1A: " + multiplyResult.toString());
+      // console.log('Step 1A: ' + multiplyResult.toString());
       // Step 2a
-      xorResult = messagePolynomial.xorPolynomial(multiplyResult);
-      // console.log("Step 1b: " + xorResult.toDecString());
+      xorResult = xorPolynomial(messagePolynomial, multiplyResult);
+      // console.log('Step 1b: ' + xorResult.toString());
     } else {
-      generatorPolynomial.decrimentStdArry();
+      // generatorPolynomial.decrimentStdArry();
       // step na
-      multiplyResult = generatorPolynomial.multiply(
-        new GeneratorPolynomial([xorResult.getAlphaCoef()[0]], [0])
+      multiplyResult = multiply(
+        generatorPolynomial,
+        new Polynomial([xorResult.coefAt(0)], [0])
       );
-      // console.log("Step " + (i+1) + "a: " + multiplyResult.toString());
+      // console.log('Step ' + (i + 1) + 'a: ' + multiplyResult.toString());
       // Step nb
-      xorResult = xorResult.xorPolynomial(multiplyResult);
-      // console.log("Step " + (i+1) + "b: " + xorResult.toDecString());
+      xorResult = xorPolynomial(xorResult, multiplyResult);
+      // console.log('Step ' + (i + 1) + 'b: ' + xorResult.toString());
     }
   }
   return xorResult;
