@@ -22,6 +22,7 @@ export const QRCodeGenerator = (text, errorCorrection) => {
   const inputSize = text.length;
   // Step 3 Get the smallest size [version, size]
   const capacityArray = getSmallestQRVersion(inputSize, mode, errorCorrection);
+  console.log('Version: ' + capacityArray[0]);
   // Step 4 Get the modeIndicator binary
   const modeIndicator = ModeIndicator[mode];
   // Step 5 Get the bitLength
@@ -41,6 +42,8 @@ export const QRCodeGenerator = (text, errorCorrection) => {
   const errCorrectionInfo =
     ErrorCorrectionCodeWordsBlock[capacityArray[0] + '-' + errorCorrection]; // Step 10 get the Required number of bits for the QR code
   const totalBits = errCorrectionInfo[0] * 8;
+  console.log('Error Info: ');
+  console.log(errCorrectionInfo);
   // Step 11 get the current binary
   const currentBinary = modeIndicator + paddedInputLength + encodedData;
 

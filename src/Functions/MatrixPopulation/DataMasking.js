@@ -18,6 +18,7 @@ export const DataMasking = (bitMatrix) => {
       smallest = index;
     }
   });
+  console.log('Mask Pattern: ' + smallest);
   // return the matrix with the smallest score
   return [smallest, maskedMatricies[smallest]];
 };
