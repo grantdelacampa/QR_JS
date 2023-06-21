@@ -83,10 +83,6 @@ export const xorPolynomial = (expressionOne, expressionTwo) => {
     newDegrees.push(leadingCoef - i);
   }
   // if the leading coef is 0 remove it and the respective degreee
-  if (newCoef[0] === 0) {
-    newCoef.shift();
-    newDegrees.shift();
-  }
   return new Polynomial(newCoef, newDegrees);
 };
 
@@ -98,4 +94,18 @@ export const xorPolynomial = (expressionOne, expressionTwo) => {
  */
 const galosExponetReduction = (exponent) => {
   return (exponent % 256) + Math.floor(exponent / 256);
+};
+
+/**
+ * Reduce a polynomial by removing leading terms that are 0
+ * @param {Polynomial} polynomial
+ * @returns
+ */
+export const reducePolynomial = (polynomial) => {
+  let terms = -1;
+  while (polynomial.coefAt(0) === 0) {
+    polynomial.shift();
+    terms++;
+  }
+  return terms;
 };
