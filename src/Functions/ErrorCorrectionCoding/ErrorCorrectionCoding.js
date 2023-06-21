@@ -18,10 +18,8 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
   );
   // Generate the MessengerPolynomial
   const messagePolynomial = parseArrayToPolynomial(blockInput, errCodeCnt);
-  console.log(messagePolynomial.toString());
   // Get the difference of the leads and multiply it in to pad the generator polynomial
-  generatorPolynomial = multiply(generatorPolynomial, new Polynomial([1], [messagePolynomial.coefAt(0) - generatorPolynomial.coefAt(0)]));
-  console.log(generatorPolynomial.toString());
+  generatorPolynomial = multiply(generatorPolynomial, new Polynomial([1], [messagePolynomial.degreeAt(0) - generatorPolynomial.degreeAt(0)]));
   // Perform the long division steps
   const codeWordPolynomial = performLongDivision(
     generatorPolynomial,
