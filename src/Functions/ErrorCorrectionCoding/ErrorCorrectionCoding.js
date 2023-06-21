@@ -1,7 +1,7 @@
 import { alphaToInt } from '../../Constants/Constants';
 import { padBits } from '../../Helpers/HelperFunctions';
 import { Polynomial } from '../../Objects/Polynomial';
-import { multiply, xorPolynomial } from '../../Helpers/PolynomialOperations';
+import { multiply, reducePolynomial, xorPolynomial } from '../../Helpers/PolynomialOperations';
 /**
  * Generate a block of errCodecnt number of error codes using the seed array blockInput.
  * @param {[]} blockInput
@@ -19,7 +19,7 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
   // Generate the MessengerPolynomial
   const messagePolynomial = parseArrayToPolynomial(blockInput, errCodeCnt);
   // Get the difference of the leads and multiply it in to pad the generator polynomial
-  generatorPolynomial = multiply(generatorPolynomial, new Polynomial([1], [messagePolynomial.coefAt(0) - generatorPolynomial.coefAt(0)]));
+  generatorPolynomial = multiply(generatorPolynomial, new Polynomial([1], [messagePolynomial.degreeAt(0) - generatorPolynomial.degreeAt(0)]));
   // Perform the long division steps
   const codeWordPolynomial = performLongDivision(
     generatorPolynomial,
@@ -101,6 +101,7 @@ function performLongDivision(generatorPolynomial, messagePolynomial) {
       // console.log('Step 1A: ' + multiplyResult.toString());
       // Step 2a
       xorResult = xorPolynomial(messagePolynomial, multiplyResult);
+      reducePolynomial(xorResult);
       // console.log('Step 1b: ' + xorResult.toString());
     } else {
       // generatorPolynomial.decrimentStdArry();
@@ -112,6 +113,7 @@ function performLongDivision(generatorPolynomial, messagePolynomial) {
       // console.log('Step ' + (i + 1) + 'a: ' + multiplyResult.toString());
       // Step nb
       xorResult = xorPolynomial(xorResult, multiplyResult);
+      i = i - reducePolynomial(xorResult);
       // console.log('Step ' + (i + 1) + 'b: ' + xorResult.toString());
     }
   }

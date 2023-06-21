@@ -41,6 +41,14 @@ export class Polynomial {
   }
 
   /**
+   * drop the leading terms from the polynomial
+   */
+  shift() {
+    this.#coefs.shift();
+    this.#degrees.shift();
+  }
+
+  /**
    * Return a string representation of this polynomial
    * @returns String
    */

@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { getQRSize } from '../../Helpers/HelperFunctions';
 import { FinderPatter } from './FinderPattern';
 import { BitMatrix } from '../../Objects/BitMatrix';

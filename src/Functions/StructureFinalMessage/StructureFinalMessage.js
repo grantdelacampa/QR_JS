@@ -92,7 +92,7 @@ function generateErrorCodeWords(dataCodeWordGroups, errCorrectionInfo) {
     // Block counts are the same and we need the block data anyways
     const blocksInGroup = dataCodeWordGroups[index].blocks;
     // Generate the error codes for each block
-    blocksInGroup.forEach((codeWordBlock, index) => {
+    blocksInGroup.forEach((codeWordBlock) => {
       const errBlock = GenerateErrorCode(codeWordBlock, errorCodesPerBlock);
       group.addBlock(errBlock);
     });
