@@ -49,6 +49,15 @@ export class Polynomial {
   }
 
   /**
+   * reduce the value of each degree by dividing by x
+   */
+  reduceDegrees() {
+    this.#degrees.forEach((deg, index) => {
+      this.#degrees[index] = deg - 1;
+    });
+  }
+
+  /**
    * Return a string representation of this polynomial
    * @returns String
    */
