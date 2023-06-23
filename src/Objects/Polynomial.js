@@ -57,6 +57,10 @@ export class Polynomial {
     });
   }
 
+  toHexString() {
+    return this.#coefs.map(c => c.toString(16).padStart(2, '0'));
+  }
+
   /**
    * Return a string representation of this polynomial
    * @returns String
