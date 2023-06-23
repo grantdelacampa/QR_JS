@@ -32,15 +32,29 @@ export function StructureFinalMessage(
       dataCodeWordBlocks,
       errorCorrectionInfo[0]
     );
+    // console.log('post interleavenedDataCodes ===================');
     const interleavenedErrCodes = interleavenCodes(
       errorCodeWordBlocks,
       getTotalErrorCodeWords(errorCorrectionInfo)
     );
+    // console.log('post interleavenedErrCodes =====================');
     response = [...interleavenedDataCodes, ...interleavenedErrCodes].join('');
   }
   return padBitsEnd(remainderBits, response);
 }
 
+/**
+ * Interleven blocks of varying lengths stopping when the interleven array is of length totalCodes.
+ *
+ * Example:
+ *  - Block 1: [1 , 2, 3, 4, 5];
+ *  - Block 2: [6, 7, 8, 9, 10];
+ *  - totalCodes: 9;
+ *  - Result: [1, 6, 3, 7, 3, 8, 4, 9, 5, 10];
+ * @param {Array} blocks
+ * @param {Number} totalCodes
+ * @returns
+ */
 function interleavenCodes(blocks, totalCodes) {
   const interleavenedCodes = [];
   let index = 0;
@@ -50,11 +64,17 @@ function interleavenCodes(blocks, totalCodes) {
         interleavenedCodes.push(block[index]);
       }
     });
+    // console.log(interleavenedCodes.length);
     index++;
   } while (interleavenedCodes.length < totalCodes);
   return interleavenedCodes;
 }
 
+/**
+ * Extract the total error correction codes needed from the errorCorrectionInfo array. Which is derived from the const file.
+ * @param {Array} errCorrectionInfo
+ * @returns
+ */
 function getTotalErrorCodeWords(errCorrectionInfo) {
   // calculate the total number of error correction words
   let totalErrorCodes = errCorrectionInfo[1] * errCorrectionInfo[2];
@@ -64,6 +84,12 @@ function getTotalErrorCodeWords(errCorrectionInfo) {
   return totalErrorCodes;
 }
 
+/**
+ * Pull blocks from a list of 1 or 2 groups and combine those blocks into a single array
+ * @param {Array} groupList
+ * @param {Number} errCorrectionInfoLength
+ * @returns
+ */
 function getFlattenedGroups(groupList, errCorrectionInfoLength) {
   if (errCorrectionInfoLength < 6) {
     return groupList[0].blocks;
@@ -74,8 +100,8 @@ function getFlattenedGroups(groupList, errCorrectionInfoLength) {
 
 /**
  * Break down the groups -> blocks and generate the errorCode blocks required
- * @param {[]} dataCodeWordGroups
- * @param {[]} errCorrectionInfo
+ * @param {Array} dataCodeWordGroups
+ * @param {Array} errCorrectionInfo
  * @returns
  */
 function generateErrorCodeWords(dataCodeWordGroups, errCorrectionInfo) {

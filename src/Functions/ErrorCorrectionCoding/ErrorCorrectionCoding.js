@@ -33,6 +33,11 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
     const newBinary = element.toString(2);
     codeWords.push(padBits(8 - newBinary.length, newBinary));
   });
+  // Handle padding the front in case the generated err codes are too short
+  // this will balance the agressive whitespace removal in the xor steps
+  while (codeWords.length < errCodeCnt) {
+    codeWords.unshift('00000000');
+  }
   return codeWords;
 }
 

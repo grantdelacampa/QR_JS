@@ -46,7 +46,6 @@ export const QRCodeGenerator = (text, errorCorrection) => {
   console.log(errCorrectionInfo);
   // Step 11 get the current binary
   const currentBinary = modeIndicator + paddedInputLength + encodedData;
-
   // Step 12 pad the binary to reach the length of total bits
   const codededInput = fitTotalBits(totalBits, currentBinary);
   // Step 13 format the dataCodeWords into groups
