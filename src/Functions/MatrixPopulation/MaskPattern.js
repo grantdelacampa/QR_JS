@@ -19,10 +19,10 @@ export const getMaskPattern = (r, c, maskNo) => {
       return ((r * c) % 2) + ((r * c) % 3) === 0;
     }
     case 6: {
-      return ((r * c) % 2) + (((r * c) % 3) % 2) === 0;
+      return (((r * c) % 2) + ((r * c) % 3)) % 2 === 0;
     }
     case 7: {
-      return ((r + c) % 2) + (((r * c) % 3) % 2) === 0;
+      return (((r + c) % 2) + ((r * c) % 3)) % 2 === 0;
     }
     default: {
       throw new Error('Unknown mask');
