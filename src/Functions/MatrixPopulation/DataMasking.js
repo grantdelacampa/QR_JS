@@ -1,16 +1,23 @@
 import { getMaskPattern } from './MaskPattern';
 import { BitMatrix } from '../../Objects/BitMatrix';
-export const DataMasking = (bitMatrix) => {
+import { DrawFormatInfo } from './DrawFormatInfo';
+export const DataMasking = (bitMatrix, errCrtnLvl) => {
   // Get the array of maskes matricies
   const maskedMatricies = evaluateMasks(bitMatrix);
   const scores = [];
   let smallest = 0;
   // Iterate on the array and evaluate for each rule
   maskedMatricies.forEach((matrix, index) => {
+    DrawFormatInfo(matrix, index, errCrtnLvl);
+    console.log('===============RUN ', index, '=============');
     const score1 = evaluateRule1(matrix);
+    console.log(score1);
     const score2 = evaluateRule2(matrix);
+    console.log(score2);
     const score3 = evaluateRule3(matrix);
+    console.log(score3);
     const score4 = evaluateRule4(matrix);
+    console.log(score4);
     // Total the rule evals
     scores[index] = score1 + score2 + score3 + score4;
     // Track the index of the lowest score
@@ -18,6 +25,7 @@ export const DataMasking = (bitMatrix) => {
       smallest = index;
     }
   });
+  console.log('Total Scores: ' + scores);
   console.log('Final Mask Pattern: ' + smallest);
   // return the matrix with the smallest score
   return [smallest, maskedMatricies[smallest]];
@@ -218,14 +226,21 @@ const evaluateRule4 = (bitMatrix) => {
       }
     }
   }
+  console.log('Black: ', blkCnt);
+  console.log('Total: ', totalCells);
   // 3 calculate percent of dark modules
   const percent = (blkCnt / totalCells) * 100;
+  console.log('percent: ', percent);
   // 4. Determine the prev and next multiple of 5 for this percent
   const floor = percent - (percent % 5);
+  console.log('Prev: ' + floor);
   const ceiling = percent + (5 - (percent % 5));
+  console.log('Next: ' + ceiling);
   // 5 subtract 50 from each && 6 divide by 5
   const proccessedFloor = Math.abs(floor - 50) / 5;
+  console.log('proccessedFloor: ', proccessedFloor);
   const processedCeiling = Math.abs(ceiling - 50) / 5;
+  console.log('processedCeiling: ', processedCeiling);
   // 7 take the smallest and * by 10
   if (proccessedFloor < processedCeiling) {
     return proccessedFloor * 10;
