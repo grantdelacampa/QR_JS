@@ -127,15 +127,22 @@ const evaluateRule2 = (bitMatrix) => {
   let score = 0;
   for (let r = 0; r < bitMatrix.size - 1; r++) {
     for (let c = 0; c < bitMatrix.size - 1; c++) {
-      const bit1 = bitMatrix.getBit(r, c);
-      const bit2 = bitMatrix.getBit(r + 1, c);
-      const bit3 = bitMatrix.getBit(r, c + 1);
-      const bit4 = bitMatrix.getBit(r + 1, c + 1);
-      if (bit1 && bit2 && bit3 && bit4) {
+      const bitr1 = bitMatrix.getBit(r, c);
+      const bitr2 = bitMatrix.getBit(r + 1, c);
+      const bitr3 = bitMatrix.getBit(r, c + 1);
+      const bitr4 = bitMatrix.getBit(r + 1, c + 1);
+      const bitc1 = bitMatrix.getBit(c, r);
+      const bitc2 = bitMatrix.getBit(c + 1, r);
+      const bitc3 = bitMatrix.getBit(c, r + 1);
+      const bitc4 = bitMatrix.getBit(c + 1, r + 1);
+      if (bitr1 && bitr2 && bitr3 && bitr4) {
         // console.log("topL => [" + r + "," + c + "] bit: " + bit1);
         // console.log("btmL => [" + (r+1) + "," + c + "] bit: " + bit2);
         // console.log("topR => [" + r + "," + (c+1) + "] bit: " + bit3);
         // console.log("btmR => [" + (r+1) + "," + (c+1) + "] bit: " + bit4);
+        score += 3;
+      }
+      if (bitc1 && bitc2 && bitc3 && bitc4) {
         score += 3;
       }
     }
