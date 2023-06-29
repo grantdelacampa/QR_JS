@@ -71,21 +71,17 @@ const evaluateMasks = (bitMatrix) => {
  * @returns
  */
 const evaluateRule1 = (bitMatrix) => {
-  // Evaluate row by row
-  // Evaluate col by col
   let currentColColor = bitMatrix.getBit(0, 0);
-  let colCount = 1;
+  let colCount = 0;
   let currentRowColor = bitMatrix.getBit(0, 0);
-  let rowCount = 1;
+  let rowCount = 0;
   let score = 0;
   for (let i = 0; i < bitMatrix.size; i++) {
-    // console.log("===========New Check!================");
     for (let j = 0; j < bitMatrix.size; j++) {
+      // col
       const rowBit = bitMatrix.getBit(j, i);
+      // row
       const colBit = bitMatrix.getBit(i, j);
-      // console.log("Col => [" + i + "," + j + "] bit: " + colBit + " cur: " + currentColColor);
-      // console.log("Row => [" + j + "," + i + "] bit: " + rowBit + " cur: " + currentRowColor);
-      // If we changed the bit type on rows then reset the count and switch the focus bit
       if (rowBit !== currentRowColor) {
         currentRowColor ^= true;
         rowCount = 1;
@@ -110,8 +106,8 @@ const evaluateRule1 = (bitMatrix) => {
         score++;
       }
     }
-    colCount = 1;
-    rowCount = 1;
+    colCount = 0;
+    rowCount = 0;
     currentColColor = bitMatrix.getBit(i, 0);
     currentRowColor = bitMatrix.getBit(0, i);
   }
@@ -226,21 +222,14 @@ const evaluateRule4 = (bitMatrix) => {
       }
     }
   }
-  console.log('Black: ', blkCnt);
-  console.log('Total: ', totalCells);
   // 3 calculate percent of dark modules
   const percent = (blkCnt / totalCells) * 100;
-  console.log('percent: ', percent);
   // 4. Determine the prev and next multiple of 5 for this percent
   const floor = percent - (percent % 5);
-  console.log('Prev: ' + floor);
   const ceiling = percent + (5 - (percent % 5));
-  console.log('Next: ' + ceiling);
   // 5 subtract 50 from each && 6 divide by 5
   const proccessedFloor = Math.abs(floor - 50) / 5;
-  console.log('proccessedFloor: ', proccessedFloor);
   const processedCeiling = Math.abs(ceiling - 50) / 5;
-  console.log('processedCeiling: ', processedCeiling);
   // 7 take the smallest and * by 10
   if (proccessedFloor < processedCeiling) {
     return proccessedFloor * 10;
