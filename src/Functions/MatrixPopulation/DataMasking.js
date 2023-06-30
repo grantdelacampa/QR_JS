@@ -27,6 +27,7 @@ export const DataMasking = (bitMatrix, errCrtnLvl) => {
   });
   console.log('Total Scores: ' + scores);
   console.log('Final Mask Pattern: ' + smallest);
+  smallest = 1;
   // return the matrix with the smallest score
   return [smallest, maskedMatricies[smallest]];
 };
@@ -148,53 +149,30 @@ const evaluateRule2 = (bitMatrix) => {
  */
 const evaluateRule3 = (bitMatrix) => {
   // Patterns to check
-  const patterns = [
-    [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1]
+  const patterns = ['1,0,1,1,1,0,1,0,0,0,0', '0,0,0,0,1,0,1,1,1,0,1'
   ];
-  let rowIndex = [0, 0];
-  let colIndex = [0, 0];
-  // Current evaluations
+  // Score is default 0
   let score = 0;
+  // Need one counter to step all the way down or to the right
   for (let i = 0; i < bitMatrix.size; i++) {
-    for (let j = 0; j < bitMatrix.size; j++) {
-      const rowBit = bitMatrix.getBit(j, i);
-      const colBit = bitMatrix.getBit(i, j);
-      // console.log("["+ i + "," + j + "]");
-      patterns.forEach((pattern, index) => {
-        // Check for row matching
-        if (rowBit === pattern[rowIndex[index]]) {
-          rowIndex[index] += 1;
-          // console.log("Current row Matched bit: " + rowBit + " at count: " + rowIndex[index] + " for pattern: " + index);
-        } else {
-          rowIndex[index] = 0;
-        }
-
-        // Check for col matching
-        if (colBit === pattern[colIndex[index]]) {
-          colIndex[index] += 1;
-          // console.log("Current col Matched bit: " + colBit + " at count: " + colIndex[index] + " for pattern: " + index);
-        } else {
-          colIndex[index] = 0;
-        }
-
-        // check if the row has reached the correct count to add 40 pts
-        if (pattern.length - 1 === rowIndex[index]) {
-          // console.log("Adding row score! " + rowIndex[index]);
+    // Need one counter to stop 10 before the bottom or right
+    for (let j = 0; j < bitMatrix.size - 10; j++) {
+      const rowPattern = [];
+      const colPattern = [];
+      // Generate the pattern to validate against the patterns
+      for (let k = 0; k < 11; k++) {
+        rowPattern.push(bitMatrix.getBit(i, j + k));
+        colPattern.push(bitMatrix.getBit(j + k, i));
+      }
+      // Check both row and col for both patterns matching
+      patterns.forEach((pattern) => {
+        if (rowPattern.toString() === pattern) {
           score += 40;
-          rowIndex[index] = 0;
-        }
-        if (pattern.length - 1 === colIndex[index]) {
-          // console.log("Adding col score!" + colIndex[index]);
+        } else if (colPattern.toString() === pattern) {
           score += 40;
-          colIndex[index] = 0;
         }
       });
     }
-    // Zero after each row/col traversed
-    // console.log("=========RESET=========");
-    rowIndex = [0, 0];
-    colIndex = [0, 0];
   }
   return score;
 };
