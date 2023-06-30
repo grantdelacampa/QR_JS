@@ -5,9 +5,8 @@ import { FormatInfoStrings } from '../../Constants/Constants';
  * @param {Array[Number, BitMatrix]} dataMaskResult
  * @param {Char} errCrtnLvl
  */
-export const DrawFormatInfo = (dataMaskResult, errCrtnLvl) => {
-  const formatString = FormatInfoStrings[errCrtnLvl + dataMaskResult[0]];
-  const maskedBitMatrix = dataMaskResult[1];
+export const DrawFormatInfo = (maskedBitMatrix, pattern, errCrtnLvl) => {
+  const formatString = FormatInfoStrings[errCrtnLvl + pattern];
   const size = maskedBitMatrix.size;
   let index = 0;
   let index2 = 0;

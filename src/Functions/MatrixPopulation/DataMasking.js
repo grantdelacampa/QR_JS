@@ -1,16 +1,23 @@
 import { getMaskPattern } from './MaskPattern';
 import { BitMatrix } from '../../Objects/BitMatrix';
-export const DataMasking = (bitMatrix) => {
+import { DrawFormatInfo } from './DrawFormatInfo';
+export const DataMasking = (bitMatrix, errCrtnLvl) => {
   // Get the array of maskes matricies
   const maskedMatricies = evaluateMasks(bitMatrix);
   const scores = [];
   let smallest = 0;
   // Iterate on the array and evaluate for each rule
   maskedMatricies.forEach((matrix, index) => {
+    DrawFormatInfo(matrix, index, errCrtnLvl);
+    console.log('===============RUN ', index, '=============');
     const score1 = evaluateRule1(matrix);
+    console.log(score1);
     const score2 = evaluateRule2(matrix);
+    console.log(score2);
     const score3 = evaluateRule3(matrix);
+    console.log(score3);
     const score4 = evaluateRule4(matrix);
+    console.log(score4);
     // Total the rule evals
     scores[index] = score1 + score2 + score3 + score4;
     // Track the index of the lowest score
@@ -18,7 +25,9 @@ export const DataMasking = (bitMatrix) => {
       smallest = index;
     }
   });
+  console.log('Total Scores: ' + scores);
   console.log('Final Mask Pattern: ' + smallest);
+  smallest = 1;
   // return the matrix with the smallest score
   return [smallest, maskedMatricies[smallest]];
 };
@@ -63,21 +72,17 @@ const evaluateMasks = (bitMatrix) => {
  * @returns
  */
 const evaluateRule1 = (bitMatrix) => {
-  // Evaluate row by row
-  // Evaluate col by col
   let currentColColor = bitMatrix.getBit(0, 0);
-  let colCount = 1;
+  let colCount = 0;
   let currentRowColor = bitMatrix.getBit(0, 0);
-  let rowCount = 1;
+  let rowCount = 0;
   let score = 0;
   for (let i = 0; i < bitMatrix.size; i++) {
-    // console.log("===========New Check!================");
     for (let j = 0; j < bitMatrix.size; j++) {
+      // col
       const rowBit = bitMatrix.getBit(j, i);
+      // row
       const colBit = bitMatrix.getBit(i, j);
-      // console.log("Col => [" + i + "," + j + "] bit: " + colBit + " cur: " + currentColColor);
-      // console.log("Row => [" + j + "," + i + "] bit: " + rowBit + " cur: " + currentRowColor);
-      // If we changed the bit type on rows then reset the count and switch the focus bit
       if (rowBit !== currentRowColor) {
         currentRowColor ^= true;
         rowCount = 1;
@@ -102,8 +107,8 @@ const evaluateRule1 = (bitMatrix) => {
         score++;
       }
     }
-    colCount = 1;
-    rowCount = 1;
+    colCount = 0;
+    rowCount = 0;
     currentColColor = bitMatrix.getBit(i, 0);
     currentRowColor = bitMatrix.getBit(0, i);
   }
@@ -123,15 +128,11 @@ const evaluateRule2 = (bitMatrix) => {
   let score = 0;
   for (let r = 0; r < bitMatrix.size - 1; r++) {
     for (let c = 0; c < bitMatrix.size - 1; c++) {
-      const bit1 = bitMatrix.getBit(r, c);
-      const bit2 = bitMatrix.getBit(r + 1, c);
-      const bit3 = bitMatrix.getBit(r, c + 1);
-      const bit4 = bitMatrix.getBit(r + 1, c + 1);
-      if (bit1 && bit2 && bit3 && bit4) {
-        // console.log("topL => [" + r + "," + c + "] bit: " + bit1);
-        // console.log("btmL => [" + (r+1) + "," + c + "] bit: " + bit2);
-        // console.log("topR => [" + r + "," + (c+1) + "] bit: " + bit3);
-        // console.log("btmR => [" + (r+1) + "," + (c+1) + "] bit: " + bit4);
+      const bitr1 = bitMatrix.getBit(r, c);
+      const bitr2 = bitMatrix.getBit(r + 1, c);
+      const bitr3 = bitMatrix.getBit(r, c + 1);
+      const bitr4 = bitMatrix.getBit(r + 1, c + 1);
+      if ((bitr1 === bitr2) && (bitr2 === bitr3) && (bitr3 === bitr4)) {
         score += 3;
       }
     }
@@ -148,53 +149,30 @@ const evaluateRule2 = (bitMatrix) => {
  */
 const evaluateRule3 = (bitMatrix) => {
   // Patterns to check
-  const patterns = [
-    [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0],
-    [0, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1]
+  const patterns = ['1,0,1,1,1,0,1,0,0,0,0', '0,0,0,0,1,0,1,1,1,0,1'
   ];
-  let rowIndex = [0, 0];
-  let colIndex = [0, 0];
-  // Current evaluations
+  // Score is default 0
   let score = 0;
+  // Need one counter to step all the way down or to the right
   for (let i = 0; i < bitMatrix.size; i++) {
-    for (let j = 0; j < bitMatrix.size; j++) {
-      const rowBit = bitMatrix.getBit(j, i);
-      const colBit = bitMatrix.getBit(i, j);
-      // console.log("["+ i + "," + j + "]");
-      patterns.forEach((pattern, index) => {
-        // Check for row matching
-        if (rowBit === pattern[rowIndex[index]]) {
-          rowIndex[index] += 1;
-          // console.log("Current row Matched bit: " + rowBit + " at count: " + rowIndex[index] + " for pattern: " + index);
-        } else {
-          rowIndex[index] = 0;
-        }
-
-        // Check for col matching
-        if (colBit === pattern[colIndex[index]]) {
-          colIndex[index] += 1;
-          // console.log("Current col Matched bit: " + colBit + " at count: " + colIndex[index] + " for pattern: " + index);
-        } else {
-          colIndex[index] = 0;
-        }
-
-        // check if the row has reached the correct count to add 40 pts
-        if (pattern.length - 1 === rowIndex[index]) {
-          // console.log("Adding row score! " + rowIndex[index]);
+    // Need one counter to stop 10 before the bottom or right
+    for (let j = 0; j < bitMatrix.size - 10; j++) {
+      const rowPattern = [];
+      const colPattern = [];
+      // Generate the pattern to validate against the patterns
+      for (let k = 0; k < 11; k++) {
+        rowPattern.push(bitMatrix.getBit(i, j + k));
+        colPattern.push(bitMatrix.getBit(j + k, i));
+      }
+      // Check both row and col for both patterns matching
+      patterns.forEach((pattern) => {
+        if (rowPattern.toString() === pattern) {
           score += 40;
-          rowIndex[index] = 0;
-        }
-        if (pattern.length - 1 === colIndex[index]) {
-          // console.log("Adding col score!" + colIndex[index]);
+        } else if (colPattern.toString() === pattern) {
           score += 40;
-          colIndex[index] = 0;
         }
       });
     }
-    // Zero after each row/col traversed
-    // console.log("=========RESET=========");
-    rowIndex = [0, 0];
-    colIndex = [0, 0];
   }
   return score;
 };
