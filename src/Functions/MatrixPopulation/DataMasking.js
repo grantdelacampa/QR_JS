@@ -9,15 +9,10 @@ export const DataMasking = (bitMatrix, errCrtnLvl) => {
   // Iterate on the array and evaluate for each rule
   maskedMatricies.forEach((matrix, index) => {
     DrawFormatInfo(matrix, index, errCrtnLvl);
-    console.log('===============RUN ', index, '=============');
     const score1 = evaluateRule1(matrix);
-    console.log(score1);
     const score2 = evaluateRule2(matrix);
-    console.log(score2);
     const score3 = evaluateRule3(matrix);
-    console.log(score3);
     const score4 = evaluateRule4(matrix);
-    console.log(score4);
     // Total the rule evals
     scores[index] = score1 + score2 + score3 + score4;
     // Track the index of the lowest score
@@ -27,7 +22,6 @@ export const DataMasking = (bitMatrix, errCrtnLvl) => {
   });
   console.log('Total Scores: ' + scores);
   console.log('Final Mask Pattern: ' + smallest);
-  smallest = 1;
   // return the matrix with the smallest score
   return [smallest, maskedMatricies[smallest]];
 };
