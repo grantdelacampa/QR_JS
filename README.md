@@ -5,7 +5,7 @@ This project is being built just to test my programming skills. I wanted to writ
 **This project is still in Alpha please be aware if you want to fork it**
 
 ## Current Bugs
-- Generation starts failing after version 8
+- Generation starts failing after version 9
 
 ## Current Features
 - Black and white QR generation from v1-v40
