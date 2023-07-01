@@ -8,7 +8,6 @@ import { ReserveFormatArea } from './DarkModule&ReservedAreas';
 import { VersionInfoArea } from './VersionInfoArea';
 import { DataPattern } from './DataPattern';
 import { DataMasking } from './DataMasking';
-// import { DrawFormatInfo } from './DrawFormatInfo';
 import { VersionInfo } from './VersionInfo';
 
 /**
@@ -28,7 +27,6 @@ export const DrawQRCode = (version, codeData, errCrtnLvl) => {
   VersionInfoArea(bitMatrix, version);
   DataPattern(bitMatrix, codeData);
   const dataMaskResult = DataMasking(bitMatrix, errCrtnLvl);
-  // DrawFormatInfo(dataMaskResult, errCrtnLvl);
   VersionInfo(dataMaskResult, version);
   return dataMaskResult[1];
 };

@@ -14,7 +14,7 @@ export const VersionInfo = (dataMaskResult, version) => {
     return;
   }
   const versionInfoString = VersionInfoStrings[version];
-  let index = 0;
+  let index = versionInfoString.length - 1;
   /*
     Draws the following pattern in the bottom left and mirrors it across the diagnal TL to BR
     1-4-7-10-13-16
@@ -27,7 +27,7 @@ export const VersionInfo = (dataMaskResult, version) => {
       maskedBitMatrix.setBit(size - 11 + r, c, bit, false);
       // Mirror the bits
       maskedBitMatrix.setBit(c, size - 11 + r, bit, false);
-      index++;
+      index--;
     }
   }
 };
