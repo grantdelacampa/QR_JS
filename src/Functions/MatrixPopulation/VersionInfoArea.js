@@ -6,7 +6,7 @@
 export const VersionInfoArea = (bitMatrix, version) => {
   if (version > 6) {
     // For version 7 and higher draw two 6x3 blocks
-    const col = bitMatrix.size - 10;
+    const col = bitMatrix.size - 11;
     const row = 0;
 
     // Draw the 3x6 blocks
