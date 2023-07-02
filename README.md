@@ -5,7 +5,7 @@ This project is being built just to test my programming skills. I wanted to writ
 **This project is still in Alpha please be aware if you want to fork it**
 
 ## Current Bugs
-- Generation starts failing after version 9
+- None that I an current aware of
 
 ## Current Features
 - Black and white QR generation from v1-v40
@@ -19,6 +19,19 @@ This project is being built just to test my programming skills. I wanted to writ
 - Better react integration
 - Publish package to NPM
 
+## In Progress
+- Better test coverage (should have done this first/sooner)
+- Regression testing for more versions and modes.
+- Code optimizations (small but noticable slowdown after V-19)
+
 ## Generation overview
-1. Choose Mode
-2. TODO
+1. Data Analysis
+2. Data Encoding
+3. Error correction coding
+4. Structuring final message
+5. Module placement
+7. Data Masking
+8. Format & Version info
+
+### acknowledgments & resources
+- https://www.thonky.com/qr-code-tutorial/
