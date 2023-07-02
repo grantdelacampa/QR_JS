@@ -145,10 +145,24 @@ export const alpanumericTable = [
 ];
 // Data table for ModeBitLength based on the mode type
 export const ModeBitLength = {
-  numeric: 10,
-  alphanumeric: 9,
-  byte: 8,
-  kanji: 8
+  9: {
+    numeric: 10,
+    alphanumeric: 9,
+    byte: 8,
+    kanji: 8
+  },
+  26: {
+    numeric: 12,
+    alphanumeric: 11,
+    byte: 16,
+    kanji: 10
+  },
+  40: {
+    numeric: 14,
+    alphanumeric: 13,
+    byte: 16,
+    kanji: 12
+  }
 };
 // Data table for errorCorrectionCodeWords
 // total #codewords, #EC/Block, #BlockInG1, #CW/BlockInG1, #BlockInG2, #CW/BlockInG2
