@@ -1,4 +1,4 @@
-import { ModeCapacities, PAD_BYTES } from '../../Constants/Constants';
+import { ModeBitLength, ModeCapacities, PAD_BYTES } from '../../Constants/Constants';
 import { padBitsEnd } from '../../Helpers/HelperFunctions';
 
 /**
@@ -18,6 +18,22 @@ export function getSmallestQRVersion(
     if (capacityArray[i] >= inputSize) {
       return [i + 1, capacityArray[i]];
     }
+  }
+}
+
+/**
+ * get the correct modeBitLength data based on version and mode
+ * @param {Number} version
+ * @param {String} mode
+ * @returns
+ */
+export function getModeBitLength(version, mode) {
+  if (version < 10) {
+    return ModeBitLength[9][mode];
+  } else if (version < 27) {
+    return ModeBitLength[26][mode];
+  } else if (version < 41) {
+    return ModeBitLength[40][mode];
   }
 }
 
