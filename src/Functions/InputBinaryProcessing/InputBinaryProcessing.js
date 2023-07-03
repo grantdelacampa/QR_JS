@@ -82,9 +82,7 @@ function processByte(inputValue) {
   // Instantiate text encoder
   const textEncoder = new TextEncoder();
   const utf8 = new Uint8Array(inputValue.length);
-
-  // eslint-disable-next-line
-  const encodedResults = textEncoder.encodeInto(inputValue, utf8);
+  textEncoder.encodeInto(inputValue, utf8);
   let binary = '';
   utf8.forEach((element) => {
     const thisBinary = element.toString(2);
