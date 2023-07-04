@@ -34,7 +34,6 @@ export const QRCodeGenerator = (text, errorCorrection) => {
     bitLength - binaryInputLength.length,
     binaryInputLength
   );
-  console.log(paddedInputLength, 'paddedInputLength');
 
   // Step 8 get the input as binary
   const encodedData = processInput(mode, text);

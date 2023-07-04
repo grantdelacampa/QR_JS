@@ -46,12 +46,9 @@ function isISO88591(str) {
 function isShiftJIS(str) {
   for (let i = 0; i < str.length; i++) {
     const charCode = str.charCodeAt(i);
-    if (
-      (charCode < 0x81 || charCode > 0x9f) &&
-      (charCode < 0xe0 || charCode > 0xfc)
-    ) {
-      return false;
+    if (charCode > 12288 && charCode < 40879) {
+      return true;
     }
   }
-  return true;
+  return false;
 }
