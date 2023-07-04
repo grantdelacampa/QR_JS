@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        {show && <QR size={298} data={text} errorCorrection='L'/>}
+        {show && <QR size={298} data={text} errorCorrection="L" />}
         <input
           type="text"
           value={text}

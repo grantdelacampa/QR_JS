@@ -126,7 +126,7 @@ const evaluateRule2 = (bitMatrix) => {
       const bitr2 = bitMatrix.getBit(r + 1, c);
       const bitr3 = bitMatrix.getBit(r, c + 1);
       const bitr4 = bitMatrix.getBit(r + 1, c + 1);
-      if ((bitr1 === bitr2) && (bitr2 === bitr3) && (bitr3 === bitr4)) {
+      if (bitr1 === bitr2 && bitr2 === bitr3 && bitr3 === bitr4) {
         score += 3;
       }
     }
@@ -143,8 +143,7 @@ const evaluateRule2 = (bitMatrix) => {
  */
 const evaluateRule3 = (bitMatrix) => {
   // Patterns to check
-  const patterns = ['1,0,1,1,1,0,1,0,0,0,0', '0,0,0,0,1,0,1,1,1,0,1'
-  ];
+  const patterns = ['1,0,1,1,1,0,1,0,0,0,0', '0,0,0,0,1,0,1,1,1,0,1'];
   // Score is default 0
   let score = 0;
   // Need one counter to step all the way down or to the right

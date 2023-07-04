@@ -1,4 +1,8 @@
-import { ModeBitLength, ModeCapacities, PAD_BYTES } from '../../Constants/Constants';
+import {
+  ModeBitLength,
+  ModeCapacities,
+  PAD_BYTES
+} from '../../Constants/Constants';
 import { padBitsEnd } from '../../Helpers/HelperFunctions';
 
 /**
@@ -41,9 +45,9 @@ export function getModeBitLength(version, mode) {
 
 /**
  * For the current input as binary pad it to match currentBits
- * @param {Number} totalBits 
- * @param {Number} currentBinary 
- * @returns 
+ * @param {Number} totalBits
+ * @param {Number} currentBinary
+ * @returns
  */
 export function fitTotalBits(totalBits = 0, currentBinary = '') {
   const currentDif = totalBits - currentBinary.length;

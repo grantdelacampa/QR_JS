@@ -2,7 +2,11 @@
     Numeric Processing Tests
 ======================================================================== */
 
-import { fitTotalBits, getModeBitLength, getSmallestQRVersion } from './DataEncoding';
+import {
+  fitTotalBits,
+  getModeBitLength,
+  getSmallestQRVersion
+} from './DataEncoding';
 
 describe('GetSmallestQRVersion', () => {
   test('Empty', () => {
@@ -28,70 +32,83 @@ describe('GetSmallestQRVersion', () => {
 
 describe('getModeBitLength', () => {
   test('1-9 Numeric', () => {
-    for(let i = 0; i < 10; i++){
+    for (let i = 0; i < 10; i++) {
       const modeBitLength = getModeBitLength(i, 'numeric');
       expect(modeBitLength).toEqual(10);
     }
   });
   test('10-26 Numeric', () => {
-    for(let i = 10; i < 27; i++){
+    for (let i = 10; i < 27; i++) {
       const modeBitLength = getModeBitLength(i, 'numeric');
       expect(modeBitLength).toEqual(12);
-    }});
+    }
+  });
   test('27-40 Numeric', () => {
-    for(let i = 27; i < 41; i++){
+    for (let i = 27; i < 41; i++) {
       const modeBitLength = getModeBitLength(i, 'numeric');
       expect(modeBitLength).toEqual(14);
-    }});
+    }
+  });
   test('1-9 AlphaNumeric', () => {
-    for(let i = 0; i < 10; i++){
+    for (let i = 0; i < 10; i++) {
       const modeBitLength = getModeBitLength(i, 'alphanumeric');
       expect(modeBitLength).toEqual(9);
-    }});
+    }
+  });
   test('10-26 AlphaNumeric', () => {
-    for(let i = 10; i < 27; i++){
+    for (let i = 10; i < 27; i++) {
       const modeBitLength = getModeBitLength(i, 'alphanumeric');
       expect(modeBitLength).toEqual(11);
-    }});
+    }
+  });
   test('27-40 AlphaNumeric', () => {
-    for(let i = 27; i < 41; i++){
+    for (let i = 27; i < 41; i++) {
       const modeBitLength = getModeBitLength(i, 'alphanumeric');
       expect(modeBitLength).toEqual(13);
-    }});
+    }
+  });
   test('1-9 Byte', () => {
-    for(let i = 0; i < 10; i++){
+    for (let i = 0; i < 10; i++) {
       const modeBitLength = getModeBitLength(i, 'byte');
       expect(modeBitLength).toEqual(8);
-    }});
+    }
+  });
   test('10-26 Byte', () => {
-    for(let i = 10; i < 27; i++){
+    for (let i = 10; i < 27; i++) {
       const modeBitLength = getModeBitLength(i, 'byte');
       expect(modeBitLength).toEqual(16);
-    }});
+    }
+  });
   test('27-40 Byte', () => {
-    for(let i = 27; i < 41; i++){
+    for (let i = 27; i < 41; i++) {
       const modeBitLength = getModeBitLength(i, 'byte');
       expect(modeBitLength).toEqual(16);
-    }});
-    test('1-9 Kanji', () => {
-      for(let i = 0; i < 10; i++){
-        const modeBitLength = getModeBitLength(i, 'kanji');
-        expect(modeBitLength).toEqual(8);
-      }});
-    test('10-26 Kanji', () => {
-      for(let i = 10; i < 27; i++){
-        const modeBitLength = getModeBitLength(i, 'kanji');
-        expect(modeBitLength).toEqual(10);
-      }});
-    test('27-40 Kanji', () => {
-      for(let i = 27; i < 41; i++){
-        const modeBitLength = getModeBitLength(i, 'kanji');
-        expect(modeBitLength).toEqual(12);
-      }});
-    test('Error', () => {
-      expect(() => {getModeBitLength(50, 'test')}).toThrowError("Unknown Version");
-    })
-})
+    }
+  });
+  test('1-9 Kanji', () => {
+    for (let i = 0; i < 10; i++) {
+      const modeBitLength = getModeBitLength(i, 'kanji');
+      expect(modeBitLength).toEqual(8);
+    }
+  });
+  test('10-26 Kanji', () => {
+    for (let i = 10; i < 27; i++) {
+      const modeBitLength = getModeBitLength(i, 'kanji');
+      expect(modeBitLength).toEqual(10);
+    }
+  });
+  test('27-40 Kanji', () => {
+    for (let i = 27; i < 41; i++) {
+      const modeBitLength = getModeBitLength(i, 'kanji');
+      expect(modeBitLength).toEqual(12);
+    }
+  });
+  test('Error', () => {
+    expect(() => {
+      getModeBitLength(50, 'test');
+    }).toThrowError('Unknown Version');
+  });
+});
 
 describe('FitTotalBits', () => {
   test('Zero', () => {

@@ -20,8 +20,7 @@ export function decideMode(input) {
   } else if (isShiftJIS(input)) {
     return 'kanji';
   }
-
-  return null;
+  throw new Error('Failed to find correct encoding mode');
 }
 
 /**
@@ -40,7 +39,7 @@ function isISO88591(str) {
 
 /**
  * isShiftJIS
- *    Parse through a string to determing if all characters fall in the SHIFTJS encoding
+ *    Parse through a string to determine if all characters fall in the SHIFTJS encoding
  * @param {String} str
  * @returns
  */
