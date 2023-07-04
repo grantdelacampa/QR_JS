@@ -34,9 +34,17 @@ export function getModeBitLength(version, mode) {
     return ModeBitLength[26][mode];
   } else if (version < 41) {
     return ModeBitLength[40][mode];
+  } else {
+    throw Error('Unknown Version');
   }
 }
 
+/**
+ * For the current input as binary pad it to match currentBits
+ * @param {Number} totalBits 
+ * @param {Number} currentBinary 
+ * @returns 
+ */
 export function fitTotalBits(totalBits = 0, currentBinary = '') {
   const currentDif = totalBits - currentBinary.length;
   // If the required number of bits is met do nothing
