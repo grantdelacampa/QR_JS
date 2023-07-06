@@ -9,13 +9,12 @@ This project is being built just to test my programming skills. I wanted to writ
 
 ## Current Features
 - Black and white QR generation from v1-v40
-- Modes for numeric, alphanumeric, and byte.
+- Modes for numeric, alphanumeric, byte, and Kanji via Byte.
 - Variable error correction mode selection.
 
 ## Planned Features
 - Allow the user to change the colors for the 0 and 1 pixels.
 - Allow variable whitespace size.
-- Kanji Mode
 - Better react integration
 - Publish package to NPM
 
@@ -35,3 +34,4 @@ This project is being built just to test my programming skills. I wanted to writ
 
 ### acknowledgments & resources
 - https://www.thonky.com/qr-code-tutorial/
+- https://www.nayuki.io/page/creating-a-qr-code-step-by-step
