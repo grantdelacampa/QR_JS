@@ -20,8 +20,7 @@ export function decideMode(input) {
   } else if (isShiftJIS(input)) {
     return 'kanji';
   }
-
-  return null;
+  throw new Error('Failed to find correct encoding mode');
 }
 
 /**
@@ -40,19 +39,16 @@ function isISO88591(str) {
 
 /**
  * isShiftJIS
- *    Parse through a string to determing if all characters fall in the SHIFTJS encoding
+ *    Parse through a string to determine if all characters fall in the SHIFTJS encoding
  * @param {String} str
  * @returns
  */
 function isShiftJIS(str) {
-  for (let i = 0; i < str.length; i++) {
+  for (let i = 0; i <= str.length; i++) {
     const charCode = str.charCodeAt(i);
-    if (
-      (charCode < 0x81 || charCode > 0x9f) &&
-      (charCode < 0xe0 || charCode > 0xfc)
-    ) {
-      return false;
+    if (charCode > 12288 && charCode < 40879) {
+      return true;
     }
   }
-  return true;
+  return false;
 }

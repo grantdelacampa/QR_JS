@@ -17,9 +17,12 @@ import { DrawQRCode } from '../Functions/MatrixPopulation/DrawQRCode';
 
 export const QRCodeGenerator = (text, errorCorrection) => {
   // Step 1 Decide the mode based on input
-  const mode = decideMode(text);
+  let mode = decideMode(text);
+  // Step 8 get the input as binary
+  const encodedData = processInput(mode, text);
   // Step 2 get inputSize
-  const inputSize = text.length;
+  const inputSize = Math.round(encodedData.length / 8);
+  mode = mode === 'kanji' ? 'byte' : mode;
   // Step 3 Get the smallest size [version, size]
   const capacityArray = getSmallestQRVersion(inputSize, mode, errorCorrection);
   // Step 4 Get the modeIndicator binary
@@ -34,10 +37,6 @@ export const QRCodeGenerator = (text, errorCorrection) => {
     bitLength - binaryInputLength.length,
     binaryInputLength
   );
-  console.log(paddedInputLength, 'paddedInputLength');
-
-  // Step 8 get the input as binary
-  const encodedData = processInput(mode, text);
   // Step 9 get the Error correction info [total#words, EC/block, #BlocksG1, #wordsG1Block, #blocksG2, #wordsG2Block]
   const errCorrectionInfo =
     ErrorCorrectionCodeWordsBlock[capacityArray[0] + '-' + errorCorrection]; // Step 10 get the Required number of bits for the QR code

@@ -17,7 +17,7 @@ export function processInput(mode, input) {
     case 'byte':
       return processByte(input);
     case 'kanji':
-      return 'TODO';
+      return processKanji(input);
     default:
       return 'ERROR';
   }
@@ -88,5 +88,19 @@ function processByte(inputValue) {
     const thisBinary = element.toString(2);
     binary = binary + padBits(8 - thisBinary.length, thisBinary);
   });
+  return binary;
+}
+
+function processKanji(inputValue) {
+  // Instantiate text encoder
+  const textEncoder = new TextEncoder();
+  let binary = '';
+  for (let i = 0; i < inputValue.length; i++) {
+    const view = textEncoder.encode(inputValue[i]);
+    view.forEach((element) => {
+      const thisBinary = element.toString(2);
+      binary = binary + padBits(8 - thisBinary.length, thisBinary);
+    });
+  }
   return binary;
 }
