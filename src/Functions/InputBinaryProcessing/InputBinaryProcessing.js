@@ -1,3 +1,11 @@
+/**
+ * QR Code Input Binary Processing function
+ *
+ * @link   InputBinaryProcessing
+ * @file   This file contains the functions used for processing input into the proper binary based on mode.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { alpanumericTable } from '../../Constants/Constants';
 import { padBits, splitIntoGroups } from '../../Helpers/HelperFunctions';
 

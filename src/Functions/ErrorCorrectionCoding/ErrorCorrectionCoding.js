@@ -1,3 +1,11 @@
+/**
+ * QR Code Error Correction Coding functions
+ *
+ * @link   ErrorCorrection
+ * @file   This file contains the functions used for rror Correction Coding in QR code generation
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { alphaToInt } from '../../Constants/Constants';
 import { padBits } from '../../Helpers/HelperFunctions';
 import { Polynomial } from '../../Objects/Polynomial';

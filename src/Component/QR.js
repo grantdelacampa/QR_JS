@@ -3,6 +3,11 @@ import { useEffect } from 'react';
 import { useRef } from 'react';
 import { QRCodeGenerator } from '../Driver/QRCodeGenerator';
 
+/**
+ * Handles drawing a QR code BitMatrix into a <canvas> element
+ * @param {*} param0
+ * @returns
+ */
 export const QR = ({
   id = 'QR',
   size = 100,
@@ -50,6 +55,12 @@ export const QR = ({
   return <canvas id={id} height={size} width={size} ref={canvasRef} />;
 };
 
+/**
+ * Calcualte the scaling factor to size the QR Code pixels to the size of the canvas
+ * @param {Number} qrSize 
+ * @param {Number} canvasSize 
+ * @returns 
+ */
 const getScale = (qrSize, canvasSize) => {
   return canvasSize && canvasSize >= qrSize + 4 * 2
     ? canvasSize / (qrSize + 4 * 2)

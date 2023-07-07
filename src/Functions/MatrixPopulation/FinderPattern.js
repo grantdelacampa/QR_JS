@@ -1,4 +1,12 @@
 /**
+ * QR Code Finder Pattern.
+ * 
+ * @link   FinderPattern
+ * @file   This file contains the function calls to draw the Finder Pattern.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
+/**
  * Populate the FinderPattern in the given bit matrix also populate the separators
  * @param {BitMatrix} bitMatrix
  */

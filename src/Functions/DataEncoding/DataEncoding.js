@@ -1,3 +1,11 @@
+/**
+ * QR Code Data Encoding functions
+ *
+ * @link   DataEncoding
+ * @file   This file contains the functions used for Data Encoding in QR code generation
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import {
   ModeBitLength,
   ModeCapacities,

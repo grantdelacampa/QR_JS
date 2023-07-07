@@ -1,3 +1,11 @@
+/**
+ * QR Code Alignment Pattern function
+ *
+ * @link   AlignmentPattern
+ * @file   This file contains the function used to draw the Alignment pattern into a Bitmatrix.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { alignmnetPatternLocations } from '../../Constants/Constants';
 
 /**

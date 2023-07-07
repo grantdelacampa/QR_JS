@@ -1,3 +1,11 @@
+/**
+ * QR Code Draw function calls.
+ * 
+ * @link   DrawQRCode
+ * @file   This file contains the function calls to populate the final BitMatrix representation of the QR code.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { getQRSize } from '../../Helpers/HelperFunctions';
 import { FinderPatter } from './FinderPattern';
 import { BitMatrix } from '../../Objects/BitMatrix';

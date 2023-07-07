@@ -1,3 +1,12 @@
+/**
+ * QR Code Dark Module and Reserved Areas functions.
+ * Note: Dark module is drawn here rather than on its own.
+ *
+ * @link   DarkModule&ReservedAreas
+ * @file   This file contains the function used to draw the Dark Module and Reserved Areas pattern(s) into a Bitmatrix.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { getDarkModule } from '../../Helpers/HelperFunctions';
 
 /**

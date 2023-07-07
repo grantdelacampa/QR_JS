@@ -1,8 +1,15 @@
+/**
+ * QR Code Data Analysis functions
+ *
+ * @link   DataAnalysis
+ * @file   This file contains the functions used for DataAnalysis in QR code generation
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { IS_ALPHANUMERIC, IS_NUMERIC } from '../../Constants/Constants';
 
 /**
  *    Determine the encoding mode for the QRCode based on the input value
- *    todo: Fix SHIFT JIS
  * @param {String} input
  * @returns
  */
