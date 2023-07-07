@@ -10,9 +10,9 @@ import { splitIntoGroups } from '../../Helpers/HelperFunctions';
 import { Groups } from '../../Objects/Groups';
 /**
  * Uses the errorCorrectionInfo to process groups of codeWord data into the correct groups and respective blocks
- * @param {[]} processedCodeWords 
- * @param {[]} errCorrectionInfo 
- * @returns 
+ * @param {[]} processedCodeWords
+ * @param {[]} errCorrectionInfo
+ * @returns
  */
 export function groupCodewords(processedCodeWords, errCorrectionInfo) {
   // break the codewords into an array of 8 bit binary strings

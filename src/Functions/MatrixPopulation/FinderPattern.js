@@ -1,6 +1,6 @@
 /**
  * QR Code Finder Pattern.
- * 
+ *
  * @link   FinderPattern
  * @file   This file contains the function calls to draw the Finder Pattern.
  * @author Grant De La Campa.

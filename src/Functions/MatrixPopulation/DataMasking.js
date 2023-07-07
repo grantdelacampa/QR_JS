@@ -1,7 +1,7 @@
 /**
  * QR Code Data Masking functions.
  * Contains the function to apply the data masking, apply the 4 evaluation rules to each and determine the correct masked bitmatrix to return.
- * 
+ *
  * @link   DataMasking
  * @file   This file contains the function used to generate, apply, and evaluate the 8 data mask patterns.
  * @author Grant De La Campa.

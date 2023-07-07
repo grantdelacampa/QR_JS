@@ -57,9 +57,9 @@ export const QR = ({
 
 /**
  * Calcualte the scaling factor to size the QR Code pixels to the size of the canvas
- * @param {Number} qrSize 
- * @param {Number} canvasSize 
- * @returns 
+ * @param {Number} qrSize
+ * @param {Number} canvasSize
+ * @returns
  */
 const getScale = (qrSize, canvasSize) => {
   return canvasSize && canvasSize >= qrSize + 4 * 2

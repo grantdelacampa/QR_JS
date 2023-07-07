@@ -1,5 +1,5 @@
 /**
- * This driver function contains the various steps required to generate the final Bitmatrix representation of a QR code. 
+ * This driver function contains the various steps required to generate the final Bitmatrix representation of a QR code.
  *
  * @link   QRCodeGenerator
  * @file   This files defines the driver functions for QR code data generation.
@@ -24,10 +24,10 @@ import { StructureFinalMessage } from '../Functions/StructureFinalMessage/Struct
 import { DrawQRCode } from '../Functions/MatrixPopulation/DrawQRCode';
 
 /**
- * Runs the given text through the various steps of QR encoding. 
- * @param {String} text 
- * @param {Char} errorCorrection 
- * @returns 
+ * Runs the given text through the various steps of QR encoding.
+ * @param {String} text
+ * @param {Char} errorCorrection
+ * @returns
  */
 export const QRCodeGenerator = (text, errorCorrection) => {
   // Step 1 Decide the mode based on input
