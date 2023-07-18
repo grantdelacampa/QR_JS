@@ -10,17 +10,19 @@
 import { BitMatrix } from '../../Objects/BitMatrix';
 import { DrawFormatInfo } from './DrawFormatInfo';
 export const DataMasking = (bitMatrix, errCrtnLvl) => {
+  // BitMatrix size will not change even when masked so just get it here once
+  const matrixSize = bitMatrix.size;
   // Get the array of maskes matricies
-  const maskedMatricies = evaluateMasks(bitMatrix);
+  const maskedMatricies = evaluateMasks(bitMatrix, matrixSize);
   const scores = [];
   let smallest = 0;
   // Iterate on the array and evaluate for each rule
   maskedMatricies.forEach((matrix, index) => {
     DrawFormatInfo(matrix, index, errCrtnLvl);
-    const score1 = evaluateRule1(matrix);
-    const score2 = evaluateRule2(matrix);
-    const score3 = evaluateRule3(matrix);
-    const score4 = evaluateRule4(matrix);
+    const score1 = evaluateRule1(matrix, matrixSize);
+    const score2 = evaluateRule2(matrix, matrixSize - 1);
+    const score3 = evaluateRule3(matrix, matrixSize);
+    const score4 = evaluateRule4(matrix, matrixSize);
     // Total the rule evals
     scores[index] = score1 + score2 + score3 + score4;
     // Track the index of the lowest score
@@ -28,8 +30,6 @@ export const DataMasking = (bitMatrix, errCrtnLvl) => {
       smallest = index;
     }
   });
-  console.log('Total Scores: ' + scores);
-  console.log('Final Mask Pattern: ' + smallest);
   // return the matrix with the smallest score
   return [smallest, maskedMatricies[smallest]];
 };
@@ -37,16 +37,18 @@ export const DataMasking = (bitMatrix, errCrtnLvl) => {
 /**
  * Runs the masking algo on 8 copies of the bitMatrix. Then evaluates the results to find the best pattern
  * @param {BitMatrix} bitMatrix
+ * @param {Number} matrixSize
+ * @returns [BitMatrix]
  */
-const evaluateMasks = (bitMatrix) => {
+const evaluateMasks = (bitMatrix, matrixSize) => {
   // Create the array of masks
   const maskedMatricies = [];
   for (let i = 0; i < 8; i++) {
     maskedMatricies.push(new BitMatrix(bitMatrix.size));
   }
   // Traverse the bitMatrix, since eveything is accessed in a non-linear way we need to use nested loops
-  for (let r = 0; r < bitMatrix.size; r++) {
-    for (let c = 0; c < bitMatrix.size; c++) {
+  for (let r = 0; r < matrixSize; r++) {
+    for (let c = 0; c < matrixSize; c++) {
       const isReserved = bitMatrix.isReserved(r, c);
       const bit = bitMatrix.getBit(r, c);
       // Iterate on the mask bitMatricies
@@ -57,7 +59,6 @@ const evaluateMasks = (bitMatrix) => {
           // if this bit is not reserved & it needs to be masked according to the pattern then xor it with true to flip it
           if (getMaskPattern(r, c, index)) {
             matrix.xorBit(r, c, true);
-            // console.log(bit + ": [" + r + ", " + c + "] Masked to: " + matrix.getBit(r,c) + " in mask: " + index);
           }
         }
       });
@@ -71,16 +72,17 @@ const evaluateMasks = (bitMatrix) => {
  *
  * - The first rule gives the QR code a penalty for each group of five or more same-colored modules in a row (or column).
  * @param {BitMatrix} bitMatrix
- * @returns
+ * @param {Number} matrixSize
+ * @returns Number
  */
-const evaluateRule1 = (bitMatrix) => {
+const evaluateRule1 = (bitMatrix, matrixSize) => {
   let currentColColor = bitMatrix.getBit(0, 0);
   let colCount = 0;
   let currentRowColor = bitMatrix.getBit(0, 0);
   let rowCount = 0;
   let score = 0;
-  for (let i = 0; i < bitMatrix.size; i++) {
-    for (let j = 0; j < bitMatrix.size; j++) {
+  for (let i = 0; i < matrixSize; i++) {
+    for (let j = 0; j < matrixSize; j++) {
       // col
       const rowBit = bitMatrix.getBit(j, i);
       // row
@@ -124,12 +126,13 @@ const evaluateRule1 = (bitMatrix) => {
  * - NOTE: The QR code specification says that for a solid-color block of size m × n, the penalty score is 3 × (m - 1) × (n - 1). However, the QR code specification does not specify how to calculate the penalty when there are multiple ways of dividing up the solid-color blocks.
  * - Therefore, rather than looking for solid-color blocks larger than 2x2, simply add 3 to the penalty score for every 2x2 block of the same color in the QR code, making sure to count overlapping 2x2 blocks. For example, a 3x2 block of the same color should be counted as two 2x2 blocks, one overlapping the other.
  * @param {BitMatrix} bitMatrix
- * @returns
+ * @param {Number} matrixSize
+ * @returns Number
  */
-const evaluateRule2 = (bitMatrix) => {
+const evaluateRule2 = (bitMatrix, matrixSize) => {
   let score = 0;
-  for (let r = 0; r < bitMatrix.size - 1; r++) {
-    for (let c = 0; c < bitMatrix.size - 1; c++) {
+  for (let r = 0; r < matrixSize; r++) {
+    for (let c = 0; c < matrixSize; c++) {
       const bitr1 = bitMatrix.getBit(r, c);
       const bitr2 = bitMatrix.getBit(r + 1, c);
       const bitr3 = bitMatrix.getBit(r, c + 1);
@@ -147,17 +150,18 @@ const evaluateRule2 = (bitMatrix) => {
  *
  * - The third rule gives the QR code a large penalty if there are patterns that look similar to the finder patterns.
  * @param {BitMatrix} bitMatrix
- * @returns
+ * @param {Number} matrixSize
+ * @returns Number
  */
-const evaluateRule3 = (bitMatrix) => {
+const evaluateRule3 = (bitMatrix, matrixSize) => {
   // Patterns to check
   const patterns = ['1,0,1,1,1,0,1,0,0,0,0', '0,0,0,0,1,0,1,1,1,0,1'];
   // Score is default 0
   let score = 0;
   // Need one counter to step all the way down or to the right
-  for (let i = 0; i < bitMatrix.size; i++) {
+  for (let i = 0; i < matrixSize; i++) {
     // Need one counter to stop 10 before the bottom or right
-    for (let j = 0; j < bitMatrix.size - 10; j++) {
+    for (let j = 0; j < matrixSize - 10; j++) {
       const rowPattern = [];
       const colPattern = [];
       // Generate the pattern to validate against the patterns
@@ -183,14 +187,13 @@ const evaluateRule3 = (bitMatrix) => {
  *
  * - The fourth rule gives the QR code a penalty if more than half of the modules are dark or light, with a larger penalty for a larger difference.
  * @param {BitMatrix} bitMatrix
- * @returns
+ * @param {Number} matrixSize
+ * @returns Number
  */
-const evaluateRule4 = (bitMatrix) => {
+const evaluateRule4 = (bitMatrix, matrixSize) => {
   let blkCnt = 0;
-  // 1) Count total number of cells
-  const totalCells = bitMatrix.size * bitMatrix.size;
-  for (let i = 0; i < bitMatrix.size; i++) {
-    for (let j = 0; j < bitMatrix.size; j++) {
+  for (let i = 0; i < matrixSize; i++) {
+    for (let j = 0; j < matrixSize; j++) {
       // 2 count dark modules
       if (bitMatrix.getBit(i, j)) {
         blkCnt++;
@@ -198,7 +201,7 @@ const evaluateRule4 = (bitMatrix) => {
     }
   }
   // 3 calculate percent of dark modules
-  const percent = (blkCnt / totalCells) * 100;
+  const percent = (blkCnt / (matrixSize * matrixSize)) * 100;
   // 4. Determine the prev and next multiple of 5 for this percent
   const floor = percent - (percent % 5);
   const ceiling = percent + (5 - (percent % 5));
@@ -214,11 +217,11 @@ const evaluateRule4 = (bitMatrix) => {
 };
 
 /**
- *
+ * Check if a [r,c] needs to be fliped based on the maskNo
  * @param {Number} r
  * @param {Number} c
  * @param {Number} maskNo
- * @returns
+ * @returns Boolean
  */
 const getMaskPattern = (r, c, maskNo) => {
   switch (maskNo) {

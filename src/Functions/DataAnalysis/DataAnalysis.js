@@ -36,7 +36,8 @@ export function decideMode(input) {
  * @returns
  */
 function isISO88591(str) {
-  for (let i = 0; i < str.length; i++) {
+  const strLength = str.length;
+  for (let i = 0; i < strLength; i++) {
     if (str.charCodeAt(i) > 255) {
       return false;
     }
@@ -51,7 +52,8 @@ function isISO88591(str) {
  * @returns
  */
 function isShiftJIS(str) {
-  for (let i = 0; i <= str.length; i++) {
+  const strLength = str.length;
+  for (let i = 0; i <= strLength; i++) {
     const charCode = str.charCodeAt(i);
     if (charCode > 12288 && charCode < 40879) {
       return true;

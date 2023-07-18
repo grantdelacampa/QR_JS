@@ -6,17 +6,15 @@
  * @author Grant De La Campa.
  * @since  1.0.0
  */
-import { getQRSize } from '../../Helpers/HelperFunctions';
 import { FinderPatter } from './FinderPattern';
 import { BitMatrix } from '../../Objects/BitMatrix';
 import { SeperatorPattern } from './SeperatorPattern';
 import { AlignmentPattern } from './AlignmentPattern';
 import { TimingPatterns } from './TimingPatterns';
 import { ReserveFormatArea } from './DarkModule&ReservedAreas';
-import { VersionInfoArea } from './VersionInfoArea';
 import { DataPattern } from './DataPattern';
 import { DataMasking } from './DataMasking';
-import { VersionInfo } from './VersionInfo';
+import { VersionInfo, VersionInfoArea } from './VersionInfo';
 
 /**
  * Driver for drawing the QR code to the bitMatrix
@@ -25,7 +23,7 @@ import { VersionInfo } from './VersionInfo';
  * @param {String} errCrtnLvl
  */
 export const DrawQRCode = (version, codeData, errCrtnLvl) => {
-  const qrSize = getQRSize(version);
+  const qrSize = (version - 1) * 4 + 21;
   const bitMatrix = new BitMatrix(qrSize);
   FinderPatter(bitMatrix, qrSize);
   SeperatorPattern(bitMatrix);

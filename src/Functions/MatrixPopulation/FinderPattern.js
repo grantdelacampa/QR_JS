@@ -32,11 +32,9 @@ export function FinderPatter(bitMatrix) {
         ) {
           // Set the 1 bits, and reserve this bit
           bitMatrix.setBit(row + r, col + c, true, true);
-          // console.log('1: ' + (row + r) + ', ' + (col + c));
         } else {
           // set the 0 bits, and reserve this bit
           bitMatrix.setBit(row + r, col + c, false, true);
-          // console.log('0: ' + (row + r) + ', ' + (col + c));
         }
       }
     }

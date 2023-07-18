@@ -24,11 +24,13 @@ export const multiply = (multiplicand, multiplier) => {
   const finalDegrees = [];
   // Store the visited coefs as [{element0 : index},...{elementN : index}]
   const visitedDegrees = [];
+  const multiplicandSize = multiplicand.size;
+  const multiplierSize = multiplier.size;
 
   // Iterate through the multiplicand coefs
-  for (let i = 0; i < multiplicand.size; i++) {
+  for (let i = 0; i < multiplicandSize; i++) {
     // Iterate through the multiplier coefs
-    for (let j = 0; j < multiplier.size; j++) {
+    for (let j = 0; j < multiplierSize; j++) {
       // Get the added degrees and push them to the final array
       const degResult = multiplicand.degreeAt(i) + multiplier.degreeAt(j);
       // Get the added coef as an alpha value
@@ -37,7 +39,7 @@ export const multiply = (multiplicand, multiplier) => {
       // perform the galosreduction as needed
       const coefResult =
         coefAlphaResult > 255
-          ? galosExponetReduction(coefAlphaResult)
+          ? ((coefAlphaResult % 256) + Math.floor(coefAlphaResult / 256))
           : coefAlphaResult;
 
       // Check if the degree has been seen before
@@ -94,16 +96,6 @@ export const xorPolynomial = (expressionOne, expressionTwo) => {
   }
   // if the leading coef is 0 remove it and the respective degreee
   return new Polynomial(newCoef, newDegrees);
-};
-
-/**
- * Takes the given value and performs the following
- * (e % 256) + Math.floor(e / 256)
- * @param {Integer} exponent
- * @returns Integer
- */
-const galosExponetReduction = (exponent) => {
-  return (exponent % 256) + Math.floor(exponent / 256);
 };
 
 /**

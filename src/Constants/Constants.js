@@ -8,16 +8,30 @@
  * @author Grant De La Campa.
  * @since  1.0.0
  */
+/**
+ * Regex to check if a string is composed of numeric characters only.
+ */
 export const IS_NUMERIC = /^\d+$/;
+/**
+ * Regex to check if a string is composed of AlphaNumeric characters only.
+ */
 export const IS_ALPHANUMERIC = /^[0-9A-Z $%*+\-./:]*$/;
+/**
+ * Object containing the 4 bit mode indicator binary
+ */
 export const ModeIndicator = {
   numeric: '0001',
   alphanumeric: '0010',
   byte: '0100',
   kanji: '0111'
 };
+/**
+ * Object containing the two 8 bit pad bytes.
+ */
 export const PAD_BYTES = ['11101100', '00010001'];
-// Data table for the capacities of each mode by error correction
+/**
+ * Data table for the capacities of each mode by error correction level
+ */
 export const ModeCapacities = {
   numeric: {
     L: [
@@ -111,7 +125,9 @@ export const ModeCapacities = {
     ]
   }
 };
-// Data table to convert alphanumeric chars to their correct values alphanumericTable.indexOf(char);
+/**
+ * Data table to convert alphanumeric chars to their correct values alphanumericTable.indexOf(char);
+ */
 export const alpanumericTable = [
   0,
   1,
@@ -159,7 +175,9 @@ export const alpanumericTable = [
   '/',
   ':'
 ];
-// Data table for ModeBitLength based on the mode type
+/**
+ * Data table for ModeBitLength based on the mode type
+ */
 export const ModeBitLength = {
   9: {
     numeric: 10,
@@ -180,8 +198,10 @@ export const ModeBitLength = {
     kanji: 12
   }
 };
-// Data table for errorCorrectionCodeWords
-// total #codewords, #EC/Block, #BlockInG1, #CW/BlockInG1, #BlockInG2, #CW/BlockInG2
+/**
+ * Data table for errorCorrectionCodeWords
+ * @example result: [total #codewords, #EC/Block, #BlockInG1, #CW/BlockInG1, #BlockInG2, #CW/BlockInG2]
+ */
 export const ErrorCorrectionCodeWordsBlock = {
   '1-L': [19, 7, 1, 19, 19],
   '1-M': [16, 10, 1, 16, 16],
@@ -383,8 +403,9 @@ export const ErrorCorrectionCodeWordsBlock = {
   '40-Q': [1666, 30, 34, 24, 34, 25, 1666],
   '40-H': [1276, 30, 20, 15, 61, 16, 1276]
 };
-
-// Conversion for a^n values to get their repsective int alphaToInt[n]
+/**
+ * Conversion table for a^n values to get their repsective int alphaToInt[n]
+ */
 export const alphaToInt = [
   1, 2, 4, 8, 16, 32, 64, 128, 29, 58, 116, 232, 205, 135, 19, 38, 76, 152, 45,
   90, 180, 117, 234, 201, 143, 3, 6, 12, 24, 48, 96, 192, 157, 39, 78, 156, 37,
@@ -403,8 +424,9 @@ export const alphaToInt = [
   235, 203, 139, 11, 22, 44, 88, 176, 125, 250, 233, 207, 131, 27, 54, 108, 216,
   173, 71, 142, 1
 ];
-
-// Conversion for n values to get their repsective a^n intToAlpha[n]
+/**
+ * Conversion table for n values to get their repsective a^n intToAlpha[n]
+ */
 export const intToAlpha = [
   0, 0, 1, 25, 2, 50, 26, 198, 3, 223, 51, 238, 27, 104, 199, 75, 4, 100, 224,
   14, 52, 141, 239, 129, 28, 193, 105, 248, 200, 8, 76, 113, 5, 138, 101, 47,
@@ -424,11 +446,17 @@ export const intToAlpha = [
   175
 ];
 
+/**
+ * List to get the remainder bits neccesary based on the QR code version
+ */
 export const remainderBitsByVersion = [
   0, 0, 7, 7, 7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 3, 3, 3, 3, 3, 3, 3, 4, 4, 4, 4, 4,
   4, 4, 3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 0
 ];
 
+/**
+ * Table to get the alignment pattern locations based on the QR code Version
+ */
 export const alignmnetPatternLocations = [
   [],
   [],
@@ -474,6 +502,8 @@ export const alignmnetPatternLocations = [
 ];
 
 /**
+ *  List to get the Format Info 15 bit Binary based on the QR Code Version
+ *
  * The format string is always 15 bits long. To create the string, you first create a
  * five bit string that encodes the error correction level and the mask pattern in use
  * in this QR code. Then you use those five bits to generate ten error correction bits.
@@ -519,6 +549,8 @@ export const FormatInfoStrings = {
 };
 
 /**
+ * List to get the Version Info 0/34 bit Binary based on the QR Code Version
+ *
  * The QR Code specification says to use the (18, 6) Golay code for the
  * version information string. As such, the version information string is
  * an 18 bit string that consists of a six bit binary string that encodes the

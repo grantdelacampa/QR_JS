@@ -67,7 +67,6 @@ export const QRCodeGenerator = (text, errorCorrection) => {
     errCorrectionInfo,
     remainderBitsByVersion[capacityArray[0]]
   );
-  console.log(finalMessage);
   // Step 15 Draw the code
   const finalMatrix = DrawQRCode(
     capacityArray[0],
