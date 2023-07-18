@@ -3,10 +3,10 @@
  * The use of theses constants is in many cases to reduce the redunancy of calculations
  * that would always return a result from a constant set.
  *
- * @link   URL
+ * @link   Constants
  * @file   This files defines the constants used in QR code generation.
  * @author Grant De La Campa.
- * @since  x.x.x
+ * @since  1.0.0
  */
 export const IS_NUMERIC = /^\d+$/;
 export const IS_ALPHANUMERIC = /^[0-9A-Z $%*+\-./:]*$/;

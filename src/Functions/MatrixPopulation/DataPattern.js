@@ -1,6 +1,18 @@
-/* eslint-disable */
+/**
+ * QR Code Data Pattern function.
+ *
+ * @link   DataPattern
+ * @file   This file contains the function used draw the Data Pattern.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { splitIntoGroups } from '../../Helpers/HelperFunctions';
 
+/**
+ * Draw the final processed data codewords into the given bitmatrix
+ * @param {BitMatrix} bitMatrix
+ * @param {[]} data
+ */
 export const DataPattern = (bitMatrix, data) => {
   const bitArray = splitIntoGroups(data, 1);
   let dir = true;

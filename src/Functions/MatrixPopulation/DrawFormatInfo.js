@@ -1,7 +1,15 @@
+/**
+ * QR Code Draw Format Info function.
+ *
+ * @link   FormatInfo
+ * @file   This file contains the function used draw the Draw Format Info pattern.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { FormatInfoStrings } from '../../Constants/Constants';
 
 /**
- *
+ * Draw the format info into the givenBitMatrix
  * @param {Array[Number, BitMatrix]} dataMaskResult
  * @param {Char} errCrtnLvl
  */

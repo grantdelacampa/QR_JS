@@ -1,3 +1,11 @@
+/**
+ * Polynomial Class.
+ *
+ * @link   Polynomial
+ * @file   This file contains a programatic representation of a Poylnomial.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 export class Polynomial {
   #coefs = [];
   #degrees = [];

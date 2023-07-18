@@ -1,4 +1,12 @@
 /**
+ * QR Code Timing Pattern function.
+ *
+ * @link   TimingPattern
+ * @file   This file contains the function used draw the Timing pattern.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
+/**
  * Helper to draw the timingPatterns to the bitmatrix
  * @param {BitMatrix} bitMatrix
  */
@@ -11,13 +19,9 @@ export function TimingPatterns(bitMatrix) {
     if (p % 2 === 0) {
       bitMatrix.setBit(STARTPOINT - 2, p, true, true);
       bitMatrix.setBit(p, STARTPOINT - 2, true, true);
-      // console.log('1 -> Row: ' + (STARTPOINT - 2) + ', Col: ' + p);
-      // console.log('1 -> Col: ' + (STARTPOINT - 2) + ', Col: ' + p);
     } else {
       bitMatrix.setBit(STARTPOINT - 2, p, false, true);
       bitMatrix.setBit(p, STARTPOINT - 2, false, true);
-      //  console.log('0 -> Row: ' + (STARTPOINT - 2) + ', Col: ' + p);
-      // console.log('0 -> Col: ' + (STARTPOINT - 2) + ', Col: ' + p);
     }
   }
 }

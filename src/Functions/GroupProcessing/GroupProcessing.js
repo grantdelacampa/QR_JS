@@ -1,5 +1,19 @@
+/**
+ * QR Code Group Processing function
+ *
+ * @link   GroupProcessing
+ * @file   This file contains the functions used for processing groups of code words.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { splitIntoGroups } from '../../Helpers/HelperFunctions';
 import { Groups } from '../../Objects/Groups';
+/**
+ * Uses the errorCorrectionInfo to process groups of codeWord data into the correct groups and respective blocks
+ * @param {[]} processedCodeWords
+ * @param {[]} errCorrectionInfo
+ * @returns
+ */
 export function groupCodewords(processedCodeWords, errCorrectionInfo) {
   // break the codewords into an array of 8 bit binary strings
   const splitCodeWords = splitIntoGroups(processedCodeWords, 8);
