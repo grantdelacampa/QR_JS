@@ -39,15 +39,6 @@ export function padBitsEnd(padding, target) {
 }
 
 /**
- * Get the size of a QR code based on the version
- * @param {Number} version
- * @returns
- */
-export function getQRSize(version) {
-  return (version - 1) * 4 + 21;
-}
-
-/**
  * Find the scale number to fit qrSize to canvasSize
  * @param {Number} qrSize
  * @param {Number} canvasSize

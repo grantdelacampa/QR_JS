@@ -27,8 +27,9 @@ export function getSmallestQRVersion(
 ) {
   const capacityArray = ModeCapacities[mode][errorCorrection];
   for (let i = 0; i <= 40; i++) {
-    if (capacityArray[i] >= inputSize) {
-      return [i + 1, capacityArray[i]];
+    const capacityValue = capacityArray[i];
+    if (capacityValue >= inputSize) {
+      return [i + 1, capacityValue];
     }
   }
 }

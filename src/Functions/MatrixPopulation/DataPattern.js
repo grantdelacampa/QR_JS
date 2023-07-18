@@ -14,10 +14,12 @@ import { splitIntoGroups } from '../../Helpers/HelperFunctions';
  * @param {[]} data
  */
 export const DataPattern = (bitMatrix, data) => {
+  const matrixSize = bitMatrix.size;
+  const boundedMatrixSize = matrixSize - 1;
   const bitArray = splitIntoGroups(data, 1);
   let dir = true;
   // Traverse each column
-  for (let c = bitMatrix.size - 1; c > -1; c--) {
+  for (let c = boundedMatrixSize; c > -1; c--) {
     // skip timing pattern (always at 6)
     if (c === 6) {
       continue;
@@ -25,17 +27,15 @@ export const DataPattern = (bitMatrix, data) => {
 
     // if dir then traverse the column upwards by row
     if (dir) {
-      for (let r = bitMatrix.size - 1; r > -1; r--) {
+      for (let r = boundedMatrixSize; r > -1; r--) {
         if (!bitMatrix.isReserved(r, c)) {
           // pop the first bit off the array this has to be here otherwise we will loose bits
           const bit = bitArray.shift();
           bitMatrix.setBit(r, c, bit === '1');
-          // console.log("Writting bit: " + bit + " at ["+ r + ", " + c + "]");
         }
         if (!bitMatrix.isReserved(r, c - 1)) {
           const bit = bitArray.shift();
           bitMatrix.setBit(r, c - 1, bit === '1');
-          // console.log("Writting bit: " + bit + " at ["+ r + ", " + (c-1) + "]");
         }
       }
       // flip the direction
@@ -44,16 +44,14 @@ export const DataPattern = (bitMatrix, data) => {
       c--;
       // else then traverse the column downwards by row
     } else {
-      for (let r = 0; r < bitMatrix.size; r++) {
+      for (let r = 0; r < matrixSize; r++) {
         if (!bitMatrix.isReserved(r, c)) {
           const bit = bitArray.shift();
           bitMatrix.setBit(r, c, bit === '1');
-          // console.log("Writting bit: " + bit + " at ["+ r + ", " + c + "]");
         }
         if (!bitMatrix.isReserved(r, c - 1)) {
           const bit = bitArray.shift();
           bitMatrix.setBit(r, c - 1, bit === '1');
-          // console.log("Writting bit: " + bit + " at ["+ r + ", " + (c-1) + "]");
         }
       }
       // flip the direction

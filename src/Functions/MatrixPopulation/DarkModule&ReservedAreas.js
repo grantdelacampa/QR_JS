@@ -18,17 +18,16 @@ export const ReserveFormatArea = (bitMatrix, version) => {
   const startPoint = [4 * version + 9, 8];
   const row = startPoint[0];
   const col = startPoint[1];
+  const matrixSize = bitMatrix.size;
   // Since we get it here set the darkModule as well
   bitMatrix.setBit(row, col, true, true);
   // Traverse down the col
-  for (let i = row; i < bitMatrix.size; i++) {
+  for (let i = row; i < matrixSize; i++) {
     // skip the dark module bit
     if (i !== row) {
       bitMatrix.setBit(i, col, false, true);
-      // console.log('Bottom Left: ' + i + ', ' + col);
     }
     bitMatrix.setBit(col, i, false, true);
-    // console.log('Top Right: ' + col + ', ' + i);
   }
 
   const basePoint = 8;
@@ -38,9 +37,7 @@ export const ReserveFormatArea = (bitMatrix, version) => {
       // Skip the timing pattern
     } else if (j !== 6) {
       bitMatrix.setBit(basePoint, j, false, true);
-      // console.log('One: ' + basePoint + ', ' + j);
       bitMatrix.setBit(j, basePoint, false, true);
-      // console.log('Two: ' + j + ', ' + basePoint);
     }
   }
 };

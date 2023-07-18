@@ -6,7 +6,6 @@
  * @author Grant De La Campa.
  * @since  1.0.0
  */
-import { getQRSize } from '../../Helpers/HelperFunctions';
 import { FinderPatter } from './FinderPattern';
 import { BitMatrix } from '../../Objects/BitMatrix';
 import { SeperatorPattern } from './SeperatorPattern';
@@ -25,7 +24,7 @@ import { VersionInfo } from './VersionInfo';
  * @param {String} errCrtnLvl
  */
 export const DrawQRCode = (version, codeData, errCrtnLvl) => {
-  const qrSize = getQRSize(version);
+  const qrSize = (version - 1) * 4 + 21;
   const bitMatrix = new BitMatrix(qrSize);
   FinderPatter(bitMatrix, qrSize);
   SeperatorPattern(bitMatrix);

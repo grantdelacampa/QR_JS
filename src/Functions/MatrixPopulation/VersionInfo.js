@@ -32,9 +32,10 @@ export const VersionInfo = (dataMaskResult, version) => {
   for (let c = 0; c < 6; c++) {
     for (let r = 0; r < 3; r++) {
       const bit = versionInfoString[index] === '1';
-      maskedBitMatrix.setBit(size - 11 + r, c, bit, false);
+      const upperBound = size - 11 + r;
+      maskedBitMatrix.setBit(upperBound, c, bit, false);
       // Mirror the bits
-      maskedBitMatrix.setBit(c, size - 11 + r, bit, false);
+      maskedBitMatrix.setBit(c, upperBound, bit, false);
       index--;
     }
   }

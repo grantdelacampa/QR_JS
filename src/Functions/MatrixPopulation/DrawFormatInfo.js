@@ -28,14 +28,12 @@ export const DrawFormatInfo = (maskedBitMatrix, pattern, errCrtnLvl) => {
         // Do not overwrite the timing pattern!
         if (r !== 6) {
           // Set the format from [8,8] => [0,8]
-          // console.log(formatString[index] + '[' + r + ',' + c + ']');
           maskedBitMatrix.setBit(r, c, formatString[index] === '1', false);
           index++;
         }
         // Do not overwrite the dark module!
         if (r > 1) {
           // Set the format from [20, 8] => [13, 8]
-          // console.log(formatString[index2] + '[' + (size - (9 - r)) + ',' + c + ']')
           maskedBitMatrix.setBit(
             size - (9 - r),
             c,
@@ -49,11 +47,9 @@ export const DrawFormatInfo = (maskedBitMatrix, pattern, errCrtnLvl) => {
     } else {
       if (c !== 6) {
         // Set the bits from [8, 0] => [8, 7]
-        // console.log(formatString[index] + '[' + 8 + ',' + c + ']');
         maskedBitMatrix.setBit(8, c, formatString[index] === '1', false);
         index++;
       }
-      // console.log(formatString[index3] + '[' + 8 + ',' + (size - c - 1) + ']');
       // Set the bits from [8, 20] -> [8, 13]
       maskedBitMatrix.setBit(
         8,

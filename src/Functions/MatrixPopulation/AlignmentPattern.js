@@ -17,8 +17,9 @@ export function AlignmentPattern(bitMatrix, version) {
   const cordArray = [];
   // map the patternlocations to their coresponding cordinate pairs
   const alignmentPattern = alignmnetPatternLocations[version];
-  for (let i = 0; i < alignmentPattern.length; i++) {
-    for (let j = 0; j < alignmentPattern.length; j++) {
+  const alignmentPatternLength = alignmentPattern.length;
+  for (let i = 0; i < alignmentPatternLength; i++) {
+    for (let j = 0; j < alignmentPatternLength; j++) {
       const col = alignmentPattern[i];
       const row = alignmentPattern[j];
       // Don't overlap the Seperator/Finder Pattern
@@ -47,10 +48,8 @@ export function AlignmentPattern(bitMatrix, version) {
           (r === 0 && c === 0)
         ) {
           bitMatrix.setBit(row + r, col + c, true, true);
-          // console.log('1: ' + (row + r) + ', ' + (col + c));
         } else {
           bitMatrix.setBit(row + r, col + c, false, true);
-          // console.log('0: ' + (row + r) + ', ' + (col + c));
         }
       }
     }
