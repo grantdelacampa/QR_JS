@@ -102,8 +102,9 @@ function processByte(inputValue) {
 function processKanji(inputValue) {
   // Instantiate text encoder
   const textEncoder = new TextEncoder();
+  const inputLength = inputValue.length;
   let binary = '';
-  for (let i = 0; i < inputValue.length; i++) {
+  for (let i = 0; i < inputLength; i++) {
     const view = textEncoder.encode(inputValue[i]);
     view.forEach((element) => {
       const thisBinary = element.toString(2);

@@ -12,10 +12,9 @@ import { SeperatorPattern } from './SeperatorPattern';
 import { AlignmentPattern } from './AlignmentPattern';
 import { TimingPatterns } from './TimingPatterns';
 import { ReserveFormatArea } from './DarkModule&ReservedAreas';
-import { VersionInfoArea } from './VersionInfoArea';
 import { DataPattern } from './DataPattern';
 import { DataMasking } from './DataMasking';
-import { VersionInfo } from './VersionInfo';
+import { VersionInfo, VersionInfoArea } from './VersionInfo';
 
 /**
  * Driver for drawing the QR code to the bitMatrix

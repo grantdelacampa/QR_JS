@@ -40,7 +40,6 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
     )
   );
   // Perform the long division steps
-  // console.log('generatorPolynomial: ', generatorPolynomial.toString());
   const codeWordPolynomial = performLongDivision(
     generatorPolynomial,
     messagePolynomial,
@@ -124,11 +123,9 @@ function performLongDivision(generatorPolynomial, messagePolynomial) {
         generatorPolynomial,
         new Polynomial([messagePolynomial.coefAt(0)], [0])
       );
-      // console.log('Step 1A: ' + multiplyResult.toString());
       // Step 2a
       xorResult = xorPolynomial(messagePolynomial, multiplyResult);
       reducePolynomial(xorResult);
-      // console.log('Step 1b: ' + xorResult.toString());
     } else {
       generatorPolynomial.reduceDegrees();
       // step na
@@ -136,7 +133,6 @@ function performLongDivision(generatorPolynomial, messagePolynomial) {
         generatorPolynomial,
         new Polynomial([xorResult.coefAt(0)], [0])
       );
-      // console.log('Step ' + (i + 1) + 'a: ' + multiplyResult.toString());
       // Step nb
       xorResult = xorPolynomial(xorResult, multiplyResult);
       const reductionResult = reducePolynomial(xorResult);
@@ -144,7 +140,6 @@ function performLongDivision(generatorPolynomial, messagePolynomial) {
         generatorPolynomial.reduceDegrees();
       }
       i = i + reductionResult;
-      // console.log('Step ' + (i + 1) + 'b: ' + xorResult.toString());
     }
   }
   return xorResult;
