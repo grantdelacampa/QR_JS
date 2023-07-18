@@ -7,8 +7,6 @@
  * @author Grant De La Campa.
  * @since  1.0.0
  */
-import { getDarkModule } from '../../Helpers/HelperFunctions';
-
 /**
  * Draw the reserve format area
  * @param {BitMatrix} bitMatrix
@@ -17,7 +15,7 @@ import { getDarkModule } from '../../Helpers/HelperFunctions';
 export const ReserveFormatArea = (bitMatrix, version) => {
   // Draw bottom left
   // Get the start point [row, col]
-  const startPoint = getDarkModule(version);
+  const startPoint = [4 * version + 9, 8];
   const row = startPoint[0];
   const col = startPoint[1];
   // Since we get it here set the darkModule as well

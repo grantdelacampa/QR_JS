@@ -1,3 +1,12 @@
+/**
+ * QR Code Structure Final message function.
+ * Contains the functions to process the input into the error and data codewords. Then perform the interleavening
+ *
+ * @link   StructureFinalMessage
+ * @file   This file contains the function used to generate the error and data codewords then structure them to be place into the bitmatrix
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { Groups } from '../../Objects/Groups';
 import { GenerateErrorCode } from '../ErrorCorrectionCoding/ErrorCorrectionCoding';
 import { padBitsEnd } from '../../Helpers/HelperFunctions';
@@ -32,12 +41,10 @@ export function StructureFinalMessage(
       dataCodeWordBlocks,
       errorCorrectionInfo[0]
     );
-    // console.log('post interleavenedDataCodes ===================');
     const interleavenedErrCodes = interleavenCodes(
       errorCodeWordBlocks,
       getTotalErrorCodeWords(errorCorrectionInfo)
     );
-    // console.log('post interleavenedErrCodes =====================');
     response = [...interleavenedDataCodes, ...interleavenedErrCodes].join('');
   }
   return padBitsEnd(remainderBits, response);
@@ -64,7 +71,6 @@ function interleavenCodes(blocks, totalCodes) {
         interleavenedCodes.push(block[index]);
       }
     });
-    // console.log(interleavenedCodes.length);
     index++;
   } while (interleavenedCodes.length < totalCodes);
   return interleavenedCodes;

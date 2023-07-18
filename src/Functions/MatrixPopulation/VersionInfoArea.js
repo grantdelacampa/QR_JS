@@ -1,4 +1,12 @@
 /**
+ * QR Code Version Info Reserve Pattern function.
+ *
+ * @link   VersionInfoArea
+ * @file   This file contains the function used to reserve the Version info pattern area.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
+/**
  * Draw the version info area blocks if the version is larger than 7 to reserve these bits
  * @param {BitMatrix} bitMatrix
  * @param {Number} version

@@ -1,3 +1,11 @@
+/**
+ * Groups Class.
+ *
+ * @link   Groups
+ * @file   This file contains a class to represent a group of codeword blocks.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 export class Groups {
   #blocks = [];
 

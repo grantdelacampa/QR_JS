@@ -1,3 +1,13 @@
+/**
+ * Polynomial Operations.
+ * Contains the functions used throughout the codebase for operations on Polynomials such as multiply.
+ *
+ * @link   PolynomialOperations
+ * @file   This file contains the helper functions used for Polynomial operations.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ * @see Polynomial
+ */
 import { Polynomial } from '../Objects/Polynomial';
 import { intToAlpha, alphaToInt } from '../Constants/Constants';
 
@@ -5,7 +15,7 @@ import { intToAlpha, alphaToInt } from '../Constants/Constants';
  * Multiply two polynomials accounting for galos field reduction when the coef as an alpha value is greater than 255.
  * @param {Polynomial} multiplicand
  * @param {Polynomial} multiplier
- * @returns Polynomial
+ * @returns {Polynomial}
  */
 export const multiply = (multiplicand, multiplier) => {
   // Store the final coefs to build the new Polynomial
@@ -61,7 +71,7 @@ export const multiply = (multiplicand, multiplier) => {
  * xor two polynimials with like leading terms
  * @param {Polynomial} expressionOne
  * @param {Polynomial} expressionTwo
- * @returns
+ * @returns Polynomial
  */
 export const xorPolynomial = (expressionOne, expressionTwo) => {
   const newCoef = [];
@@ -99,7 +109,7 @@ const galosExponetReduction = (exponent) => {
 /**
  * Reduce a polynomial by removing leading terms that are 0
  * @param {Polynomial} polynomial
- * @returns
+ * @returns Array
  */
 export const reducePolynomial = (polynomial) => {
   let terms = -1;

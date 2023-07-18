@@ -1,6 +1,10 @@
 /**
- * BitMatrix object to hold the qr matrix data in a flat array
+ * BitMatrix Class.
  *
+ * @link   BitMatrix
+ * @file   This file contains a BitMatrix class that holds QR data in a 1D array of bits.
+ * @author Grant De La Campa.
+ * @since  1.0.0
  * @example
  *  BitMatrix.data = 0010100101011111
  *  BitMatrix.size = 4

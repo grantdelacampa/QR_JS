@@ -1,8 +1,16 @@
+/**
+ * QR Code Verson Info Pattern function.
+ *
+ * @link   VersionInfo
+ * @file   This file contains the function used draw the Version Info pattern.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
 import { VersionInfoStrings } from '../../Constants/Constants';
 
 /**
  * Draw the version info pattern.
- * - NOTE: this only fires if version is higher than 6
+ * - NOTE: this returns and does nothing if version is less than 6
  * @param {BitMatrix} bitMatrix
  * @param {Number} version
  * @returns

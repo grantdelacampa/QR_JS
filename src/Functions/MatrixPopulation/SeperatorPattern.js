@@ -1,4 +1,12 @@
 /**
+ * QR Code Seperator Pattern function.
+ *
+ * @link   SeperatorPattern
+ * @file   This file contains the function used draw the Seperator pattern.
+ * @author Grant De La Campa.
+ * @since  1.0.0
+ */
+/**
  * Generator for seperator pattern
  * @param {BitMatrix} bitMatrix
  */
@@ -18,21 +26,18 @@ export function SeperatorPattern(bitMatrix) {
           case 0: {
             if ((c === 7 && r !== 7) || r === 7) {
               bitMatrix.setBit(row + r, col + c, false, true);
-              // console.log('1: ' + (row + r) + ', ' + (col + c));
             }
             break;
           }
           case 1: {
             if ((c === 7 && r !== 0) || r === 0) {
               bitMatrix.setBit(row + r, col + c, false, true);
-              // console.log('2: ' + (row + r) + ', ' + (col + c));
             }
             break;
           }
           case 2: {
             if ((c === 0 && r !== 7) || r === 7) {
               bitMatrix.setBit(row + r, col + c, false, true);
-              // console.log('3: ' + (row + r) + ', ' + (col + c));
             }
             break;
           }
