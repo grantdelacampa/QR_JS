@@ -5,7 +5,7 @@ This project is being built just to test my programming skills. I wanted to writ
 **This project is still in Alpha please be aware if you want to fork it**
 
 ## Current Bugs
-- None that I an current aware of
+- Pixel resolution starts bluring after V-27
 
 ## Current Features
 - Black and white QR generation from v1-v40
@@ -21,7 +21,6 @@ This project is being built just to test my programming skills. I wanted to writ
 ## In Progress
 - Better test coverage (should have done this first/sooner)
 - Regression testing for more versions and modes.
-- Code optimizations (small but noticable slowdown after V-19)
 
 ## Generation overview
 1. Data Analysis
