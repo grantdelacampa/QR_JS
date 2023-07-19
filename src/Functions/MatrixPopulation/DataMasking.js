@@ -9,6 +9,12 @@
  */
 import { BitMatrix } from '../../Objects/BitMatrix';
 import { DrawFormatInfo } from './DrawFormatInfo';
+/**
+ * Function to drive the generation, application, and evaluations for the 8 data mask patterns.
+ * @param {BitMatrix} bitMatrix
+ * @param {Number} errCrtnLvl
+ * @returns [Number, BitMatrix]
+ */
 export const DataMasking = (bitMatrix, errCrtnLvl) => {
   // BitMatrix size will not change even when masked so just get it here once
   const matrixSize = bitMatrix.size;
@@ -173,7 +179,8 @@ const evaluateRule3 = (bitMatrix, matrixSize) => {
       patterns.forEach((pattern) => {
         if (rowPattern.toString() === pattern) {
           score += 40;
-        } else if (colPattern.toString() === pattern) {
+        }
+        if (colPattern.toString() === pattern) {
           score += 40;
         }
       });
@@ -203,11 +210,9 @@ const evaluateRule4 = (bitMatrix, matrixSize) => {
   // 3 calculate percent of dark modules
   const percent = (blkCnt / (matrixSize * matrixSize)) * 100;
   // 4. Determine the prev and next multiple of 5 for this percent
-  const floor = percent - (percent % 5);
-  const ceiling = percent + (5 - (percent % 5));
   // 5 subtract 50 from each && 6 divide by 5
-  const proccessedFloor = Math.abs(floor - 50) / 5;
-  const processedCeiling = Math.abs(ceiling - 50) / 5;
+  const proccessedFloor = Math.abs((percent - (percent % 5)) - 50) / 5;
+  const processedCeiling = Math.abs((percent + (5 - (percent % 5))) - 50) / 5;
   // 7 take the smallest and * by 10
   if (proccessedFloor < processedCeiling) {
     return proccessedFloor * 10;
