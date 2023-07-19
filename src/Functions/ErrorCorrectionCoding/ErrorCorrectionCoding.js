@@ -116,24 +116,24 @@ function performLongDivision(generatorPolynomial, messagePolynomial) {
     new Polynomial([messagePolynomial.coefAt(0)], [0])
   );
   // Perform the initial xor step 0B
-  let xorResult  = xorPolynomial(messagePolynomial, multiplyResult);
+  let xorResult = xorPolynomial(messagePolynomial, multiplyResult);
   reducePolynomial(xorResult);
   const stepsNeeded = messagePolynomial.size;
   // Perform the Polynomial long division
   for (let i = 1; i < stepsNeeded; i++) {
+    generatorPolynomial.reduceDegrees();
+    // step na
+    multiplyResult = multiply(
+      generatorPolynomial,
+      new Polynomial([xorResult.coefAt(0)], [0])
+    );
+    // Step nb
+    xorResult = xorPolynomial(xorResult, multiplyResult);
+    const reductionResult = reducePolynomial(xorResult);
+    for (let j = 0; j < reductionResult; j++) {
       generatorPolynomial.reduceDegrees();
-      // step na
-      multiplyResult = multiply(
-        generatorPolynomial,
-        new Polynomial([xorResult.coefAt(0)], [0])
-      );
-      // Step nb
-      xorResult = xorPolynomial(xorResult, multiplyResult);
-      const reductionResult = reducePolynomial(xorResult);
-      for (let j = 0; j < reductionResult; j++) {
-        generatorPolynomial.reduceDegrees();
-      }
-      i = i + reductionResult;
+    }
+    i = i + reductionResult;
   }
   return xorResult;
 }

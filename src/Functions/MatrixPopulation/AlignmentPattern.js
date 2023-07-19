@@ -14,7 +14,6 @@ import { alignmnetPatternLocations } from '../../Constants/Constants';
  * @param {Number} version
  */
 export function AlignmentPattern(bitMatrix, version) {
-  const cordArray = [];
   // get the alignment pattern location list
   const alignmentPattern = alignmnetPatternLocations[version];
   const alignmentPatternLength = alignmentPattern.length;
@@ -36,28 +35,22 @@ export function AlignmentPattern(bitMatrix, version) {
           bitMatrix.isReserved(upperRowBnd, upperColBnd)
         )
       ) {
-        // If no reserved bits are found write the pattern cords 
-        cordArray.push([alignmentPattern[i], alignmentPattern[j]]);
-      }
-    }
-  }
-  // Iterate on the found cords and 'draw' them into the matrix
-  cordArray.forEach((cord) => {
-    const row = cord[0];
-    const col = cord[1];
-    for (let r = -2; r < 3; r++) {
-      for (let c = -2; c < 3; c++) {
-        if (
-          r === -2 ||
-          r === 2 ||
-          ((c === -2 || c === 2) && (r > -2 || r < 2)) ||
-          (r === 0 && c === 0)
-        ) {
-          bitMatrix.setBit(row + r, col + c, true, true);
-        } else {
-          bitMatrix.setBit(row + r, col + c, false, true);
+        // If no reserved bits are found write the pattern cords
+        for (let r = -2; r < 3; r++) {
+          for (let c = -2; c < 3; c++) {
+            if (
+              r === -2 ||
+              r === 2 ||
+              ((c === -2 || c === 2) && (r > -2 || r < 2)) ||
+              (r === 0 && c === 0)
+            ) {
+              bitMatrix.setBit(row + r, col + c, true, true);
+            } else {
+              bitMatrix.setBit(row + r, col + c, false, true);
+            }
+          }
         }
       }
     }
-  });
+  }
 }
