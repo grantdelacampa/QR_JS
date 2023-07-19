@@ -65,18 +65,16 @@ export function GenerateErrorCode(blockInput, errCodeCnt) {
  * @returns Polynomial
  */
 function calculateGeneratorPolynomial(genisisPolynomial, errCodeCnt) {
-  let generatorPolynomial;
+  let generatorPolynomial = multiply(
+    genisisPolynomial,
+    new Polynomial([0, alphaToInt[1]], [1, 0])
+  );
   // Multiply the generatorPolynomial by x^i+a^1
-  for (let i = 1; i < errCodeCnt; i++) {
-    i === 1
-      ? (generatorPolynomial = multiply(
-          genisisPolynomial,
-          new Polynomial([0, alphaToInt[i]], [1, 0])
-        ))
-      : (generatorPolynomial = multiply(
-          generatorPolynomial,
-          new Polynomial([0, alphaToInt[i]], [1, 0])
-        ));
+  for (let i = 2; i < errCodeCnt; i++) {
+    generatorPolynomial = multiply(
+      generatorPolynomial,
+      new Polynomial([0, alphaToInt[i]], [1, 0])
+    );
   }
   return generatorPolynomial;
 }
@@ -112,21 +110,17 @@ function parseArrayToPolynomial(binaryBlock, crctnCodeCnt) {
  * @returns GeneratorPolynomial
  */
 function performLongDivision(generatorPolynomial, messagePolynomial) {
-  let xorResult = new Polynomial([], []);
-  let multiplyResult = new Polynomial([], []);
+  // Perform the initial multiplication step 0A
+  let multiplyResult = multiply(
+    generatorPolynomial,
+    new Polynomial([messagePolynomial.coefAt(0)], [0])
+  );
+  // Perform the initial xor step 0B
+  let xorResult  = xorPolynomial(messagePolynomial, multiplyResult);
+  reducePolynomial(xorResult);
   const stepsNeeded = messagePolynomial.size;
   // Perform the Polynomial long division
-  for (let i = 0; i < stepsNeeded; i++) {
-    if (i === 0) {
-      // Step 1a
-      multiplyResult = multiply(
-        generatorPolynomial,
-        new Polynomial([messagePolynomial.coefAt(0)], [0])
-      );
-      // Step 2a
-      xorResult = xorPolynomial(messagePolynomial, multiplyResult);
-      reducePolynomial(xorResult);
-    } else {
+  for (let i = 1; i < stepsNeeded; i++) {
       generatorPolynomial.reduceDegrees();
       // step na
       multiplyResult = multiply(
@@ -136,11 +130,10 @@ function performLongDivision(generatorPolynomial, messagePolynomial) {
       // Step nb
       xorResult = xorPolynomial(xorResult, multiplyResult);
       const reductionResult = reducePolynomial(xorResult);
-      for (let i = 0; i < reductionResult; i++) {
+      for (let j = 0; j < reductionResult; j++) {
         generatorPolynomial.reduceDegrees();
       }
       i = i + reductionResult;
-    }
   }
   return xorResult;
 }

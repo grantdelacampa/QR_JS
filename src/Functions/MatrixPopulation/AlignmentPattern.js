@@ -15,22 +15,28 @@ import { alignmnetPatternLocations } from '../../Constants/Constants';
  */
 export function AlignmentPattern(bitMatrix, version) {
   const cordArray = [];
-  // map the patternlocations to their coresponding cordinate pairs
+  // get the alignment pattern location list
   const alignmentPattern = alignmnetPatternLocations[version];
   const alignmentPatternLength = alignmentPattern.length;
+  // Check if the alignments will hit any reserved spots
   for (let i = 0; i < alignmentPatternLength; i++) {
     for (let j = 0; j < alignmentPatternLength; j++) {
       const col = alignmentPattern[i];
       const row = alignmentPattern[j];
+      const upperRowBnd = row + 2;
+      const lowerRowBnd = row - 2;
+      const upperColBnd = col + 2;
+      const lowerColBnd = col - 2;
       // Don't overlap the Seperator/Finder Pattern
       if (
         !(
-          bitMatrix.isReserved(row - 2, col - 2) ||
-          bitMatrix.isReserved(row + 2, col - 2) ||
-          bitMatrix.isReserved(row - 2, col + 2) ||
-          bitMatrix.isReserved(row + 2, col + 2)
+          bitMatrix.isReserved(lowerRowBnd, lowerColBnd) ||
+          bitMatrix.isReserved(upperRowBnd, lowerColBnd) ||
+          bitMatrix.isReserved(lowerRowBnd, upperColBnd) ||
+          bitMatrix.isReserved(upperRowBnd, upperColBnd)
         )
       ) {
+        // If no reserved bits are found write the pattern cords 
         cordArray.push([alignmentPattern[i], alignmentPattern[j]]);
       }
     }

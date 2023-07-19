@@ -37,7 +37,7 @@ export const multiply = (multiplicand, multiplier) => {
       // perform the galosreduction as needed
       const coefResult =
         coefAlphaResult > 255
-          ? ((coefAlphaResult % 256) + Math.floor(coefAlphaResult / 256))
+          ? (coefAlphaResult % 256) + Math.floor(coefAlphaResult / 256)
           : coefAlphaResult;
 
       // Check if the degree has been seen before
@@ -53,8 +53,7 @@ export const multiply = (multiplicand, multiplier) => {
         finalDegrees.push(degResult);
       } else {
         // calculate the newCoef
-        const newCoef =
-          finalCoefs[existingIndex] ^ alphaToInt[coefResult];
+        const newCoef = finalCoefs[existingIndex] ^ alphaToInt[coefResult];
         // set the result
         finalCoefs[existingIndex] = newCoef;
       }
