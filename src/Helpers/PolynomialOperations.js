@@ -22,8 +22,6 @@ export const multiply = (multiplicand, multiplier) => {
   const finalCoefs = [];
   // Store the final degrees to build the new Polynomial
   const finalDegrees = [];
-  // Store the visited coefs as [{element0 : index},...{elementN : index}]
-  const visitedDegrees = [];
   const multiplicandSize = multiplicand.size;
   const multiplierSize = multiplier.size;
 
@@ -43,8 +41,8 @@ export const multiply = (multiplicand, multiplier) => {
           : coefAlphaResult;
 
       // Check if the degree has been seen before
-      const existingIndex = visitedDegrees.findIndex((obj) => {
-        return Object.hasOwn(obj, degResult);
+      const existingIndex = finalDegrees.findIndex((deg) => {
+        return deg === degResult;
       });
 
       // If existingIndex < 0 then element is 0 or newly visited so add it either way
@@ -53,16 +51,12 @@ export const multiply = (multiplicand, multiplier) => {
         finalCoefs.push(alphaToInt[coefResult]);
         // Push the added degreees to the final array
         finalDegrees.push(degResult);
-        // add the coef to the visited array (note never update this since we always want to shift like terms to the left)
-        visitedDegrees.push({ [degResult]: finalCoefs.length - 1 });
       } else {
-        // get the first time we seen this coef
-        const originialDegreeIndex = visitedDegrees[existingIndex][degResult];
         // calculate the newCoef
         const newCoef =
-          finalCoefs[originialDegreeIndex] ^ alphaToInt[coefResult];
+          finalCoefs[existingIndex] ^ alphaToInt[coefResult];
         // set the result
-        finalCoefs[originialDegreeIndex] = newCoef;
+        finalCoefs[existingIndex] = newCoef;
       }
     }
   }
